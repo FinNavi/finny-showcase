@@ -3,552 +3,642 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinnyConsult — Сравнение и подбор финансовых услуг</title>
+    <title>FinNavigate — Аналитический маркетплейс финансовых продуктов</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #131a2c;
-            --text-color: #ffffff;
-            --text-muted: #8fa0dd;
-            --primary-glow: #00ffcc;
-            --secondary-glow: #9d4edd;
-            --accent-green: #2ecc71;
-            --accent-blue: #00b4d8;
-            --accent-orange: #e67e22;
+            --bg-main: #0b0f17;
+            --bg-card: #121824;
+            --bg-card-hover: #161d2b;
+            --border-color: rgba(255, 255, 255, 0.06);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dark: #64748b;
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --success: #10b981;
+            --alfa-color: #ef4444;
+            --tbank-color: #facc15;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg-main);
+            color: var(--text-main);
             line-height: 1.5;
-            padding-bottom: 60px;
         }
 
+        /* НАВИГАЦИЯ */
         header {
-            background: linear-gradient(180deg, #131a2c 0%, #0b0f19 100%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 20px 0;
+            background: rgba(11, 15, 23, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .header-container {
-            max-width: 1100px;
+        .nav-container {
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            padding: 16px 24px;
         }
 
-        .logo {
-            font-size: 24px;
+        .logo-block {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-text {
+            font-size: 20px;
             font-weight: 800;
-            letter-spacing: 1px;
-            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            color: #fff;
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #fff;
         }
 
         .header-badge {
-            background: rgba(46, 204, 113, 0.1);
-            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.06);
+            color: var(--success);
             padding: 6px 14px;
-            border-radius: 20px;
+            border-radius: 8px;
             font-size: 13px;
-            font-weight: 600;
-            border: 1px solid rgba(46, 204, 113, 0.2);
+            font-weight: 500;
+            border: 1px solid rgba(16, 185, 129, 0.12);
             display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .badge-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--accent-green);
-            border-radius: 50%;
-            display: inline-block;
-            animation: blink 2s infinite;
-        }
-
-        @keyframes blink {
-            0% { opacity: 0.4; }
-            50% { opacity: 1; }
-            100% { opacity: 0.4; }
-        }
-
-        .hero {
-            max-width: 800px;
-            margin: 40px auto 30px;
-            text-align: center;
-            padding: 0 20px;
-        }
-
-        .hero h1 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            background: linear-gradient(180deg, #fff 0%, #adbac7 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            color: var(--text-muted);
-            font-size: 16px;
-        }
-
-        .main-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .tabs {
-            display: flex;
-            justify-content: flex-start;
-            gap: 10px;
-            margin-bottom: 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 15px;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .tabs::-webkit-scrollbar {
-            display: none;
-        }
-
-        .tab-btn {
-            background: var(--card-bg);
-            color: var(--text-muted);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 12px 24px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            white-space: nowrap;
-            transition: all 0.2s ease;
-        }
-
-        .tab-btn:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-            color: #fff;
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, rgba(0, 255, 204, 0.1) 0%, rgba(157, 78, 221, 0.1) 100%);
-            color: #fff;
-            border-color: var(--primary-glow);
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.1);
-        }
-
-        .tab-content {
-            display: none;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        .tab-content.active {
-            display: grid;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            padding: 24px;
-            display: grid;
-            grid-template-columns: 100px 1fr 200px;
-            align-items: center;
-            gap: 25px;
-            position: relative;
-            transition: border-color 0.3s, transform 0.2s;
-        }
-
-        .card:hover {
-            border-color: rgba(0, 255, 204, 0.25);
-            transform: translateY(-2px);
-        }
-
-        .card-label {
-            position: absolute;
-            top: -10px;
-            left: 24px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            padding: 3px 10px;
-            border-radius: 6px;
-            letter-spacing: 0.5px;
-        }
-        .label-top { background: rgba(0, 180, 216, 0.2); color: var(--accent-blue); border: 1px solid rgba(0, 180, 216, 0.3); }
-        .label-hit { background: rgba(230, 126, 34, 0.2); color: var(--accent-orange); border: 1px solid rgba(230, 126, 34, 0.3); }
-        .label-rec { background: rgba(46, 204, 113, 0.2); color: var(--accent-green); border: 1px solid rgba(46, 204, 113, 0.3); }
-
-        .bank-logo-wrap {
-            display: flex;
-            flex-direction: column;
             align-items: center;
             gap: 8px;
         }
 
-        .bank-logo {
-            width: 70px;
-            height: 70px;
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--success);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 14px var(--success); }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+
+        /* ГЛАВНЫЙ БЛОК */
+        .hero-section {
+            max-width: 1200px;
+            margin: 50px auto 40px;
+            padding: 0 24px;
+            text-align: left;
+        }
+
+        .hero-section h1 {
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+            line-height: 1.15;
+            max-width: 800px;
+        }
+
+        .hero-section p {
+            color: var(--text-muted);
+            font-size: 16px;
+            max-width: 650px;
+        }
+
+        /* ТАБЫ / ИНТЕРФЕЙС ВИТРИНЫ */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            scroll-margin-top: 100px; /* Отступ сверху при прокрутке меню */
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .filter-tabs::-webkit-scrollbar { display: none; }
+
+        .tab-trigger {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .tab-trigger:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .tab-trigger.active {
+            background: rgba(2, 132, 199, 0.08);
+            border-color: rgba(2, 132, 199, 0.3);
+            color: #fff;
+        }
+
+        .products-grid {
+            display: none;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .products-grid.active {
+            display: grid;
+            animation: sheetUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes sheetUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* КАРТОЧКА ОБЪЕКТА */
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 80px 1.2fr 2fr 180px;
+            align-items: center;
+            gap: 24px;
+            position: relative;
+            transition: all 0.25s ease;
+        }
+
+        .product-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+        }
+
+        .card-alfa:hover { border-color: rgba(239, 68, 68, 0.25); }
+        .card-tbank:hover { border-color: rgba(250, 204, 21, 0.25); }
+
+        .brand-zone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-avatar {
+            width: 64px;
+            height: 64px;
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 12px;
-            text-align: center;
-            padding: 5px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
         }
 
-        .bank-rating {
-            font-size: 12px;
-            color: var(--accent-orange);
-            font-weight: 600;
-        }
-
-        .card-main-info {
+        .meta-zone {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 6px;
         }
 
-        .card-title-block h3 {
+        .meta-badges {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 2px;
+        }
+
+        .meta-tag {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .tag-premium { background: rgba(2, 132, 199, 0.12); color: #38bdf8; }
+        .tag-popular { background: rgba(245, 158, 11, 0.12); color: #fbbf24; }
+        .tag-business { background: rgba(16, 185, 129, 0.12); color: #34d399; }
+
+        .product-name {
             font-size: 19px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .card-title-block p {
-            color: var(--text-muted);
-            font-size: 13px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            background: rgba(0, 0, 0, 0.15);
-            padding: 12px 16px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.02);
-        }
-
-        .feature-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .feature-value {
-            font-size: 15px;
             font-weight: 700;
             color: #fff;
         }
 
-        .feature-label {
-            font-size: 11px;
-            color: var(--text-muted);
+        .legal-info {
+            font-size: 12px;
+            color: var(--text-dark);
         }
 
-        .action-block {
+        /* ХАРАКТЕРИСТИКИ */
+        .specs-zone {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.12);
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.01);
+        }
+
+        .spec-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .spec-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .spec-title {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* КНОПКА ДЕЙСТВИЯ */
+        .cta-zone {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            text-align: center;
         }
 
-        .btn-order {
-            background: linear-gradient(90deg, var(--primary-glow), #00b4d8);
-            color: #0b0f19;
+        .btn-action {
+            background: var(--primary);
+            color: #fff;
             text-decoration: none;
-            padding: 14px 20px;
-            border-radius: 12px;
-            font-weight: 700;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 600;
             font-size: 14px;
             text-align: center;
-            transition: opacity 0.2s, box-shadow 0.2s;
+            transition: background 0.15s ease;
         }
 
-        .btn-order:hover {
-            opacity: 0.95;
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+        .btn-action:hover {
+            background: var(--primary-hover);
         }
 
-        .action-hint {
+        .cta-note {
             font-size: 11px;
-            color: var(--text-muted);
+            color: var(--text-dark);
+            text-align: center;
         }
 
+        /* ПОДВАЛ */
         footer {
-            max-width: 1100px;
-            margin: 60px auto 0;
-            padding: 30px 20px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 12px;
-            color: rgba(143, 160, 221, 0.4);
+            background: #090d14;
+            border-top: 1px solid var(--border-color);
+            margin-top: 100px;
+            padding: 40px 24px 30px;
         }
 
-        .footer-info {
+        .footer-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 40px;
-            margin-bottom: 25px;
-            text-align: left;
-        }
-
-        .footer-text p {
-            margin-bottom: 12px;
+            grid-template-columns: 3fr 1fr;
+            gap: 60px;
+            font-size: 12px;
+            color: var(--text-dark);
             line-height: 1.6;
         }
 
-        .footer-links {
+        .disclaimer-text p {
+            margin-bottom: 12px;
+        }
+
+        .footer-nav {
             display: flex;
             flex-direction: column;
             gap: 8px;
             align-items: flex-end;
         }
 
-        .footer-links a {
+        .footer-nav a {
             color: var(--text-muted);
             text-decoration: none;
+            transition: color 0.15s;
         }
 
-        .footer-links a:hover {
+        .footer-nav a:hover {
             color: #fff;
         }
 
-        .copyright {
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.02);
+        .bottom-bar {
+            max-width: 1200px;
+            margin: 30px auto 0;
             padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.02);
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-dark);
         }
 
-        @media (max-width: 900px) {
-            .card {
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 1024px) {
+            .product-card {
                 grid-template-columns: 1fr;
                 gap: 20px;
-                padding: 30px 20px 20px;
+                padding: 24px;
             }
-            .bank-logo-wrap {
+            .brand-zone {
                 flex-direction: row;
                 justify-content: space-between;
-                width: 100%;
-                border-bottom: 1px solid rgba(255,255,255,0.05);
-                padding-bottom: 10px;
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 12px;
             }
-            .bank-logo { width: 50px; height: 50px; font-size: 10px; }
-            .features-grid {
+            .brand-avatar { width: 48px; height: 48px; font-size: 10px; border-radius: 10px; }
+            .specs-zone {
                 grid-template-columns: 1fr;
-                gap: 8px;
+                gap: 10px;
             }
-            .footer-info {
+            .footer-wrap {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                gap: 24px;
             }
-            .footer-links {
+            .footer-nav {
                 align-items: flex-start;
             }
+            .hero-section h1 { font-size: 30px; }
+            .nav-menu { gap: 14px; }
+            .nav-link { font-size: 13px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-container">
-            <div class="logo">FINNYCONSULT</div>
+        <div class="nav-container">
+            <div class="logo-block">
+                <div class="logo-text" onclick="scrollToTop()" style="cursor: pointer;">FIN<span>NAVIGATE</span></div>
+            </div>
+            <nav class="nav-menu">
+                <span class="nav-link" onclick="triggerTabAndScroll('debit')">Дебетовые</span>
+                <span class="nav-link" onclick="triggerTabAndScroll('credit')">Кредитные</span>
+                <span class="nav-link" onclick="triggerTabAndScroll('biz-reg')">Регистрация ИП</span>
+                <span class="nav-link" onclick="triggerTabAndScroll('rko-accounts')">Расчетные счета</span>
+            </nav>
             <div class="header-badge">
-                <span class="badge-dot"></span> Мониторинг предложений: Актуально
+                <span class="badge-dot"></span> Тарифы обновлены: Сегодня
             </div>
         </div>
     </header>
 
-    <section class="hero">
-        <h1>Независимый подбор лучших финансовых продуктов</h1>
-        <p>Сравниваем предложения ТОП-банков России. Обновление тарифов в режиме реального времени.</p>
+    <section class="hero-section">
+        <h1>Аналитический финтех-навигатор по банковским продуктам</h1>
+        <p>Независимый аудит условий, процентных ставок и кэшбэк-программ. Мы агрегируем официальные данные лицензированных банков РФ без скрытых комиссий.</p>
     </section>
 
-    <main class="main-container">
+    <main class="main-content" id="marketplace-showcase">
         
-        <div class="tabs">
-            <button class="tab-btn active" onclick="openTab(event, 'debit')">Дебетовые карты</button>
-            <button class="tab-btn" onclick="openTab(event, 'credit')">Кредитные карты</button>
-            <button class="tab-btn" onclick="openTab(event, 'rko')">ИП и РКО</button>
-            <button class="tab-btn" onclick="openTab(event, 'all-in')">Готов на всё</button>
+        <div class="filter-tabs">
+            <button class="tab-trigger active" id="btn-debit" onclick="openTab(event, 'debit')">Дебетовые карты</button>
+            <button class="tab-trigger" id="btn-credit" onclick="openTab(event, 'credit')">Кредитные карты</button>
+            <button class="tab-trigger" id="btn-biz-reg" onclick="openTab(event, 'biz-reg')">Регистрация бизнеса (ИП)</button>
+            <button class="tab-trigger" id="btn-rko-accounts" onclick="openTab(event, 'rko-accounts')">Расчетные счета для бизнеса</button>
         </div>
 
-        <!-- КАТЕГОРИЯ: ДЕБЕТОВЫЕ КАРТЫ -->
-        <div id="debit" class="tab-content active">
-            <div class="card">
-                <div class="card-label label-top">Выбор редакции</div>
-                <div class="bank-logo-wrap">
-                    <div class="bank-logo" style="background: #ff0000; color: #fff;">АЛЬФА</div>
-                    <div class="bank-rating">★ 4.9</div>
+        <div id="debit" class="products-grid active">
+            <div class="product-card card-alfa">
+                <div class="brand-zone">
+                    <div class="brand-avatar" style="background: #ef4444; color: #fff;">Альфа</div>
                 </div>
-                <div class="card-main-info">
-                    <div class="card-title-block">
-                        <h3>Альфа-Карта с кэшбэком</h3>
-                        <p>АО «Альфа-Банк». Лицензия ЦБ РФ №1326</p>
+                <div class="meta-zone">
+                    <div class="meta-badges">
+                        <span class="meta-tag tag-premium">Выбор редакции</span>
                     </div>
-                    <div class="features-grid">
-                        <div class="feature-item"><span class="feature-value">0 ₽</span><span class="feature-label">Обслуживание</span></div>
-                        <div class="feature-item"><span class="feature-value">до 30%</span><span class="feature-label">Кэшбэк партнеры</span></div>
-                        <div class="feature-item"><span class="feature-value">0 ₽</span><span class="feature-label">Снятие в банкоматах</span></div>
-                    </div>
+                    <div class="product-name">Альфа-Карта (МИР)</div>
+                    <div class="legal-info">АО «Альфа-Банк». Лиц. ЦБ РФ №1326</div>
                 </div>
-                <div class="action-block">
-                    <a href="#" target="_blank" class="btn-order">Оформить карту</a>
-                    <span class="action-hint">Переход на сайт Альфа-Банка</span>
+                <div class="specs-zone">
+                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Обслуживание</span></div>
+                    <div class="spec-cell"><span class="spec-value">До 30%</span><span class="spec-title">Макс. кэшбэк</span></div>
+                    <div class="spec-cell"><span class="spec-value">Без лимитов</span><span class="spec-title">Снятие в АТМ</span></div>
+                </div>
+                <div class="cta-zone">
+                    <a href="#" target="_blank" class="btn-action">Оформить заявку</a>
+                    <span class="cta-note">На сайте alfabank.ru</span>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-label label-hit">Хит сезона</div>
-                <div class="bank-logo-wrap">
-                    <div class="bank-logo" style="background: #ffe100; color: #000;">Т-БАНК</div>
-                    <div class="bank-rating">★ 4.8</div>
+            <div class="product-card card-tbank">
+                <div class="brand-zone">
+                    <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Т-Банк</div>
                 </div>
-                <div class="card-main-info">
-                    <div class="card-title-block">
-                        <h3>Т-Банк Black (Умный кэшбэк)</h3>
-                        <p>АО «ТБанк». Лицензия ЦБ РФ №2673</p>
+                <div class="meta-zone">
+                    <div class="meta-badges">
+                        <span class="meta-tag tag-popular">Лидер рейтинга</span>
                     </div>
-                    <div class="features-grid">
-                        <div class="feature-item"><span class="feature-value">0 ₽</span><span class="feature-label">При выполнении условий</span></div>
-                        <div class="feature-item"><span class="feature-value">4 категории</span><span class="feature-label">Выбор каждый месяц</span></div>
-                        <div class="feature-item"><span class="feature-value">до 7%</span><span class="feature-label">Доход на остаток</span></div>
-                    </div>
+                    <div class="product-name">Т-Банк Black</div>
+                    <div class="legal-info">АО «ТБанк». Лиц. ЦБ РФ №2673</div>
                 </div>
-                <div class="action-block">
-                    <a href="#" target="_blank" class="btn-order">Оформить карту</a>
-                    <span class="action-hint">Переход на сайт Т-Банка</span>
+                <div class="specs-zone">
+                    <div class="spec-cell"><span class="spec-value">Бесплатно</span><span class="spec-title">При условиях</span></div>
+                    <div class="spec-cell"><span class="spec-value">4 категории</span><span class="spec-title">Ежемесячно</span></div>
+                    <div class="spec-cell"><span class="spec-value">До 7%</span><span class="spec-title">Накопительный</span></div>
+                </div>
+                <div class="cta-zone">
+                    <a href="#" target="_blank" class="btn-action">Оформить заявку</a>
+                    <span class="cta-note">На сайте tbank.ru</span>
                 </div>
             </div>
         </div>
 
-        <!-- КАТЕГОРИЯ: КРЕДИТНЫЕ КАРТЫ -->
-        <div id="credit" class="tab-content">
-            <div class="card">
-                <div class="card-label label-rec">Рекомендуем</div>
-                <div class="bank-logo-wrap">
-                    <div class="bank-logo" style="background: #ff0000; color: #fff;">АЛЬФА</div>
-                    <div class="bank-rating">★ 4.9</div>
+        <div id="credit" class="products-grid">
+            <div class="product-card card-alfa">
+                <div class="brand-zone">
+                    <div class="brand-avatar" style="background: #ef4444; color: #fff;">Альфа</div>
                 </div>
-                <div class="card-main-info">
-                    <div class="card-title-block">
-                        <h3>365 дней без процентов</h3>
-                        <p>АО «Альфа-Банк». Лицензия ЦБ РФ №1326</p>
+                <div class="meta-zone">
+                    <div class="meta-badges">
+                        <span class="meta-tag tag-premium">Рекомендация</span>
                     </div>
-                    <div class="features-grid">
-                        <div class="feature-item"><span class="feature-value">365 дней</span><span class="feature-label">Льготный период</span></div>
-                        <div class="feature-item"><span class="feature-value">до 1 млн ₽</span><span class="feature-label">Кредитный лимит</span></div>
-                        <div class="feature-item"><span class="feature-value">0 ₽</span><span class="feature-label">Выпуск и первый год</span></div>
-                    </div>
+                    <div class="product-name">Кредитная карта «365 дней»</div>
+                    <div class="legal-info">АО «Альфа-Банк». Лиц. ЦБ РФ №1326</div>
                 </div>
-                <div class="action-block">
-                    <a href="#" target="_blank" class="btn-order">Оформить карту</a>
-                    <span class="action-hint">Переход на сайт Альфа-Банка</span>
+                <div class="specs-zone">
+                    <div class="spec-cell"><span class="spec-value">365 дней</span><span class="spec-title">Без процентов</span></div>
+                    <div class="spec-cell"><span class="spec-value">До 1 млн ₽</span><span class="spec-title">Лимит кредита</span></div>
+                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Первый год</span></div>
+                </div>
+                <div class="cta-zone">
+                    <a href="#" target="_blank" class="btn-action">Оформить заявку</a>
+                    <span class="cta-note">На сайте alfabank.ru</span>
                 </div>
             </div>
         </div>
 
-        <!-- КАТЕГОРИЯ: ИП И РКО -->
-        <div id="rko" class="tab-content">
-            <div class="card">
-                <div class="card-label label-top">Лучшие условия</div>
-                <div class="bank-logo-wrap">
-                    <div class="bank-logo" style="background: #ffe100; color: #000;">Т-БАНК</div>
-                    <div class="bank-rating">★ 4.9</div>
+        <div id="biz-reg" class="products-grid">
+            <div class="product-card card-tbank">
+                <div class="brand-zone">
+                    <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Т-Банк</div>
                 </div>
-                <div class="card-main-info">
-                    <div class="card-title-block">
-                        <h3>Регистрация бизнеса и РКО</h3>
-                        <p>АО «ТБанк». Лицензия ЦБ РФ №2673</p>
+                <div class="meta-zone">
+                    <div class="meta-badges">
+                        <span class="meta-tag tag-business">Быстрый старт</span>
                     </div>
-                    <div class="features-grid">
-                        <div class="feature-item"><span class="feature-value">0 ₽</span><span class="feature-label">Открытие и подача</span></div>
-                        <div class="feature-item"><span class="feature-value">до 4 мес.</span><span class="feature-label">Бесплатное РКО</span></div>
-                        <div class="feature-item"><span class="feature-value">Онлайн</span><span class="feature-label">Без визита в ФНС</span></div>
-                    </div>
+                    <div class="product-name">Онлайн-регистрация ИП</div>
+                    <div class="legal-info">АО «ТБанк». Лиц. ЦБ РФ №2673</div>
                 </div>
-                <div class="action-block">
-                    <a href="#" target="_blank" class="btn-order">Открыть счет</a>
-                    <span class="action-hint">Переход на сайт Т-Банка</span>
+                <div class="specs-zone">
+                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Госпошлина</span></div>
+                    <div class="spec-cell"><span class="spec-value">100% Онлайн</span><span class="spec-title">Формат подачи</span></div>
+                    <div class="spec-cell"><span class="spec-value">Без визита</span><span class="spec-title">В налоговую и ФНС</span></div>
+                </div>
+                <div class="cta-zone">
+                    <a href="#" target="_blank" class="btn-action">Зарегистрировать</a>
+                    <span class="cta-note">На сайте tbank.ru</span>
                 </div>
             </div>
         </div>
 
-        <!-- КАТЕГОРИЯ: ГОТОВ НА ВСЁ -->
-        <div id="all-in" class="tab-content">
-            <div class="card">
-                <div class="card-label label-hit">Максимальный доход</div>
-                <div class="bank-logo-wrap">
-                    <div class="bank-logo" style="background: linear-gradient(135deg, #00ffcc, #9d4edd); color: #fff;">MIX</div>
-                    <div class="bank-rating">★ 5.0</div>
+        <div id="rko-accounts" class="products-grid">
+            <div class="product-card card-tbank">
+                <div class="brand-zone">
+                    <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Т-Банк</div>
                 </div>
-                <div class="card-main-info">
-                    <div class="card-title-block">
-                        <h3>Комплексный Пакет «Мульти-Выгода»</h3>
-                        <p>FinnyConsult. Согласовано с банками-партнерами</p>
+                <div class="meta-zone">
+                    <div class="meta-badges">
+                        <span class="meta-tag tag-premium">Выбор бизнеса</span>
                     </div>
-                    <div class="features-grid">
-                        <div class="feature-item"><span class="feature-value">Все карты</span><span class="feature-label">Последовательный выпуск</span></div>
-                        <div class="feature-item"><span class="feature-value">100%</span><span class="feature-label">Приветственные бонусы</span></div>
-                        <div class="feature-item"><span class="feature-value">Высокий апрув</span><span class="feature-label">Приоритетная очередь</span></div>
-                    </div>
+                    <div class="product-name">Расчетно-кассовое обслуживание (РКО)</div>
+                    <div class="legal-info">АО «ТБанк». Лиц. ЦБ РФ №2673</div>
                 </div>
-                <div class="action-block">
-                    <a href="#" target="_blank" class="btn-order">Запустить оформление</a>
-                    <span class="action-hint">Последовательное открытие вкладок</span>
+                <div class="specs-zone">
+                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Открытие счета</span></div>
+                    <div class="spec-cell"><span class="spec-value">До 4 мес.</span><span class="spec-title">Бесплатно</span></div>
+                    <div class="spec-cell"><span class="spec-value">Личный кабинет</span><span class="spec-title">Экосистема B2B</span></div>
+                </div>
+                <div class="cta-zone">
+                    <a href="#" target="_blank" class="btn-action">Открыть счет</a>
+                    <span class="cta-note">На сайте tbank.ru</span>
                 </div>
             </div>
         </div>
 
         <footer>
-            <div class="footer-info">
-                <div class="footer-text">
-                    <p><strong>Важное уведомление:</strong> Информационный портал FinnyConsult является независимым онлайн-агрегатором предложений финансовых институтов. Портал не собирает персональные данные пользователей, не оказывает платных услуг, не является финансовой организацией, банком, МФО или кредитором, а также не осуществляет выдачу займов, кредитов или открытие расчетных счетов.</p>
-                    <p>Все права на товарные знаки, логотипы и коммерческие наименования банков принадлежат их законным правообладателям. Оформление заявок на финансовые продукты осуществляется непосредственно на официальных интернет-ресурсах соответствующих лицензированных кредитных организаций.</p>
+            <div class="footer-wrap">
+                <div class="disclaimer-text">
+                    <p><strong>Правовое раскрытие информации:</strong> Электронный ресурс FinNavigate функционирует как независимый информационно-аналитический агрегатор. Проект осуществляет мониторинг, структурирование и сравнение открытых коммерческих предложений финансового сектора. Ресурс не является кредитной организацией, банком, МФО, инвестиционной платформой или профессиональным участником рынка ценных бумаг. Портал не осуществляет сбор, обработку персональных данных, не взимает плату за информационные услуги и не заключает договоров кредитования/банковского обслуживания.</p>
+                    <p>Все права на зарегистрированные товарные знаки, графические логотипы и официальную символику банковских учреждений принадлежат их законным правообладателям. Оформление любых финансовых продуктов производится строго на официальных интернет-страницах соответствующих банков, имеющих действующие лицензии Центрального Банка Российской Федерации.</p>
                 </div>
-                <div class="footer-links">
+                <div class="footer-nav">
                     <a href="#">Политика конфиденциальности</a>
                     <a href="#">Пользовательское соглашение</a>
                     <a href="#">Раскрытие информации</a>
-                    <a href="#">Контакты для правообладателей</a>
+                    <a href="#">Контакты регуляторам</a>
                 </div>
             </div>
-            <div class="copyright">
-                <p>© 2026 FinnyConsult. Все права защищены. Мониторинг и аналитика финансового сектора РФ.</p>
+            <div class="bottom-bar">
+                <p>© 2026 FinNavigate. Все права защищены. Независимый аналитический мониторинг банковских рынков РФ.</p>
             </div>
         </footer>
 
     </main>
 
     <script>
+        // Стандартная функция переключения табов кнопками
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
+            tabcontent = document.getElementsByClassName("products-grid");
             for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].classList.remove("active");
             }
-            tablinks = document.getElementsByClassName("tab-btn");
+            tablinks = document.getElementsByClassName("tab-trigger");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].classList.remove("active");
             }
             document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
+            if (evt) {
+                evt.currentTarget.classList.add("active");
+            }
+        }
+
+        // Интеллектуальная функция для верхнего меню шапки
+        function triggerTabAndScroll(tabName) {
+            // Эмулируем клик по табу
+            var targetButton = document.getElementById("btn-" + tabName);
+            openTab(null, tabName);
+            
+            // Подсвечиваем активную кнопку внутри витрины
+            var tablinks = document.getElementsByClassName("tab-trigger");
+            for (var i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            if (targetButton) {
+                targetButton.classList.add("active");
+            }
+
+            // Плавно скроллим страницу к началу витрины
+            var targetElement = document.getElementById("marketplace-showcase");
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+
+        // Клик по логотипу плавно возвращает наверх
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
         }
     </script>
 </body>
