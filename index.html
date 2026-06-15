@@ -30,7 +30,6 @@
             padding-top: 70px;
         }
 
-        /* Шапка и меню */
         header {
             position: fixed;
             top: 0;
@@ -76,14 +75,12 @@
             color: var(--accent);
         }
 
-        /* Главный контейнер */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
         }
 
-        /* Заголовки категорий */
         .category-section {
             margin-bottom: 60px;
             scroll-margin-top: 90px;
@@ -91,8 +88,6 @@
 
         .category-header {
             margin-bottom: 30px;
-            border-left: 4px solid var(--accent);
-            padding-left: 15px;
         }
 
         .category-header h2 {
@@ -101,26 +96,18 @@
             margin-bottom: 5px;
         }
 
-        .category-header p {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        /* Сетка карточек */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px;
         }
 
-        /* Карточка продукта */
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 25px;
             display: flex;
-            vertical-align: top;
             flex-direction: column;
             justify-content: space-between;
             transition: transform 0.3s, border-color 0.3s;
@@ -135,9 +122,6 @@
             font-size: 18px;
             font-weight: 700;
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .product-name {
@@ -149,25 +133,14 @@
         .features-list {
             list-style: none;
             margin-bottom: 25px;
-            flex-grow: 1;
         }
 
         .features-list li {
             font-size: 14px;
             color: var(--text-muted);
             margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        .features-list li::before {
-            content: "✓";
-            color: var(--accent);
-            font-weight: bold;
-        }
-
-        /* Кнопка действия */
         .btn-action {
             display: block;
             text-align: center;
@@ -185,7 +158,6 @@
             background-color: var(--accent-hover);
         }
 
-        /* Адаптивность для мобильных устройств */
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -214,7 +186,7 @@
         <nav>
             <a href="#debit" class="menu-item">Дебетовые карты</a>
             <a href="#credit" class="menu-item">Кредитные карты</a>
-            <a href="#rko" class="menu-item">Расчетные счета (РКО)</a>
+            <a href="#rko" class="menu-item">РКО</a>
         </nav>
     </header>
 
@@ -224,11 +196,9 @@
         <section id="debit" class="category-section">
             <div class="category-header">
                 <h2>Дебетовые карты</h2>
-                <p>Выгодные карты для повседневных покупок с кэшбэком и процентом на остаток</p>
             </div>
             
             <div class="cards-grid">
-                <!-- Карточка 1 -->
                 <div class="card">
                     <div>
                         <div class="bank-logo" style="color: #ff3333;">Т-Банк</div>
@@ -236,13 +206,12 @@
                         <ul class="features-list">
                             <li>Кэшбэк до 30% у партнеров</li>
                             <li>Бесплатное снятие наличных</li>
-                            <li>До 4 категорий кэшбэка на выбор</li>
+                            <li>До 4 категорий кэшбэка</li>
                         </ul>
                     </div>
                     <a href="#" target="_blank" class="btn-action">Оформить заявку</a>
                 </div>
 
-                <!-- Карточка 2 -->
                 <div class="card">
                     <div>
                         <div class="bank-logo" style="color: #ef4444;">Альфа-Банк</div>
@@ -262,33 +231,30 @@
         <section id="credit" class="category-section">
             <div class="category-header">
                 <h2>Кредитные карты</h2>
-                <p>Надежный финансовый инструмент с длинным беспроцентным периодом</p>
             </div>
 
             <div class="cards-grid">
-                <!-- Карточка 3 -->
                 <div class="card">
                     <div>
                         <div class="bank-logo" style="color: #ef4444;">Альфа-Банк</div>
                         <div class="product-name">365 дней без %</div>
                         <ul class="features-list">
-                            <li>Целый год без % на покупки в первый месяц</li>
-                            <li>Бесплатное обслуживание в первый год</li>
+                            <li>Год без % на покупки в 1-й месяц</li>
+                            <li>Бесплатное обслуживание</li>
                             <li>Лимит до 1 000 000 рублей</li>
                         </ul>
                     </div>
                     <a href="#" target="_blank" class="btn-action">Оформить заявку</a>
                 </div>
 
-                <!-- Карточка 4 -->
                 <div class="card">
                     <div>
                         <div class="bank-logo" style="color: #ff3333;">Т-Банк</div>
                         <div class="product-name">Платинум</div>
                         <ul class="features-list">
                             <li>Кэшбэк до 30% баллами</li>
-                            <li>Бесплатный перевод для гашения других карт</li>
-                            <li>Мгновенное решение по одобрению</li>
+                            <li>Бесплатный перевод для гашения</li>
+                            <li>Мгновенное решение</li>
                         </ul>
                     </div>
                     <a href="#" target="_blank" class="btn-action">Оформить заявку</a>
@@ -296,37 +262,34 @@
             </div>
         </section>
 
-        <!-- КАТЕГОРИЯ: РАСЧЕТНЫЕ СЧЕТА (РКО) -->
+        <!-- КАТЕГОРИЯ: РКО -->
         <section id="rko" class="category-section">
             <div class="category-header">
-                <h2>Расчетно-кассовое обслуживание (РКО)</h2>
-                <p>Комплексные решения для бизнеса: бесплатная регистрация ИП и выгодные тарифы</p>
+                <h2>РКО</h2>
             </div>
 
             <div class="cards-grid">
-                <!-- Карточка 5 -->
                 <div class="card">
                     <div>
                         <div class="bank-logo" style="color: #ff3333;">Т-Банк</div>
-                        <div class="product-name">РКО для Бизнеса</div>
+                        <div class="product-name">РКО</div>
                         <ul class="features-list">
                             <li>Открытие счета онлайн от 0 ₽</li>
-                            <li>Бесплатная регистрация ИП без визита в ФНС</li>
-                            <li>Первые 2 месяца обслуживания бесплатно</li>
+                            <li>Бесплатная регистрация ИП</li>
+                            <li>2 месяца обслуживания бесплатно</li>
                         </ul>
                     </div>
                     <a href="#" target="_blank" class="btn-action">Открыть счет</a>
                 </div>
 
-                <!-- Карточка 6 -->
                 <div class="card">
                     <div>
                         <div class="bank-logo" style="color: #ef4444;">Альфа-Банк</div>
-                        <div class="product-name">Тариф «Простой»</div>
+                        <div class="product-name">РКО</div>
                         <ul class="features-list">
-                            <li>0 ₽ за обслуживание счета без оборотов</li>
+                            <li>0 ₽ за обслуживание счета</li>
                             <li>Бесплатные переводы на личные карты</li>
-                            <li>Подарки для бизнеса от партнеров на старте</li>
+                            <li>Подарки для бизнеса на старте</li>
                         </ul>
                     </div>
                     <a href="#" target="_blank" class="btn-action">Открыть счет</a>
