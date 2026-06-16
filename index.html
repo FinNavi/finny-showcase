@@ -9,13 +9,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Изменили фон на более глубокий угольно-черный */
             --bg-main: #070a10;
-            /* Карточки сделали контрастнее относительно фона */
-            --bg-card: #131a26;
-            --bg-card-hover: #182232;
-            /* Сделали границы чуть заметнее */
-            --border-color: rgba(255, 255, 255, 0.08);
+            /* Сделали внутренний фон карточек заметно светлее для мощного контраста */
+            --bg-card: #1c2635;
+            --bg-card-hover: #233043;
+            /* Слегка адаптировали границы под новый фон */
+            --border-color: rgba(255, 255, 255, 0.1);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --text-dark: #64748b;
@@ -195,7 +194,7 @@
         .products-grid {
             display: none;
             grid-template-columns: 1fr;
-            gap: 20px; /* Увеличили отступ между карточками */
+            gap: 20px;
         }
 
         .products-grid.active {
@@ -220,15 +219,14 @@
             gap: 24px;
             position: relative;
             transition: all 0.25s ease;
-            /* Добавили мягкую тень, чтобы карточки «отрывались» от подложки */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .product-card:hover {
             background: var(--bg-card-hover);
             transform: translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
         }
 
         .brand-zone {
@@ -273,7 +271,7 @@
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
-        .tag-premium { background: rgba(2, 132, 199, 0.15); color: #38bdf8; }
+        .tag-premium { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
         .tag-popular { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
         .tag-business { background: rgba(16, 185, 129, 0.15); color: #34d399; }
 
@@ -285,7 +283,7 @@
 
         .legal-info {
             font-size: 12px;
-            color: var(--text-dark);
+            color: #8292a6; /* Сделали текст лицензий чуть светлее для читаемости на новом фоне */
         }
 
         /* ХАРАКТЕРИСТИКИ */
@@ -293,10 +291,10 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
-            background: rgba(0, 0, 0, 0.25); /* Затемнили плашку характеристик для контраста */
+            background: rgba(0, 0, 0, 0.35); /* Сделали подложку характеристик глубже, чтобы она выделялась внутри карточки */
             padding: 14px 18px;
             border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         .spec-cell {
@@ -313,7 +311,7 @@
 
         .spec-title {
             font-size: 11px;
-            color: var(--text-muted);
+            color: #94a3b8;
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
@@ -343,7 +341,7 @@
 
         .cta-note {
             font-size: 11px;
-            color: var(--text-dark);
+            color: #8292a6;
             text-align: center;
         }
 
@@ -424,15 +422,14 @@
             .main-content { padding: 0 16px; }
             
             .products-grid {
-                gap: 16px; /* Оптимальный шаг между карточками на мобайле */
+                gap: 16px;
             }
 
             .product-card {
                 grid-template-columns: 1fr !important;
                 gap: 16px;
                 padding: 18px;
-                /* Выделяем мобильные плашки за счет легкого градиента */
-                background: linear-gradient(145deg, #131a26, #111722);
+                background: linear-gradient(145deg, #1c2635, #161e2b);
             }
 
             .brand-zone {
@@ -526,7 +523,7 @@
         <div id="debit" class="products-grid active">
             
             <!-- 1. Альфа Банк -->
-            <div class="product-card" style="border-color: rgba(239, 68, 68, 0.2);">
+            <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #ef4444; color: #fff;">Альфа-Банк</div>
                 </div>
@@ -549,7 +546,7 @@
             </div>
 
             <!-- 2. ВТБ -->
-            <div class="product-card" style="border-color: rgba(0, 64, 133, 0.2);">
+            <div class="product-card" style="border-color: rgba(0, 64, 133, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #004085; color: #fff;">ВТБ Банк</div>
                 </div>
@@ -572,7 +569,7 @@
             </div>
 
             <!-- 3. ОТП Банк -->
-            <div class="product-card" style="border-color: rgba(52, 211, 153, 0.2);">
+            <div class="product-card" style="border-color: rgba(52, 211, 153, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #2e7d32; color: #fff;">ОТП Банк</div>
                 </div>
@@ -595,7 +592,7 @@
             </div>
 
             <!-- 4. Банк Санкт-Петербург (БСПБ) -->
-            <div class="product-card" style="border-color: rgba(0, 120, 166, 0.2);">
+            <div class="product-card" style="border-color: rgba(0, 120, 166, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #0078a6; color: #fff;">Банк БСПБ</div>
                 </div>
@@ -618,7 +615,7 @@
             </div>
 
             <!-- 5. Ozon Банк -->
-            <div class="product-card" style="border-color: rgba(0, 91, 255, 0.2);">
+            <div class="product-card" style="border-color: rgba(0, 91, 255, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #005bff; color: #fff;">Ozon Банк</div>
                 </div>
@@ -641,7 +638,7 @@
             </div>
 
             <!-- 6. МТС Банк -->
-            <div class="product-card" style="border-color: rgba(255, 0, 0, 0.2);">
+            <div class="product-card" style="border-color: rgba(255, 0, 0, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #ff0000; color: #fff;">МТС Банк</div>
                 </div>
@@ -664,7 +661,7 @@
             </div>
 
             <!-- 7. Промсвязьбанк -->
-            <div class="product-card" style="border-color: rgba(0, 90, 170, 0.2);">
+            <div class="product-card" style="border-color: rgba(0, 90, 170, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #005aaa; color: #fff;">ПСБ Банк</div>
                 </div>
@@ -687,7 +684,7 @@
             </div>
 
             <!-- 8. Ак Барс Банк -->
-            <div class="product-card" style="border-color: rgba(0, 168, 150, 0.2);">
+            <div class="product-card" style="border-color: rgba(0, 168, 150, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #00a896; color: #fff;">Ак Барс</div>
                 </div>
@@ -704,13 +701,13 @@
                     <div class="spec-cell"><span class="spec-value">+2 000 ₽</span><span class="spec-title">Бонус к пенсии</span></div>
                 </div>
                 <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/1lj1jrvc3jywi/7nx1fw2phahb/?partner=185269&erid=2SDnjdk3DDX&platform_id=38227" target="_blank" class="btn-action">Оформить заявку</a>
+                    <a href="https://u-cpa.ru/offer/rs/1j1jrvc3jywi/7nx1fw2phahb/?partner=185269&erid=2SDnjdk3DDX&platform_id=38227" target="_blank" class="btn-action">Оформить заявку</a>
                     <span class="cta-note">На сайте akbars.ru</span>
                 </div>
             </div>
 
             <!-- 9. ФОРА-БАНК -->
-            <div class="product-card" style="border-color: rgba(142, 68, 173, 0.2);">
+            <div class="product-card" style="border-color: rgba(142, 68, 173, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #8e44ad; color: #fff;">Фора-Банк</div>
                 </div>
@@ -733,7 +730,7 @@
             </div>
 
             <!-- 10. Уралсиб Банк -->
-            <div class="product-card" style="border-color: rgba(0, 91, 170, 0.2);">
+            <div class="product-card" style="border-color: rgba(0, 91, 170, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #005aaa; color: #fff;">Уралсиб</div>
                 </div>
@@ -756,7 +753,7 @@
             </div>
 
             <!-- 11. Т-Банк -->
-            <div class="product-card" style="border-color: rgba(250, 204, 21, 0.25);">
+            <div class="product-card" style="border-color: rgba(250, 204, 21, 0.35);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Т-Банк</div>
                 </div>
@@ -779,7 +776,7 @@
             </div>
 
             <!-- 12. Плати по миру -->
-            <div class="product-card" style="border-color: rgba(124, 58, 237, 0.2);">
+            <div class="product-card" style="border-color: rgba(124, 58, 237, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #7c3aed; color: #fff;">Плати По Миру</div>
                 </div>
@@ -802,7 +799,7 @@
             </div>
 
             <!-- 13. Россельхозбанк -->
-            <div class="product-card" style="border-color: rgba(46, 125, 50, 0.2);">
+            <div class="product-card" style="border-color: rgba(46, 125, 50, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #2e7d32; color: #fff;">РСХБ Банк</div>
                 </div>
@@ -825,7 +822,7 @@
             </div>
             
             <!-- 14. УБРиР Банк -->
-            <div class="product-card" style="border-color: rgba(179, 0, 70, 0.2);">
+            <div class="product-card" style="border-color: rgba(179, 0, 70, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #b30046; color: #fff;">УБРиР Банк</div>
                 </div>
@@ -851,7 +848,7 @@
 
         <!-- ТАБ: КРЕДИТНЫЕ КАРТЫ -->
         <div id="credit" class="products-grid">
-            <div class="product-card" style="border-color: rgba(239, 68, 68, 0.2);">
+            <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #ef4444; color: #fff;">Альфа-Банк</div>
                 </div>
@@ -876,7 +873,7 @@
 
         <!-- ТАБ: РЕГИСТРАЦИЯ БИЗНЕСА -->
         <div id="biz-reg" class="products-grid">
-            <div class="product-card" style="border-color: rgba(250, 204, 21, 0.25);">
+            <div class="product-card" style="border-color: rgba(250, 204, 21, 0.35);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Т-Банк</div>
                 </div>
@@ -901,7 +898,7 @@
 
         <!-- ТАБ: РАСЧЕТНЫЕ СЧЕТА -->
         <div id="rko-accounts" class="products-grid">
-            <div class="product-card" style="border-color: rgba(250, 204, 21, 0.25);">
+            <div class="product-card" style="border-color: rgba(250, 204, 21, 0.35);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Т-Банк</div>
                 </div>
