@@ -57,45 +57,40 @@
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr; /* Сетка для идеального центрирования логотипа на десктопе */
             align-items: center;
-            padding: 16px 24px;
+            padding: 20px 24px;
         }
 
         .logo-block {
+            grid-column: 2; /* Логотип строго по центру на ПК */
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
         }
 
         .logo-text {
-            font-size: 20px;
+            font-size: 28px;
             font-weight: 800;
             letter-spacing: -0.5px;
             color: #fff;
+            text-align: center;
+            transition: transform 0.2s ease;
         }
 
         .logo-text span {
             color: var(--primary);
         }
 
-        .nav-menu {
+        .logo-text:hover {
+            transform: scale(1.02);
+        }
+
+        .header-badge-wrap {
+            grid-column: 3; /* Плашка в правом углу на ПК */
             display: flex;
-            gap: 24px;
-        }
-
-        .nav-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .nav-link:hover {
-            color: #fff;
+            justify-content: flex-end;
         }
 
         .header-badge {
@@ -109,6 +104,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
         }
 
         .badge-dot {
@@ -400,16 +396,31 @@
             color: var(--text-dark);
         }
 
-        /* МОБИЛЬНАЯ ОПТИМИЗАЦИЯ СМАРТФОНОВ (ДО 768px И КРУПНЫХ МОБИЛОК 1024px) */
+        /* МОБИЛЬНАЯ ОПТИМИЗАЦИЯ СМАРТФОНОВ */
         @media (max-width: 1024px) {
             .nav-container {
-                padding: 12px 16px;
+                grid-template-columns: 1fr; /* Переключаемся на один столбец */
+                justify-items: center; /* Центрируем всё содержимое внутри шапки */
+                gap: 10px; /* Отступ между логотипом и плашкой */
+                padding: 16px;
+            }
+            .logo-block {
+                grid-column: 1;
+            }
+            .logo-text { 
+                font-size: 22px; 
+            }
+            .header-badge-wrap {
+                grid-column: 1; /* Размещаем обертку плашки строго под логотипом */
+                justify-content: center; /* Центрируем саму плашку */
+                width: 100%;
             }
             .header-badge {
-                display: none; /* Прячем плашку на мобильных, чтобы освободить место */
+                font-size: 12px; /* Чуть компактнее на мобильных */
+                padding: 5px 12px;
             }
             .hero-section {
-                margin: 24px auto 20px;
+                margin: 30px auto 20px;
                 padding: 0 16px;
             }
             .hero-section h1 { font-size: 28px; }
@@ -430,7 +441,7 @@
             .brand-avatar { width: 48px; height: 48px; font-size: 10px; border-radius: 10px; }
             
             .specs-zone {
-                grid-template-columns: repeat(3, 1fr) !important; /* Удобные три колонки на мобилках */
+                grid-template-columns: repeat(3, 1fr) !important;
                 padding: 10px;
                 gap: 8px;
             }
@@ -453,7 +464,7 @@
 
         @media (max-width: 480px) {
             .specs-zone {
-                grid-template-columns: 1fr !important; /* На совсем крошечных экранах вытягиваем фичи вертикально */
+                grid-template-columns: 1fr !important;
                 text-align: left;
             }
             .spec-cell {
@@ -465,9 +476,7 @@
             .spec-cell:last-child { border-bottom: none; }
             .spec-title { order: 1; }
             .spec-value { order: 2; }
-            .nav-menu { gap: 12px; }
-            .nav-link { font-size: 12px; }
-            .logo-text { font-size: 18px; }
+            .logo-text { font-size: 20px; }
         }
     </style>
 </head>
@@ -478,14 +487,10 @@
             <div class="logo-block">
                 <div class="logo-text" onclick="scrollToTop()" style="cursor: pointer;">FIN<span>NAVIGATE</span></div>
             </div>
-            <nav class="nav-menu">
-                <span class="nav-link" onclick="triggerTabAndScroll('debit')">Дебетовые</span>
-                <span class="nav-link" onclick="triggerTabAndScroll('credit')">Кредитные</span>
-                <span class="nav-link" onclick="triggerTabAndScroll('biz-reg')">Регистрация ИП</span>
-                <span class="nav-link" onclick="triggerTabAndScroll('rko-accounts')">Расчетные счета</span>
-            </nav>
-            <div class="header-badge">
-                <span class="badge-dot"></span> Тарифы обновлены: Сегодня
+            <div class="header-badge-wrap">
+                <div class="header-badge">
+                    <span class="badge-dot"></span> Тарифы обновлены: Сегодня
+                </div>
             </div>
         </div>
     </header>
@@ -827,7 +832,7 @@
                     <span class="cta-note">На сайте ubrr.ru</span>
                 </div>
             </div>
-        </div> <!-- Закрыли тег дебетовых карт правильно! -->
+        </div>
 
         <!-- ТАБ: КРЕДИТНЫЕ КАРТЫ -->
         <div id="credit" class="products-grid">
@@ -938,24 +943,6 @@
             document.getElementById(tabName).classList.add("active");
             if (evt) {
                 evt.currentTarget.classList.add("active");
-            }
-        }
-
-        function triggerTabAndScroll(tabName) {
-            var targetButton = document.getElementById("btn-" + tabName);
-            openTab(null, tabName);
-            
-            var tablinks = document.getElementsByClassName("tab-trigger");
-            for (var i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-            if (targetButton) {
-                targetButton.classList.add("active");
-            }
-
-            var targetElement = document.getElementById("marketplace-showcase");
-            if (targetElement) {
-                targetElement.scrollIntoView({ behavior: "smooth" });
             }
         }
 
