@@ -155,7 +155,7 @@
             scroll-margin-top: 100px;
         }
 
-        /* ТАБЛИЦА КАТЕГОРИЙ ДЛЯ МОБИЛЬНЫХ (Сетка 2х2 по умолчанию) */
+        /* ТАБЛИЦА КАТЕГОРИЙ ДЛЯ МОБИЛЬНЫХ */
         .filter-tabs {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -254,15 +254,12 @@
 
         .meta-tag {
             font-size: 11px;
-            font-weight: 600;
-            padding: 2px 8px;
+            font-weight: 700;
+            padding: 3px 8px;
             border-radius: 4px;
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
-        .tag-premium { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
-        .tag-popular { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
-        .tag-business { background: rgba(16, 185, 129, 0.15); color: #34d399; }
 
         .product-name {
             font-size: 19px;
@@ -344,9 +341,6 @@
         .footer-wrap {
             max-width: 1200px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 40px;
             font-size: 12px;
             color: var(--text-dark);
             line-height: 1.6;
@@ -354,23 +348,6 @@
 
         .disclaimer-text p {
             margin-bottom: 12px;
-        }
-
-        .footer-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: flex-start;
-        }
-
-        .footer-nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.15s;
-        }
-
-        .footer-nav a:hover {
-            color: #fff;
         }
 
         .bottom-bar {
@@ -412,7 +389,6 @@
                 font-size: 17px;
             }
 
-            /* На десктопе категории выстраиваются в одну ровную строку */
             .filter-tabs {
                 grid-template-columns: repeat(4, 1fr);
             }
@@ -432,13 +408,6 @@
                 height: 80px;
                 font-size: 11px;
                 padding: 6px;
-            }
-            .footer-wrap {
-                grid-template-columns: 3fr 1fr;
-                gap: 60px;
-            }
-            .footer-nav {
-                align-items: flex-end;
             }
         }
     </style>
@@ -465,7 +434,7 @@
 
     <main class="main-content" id="marketplace-showcase">
         
-        <!-- КАТЕГОРИИ 2х2 НА МОБИЛЬНЫХ -->
+        <!-- КАТЕГОРИИ В ВИДЕ ТАБЛИЦЫ 2х2 -->
         <div class="filter-tabs">
             <button class="tab-trigger active" id="btn-debit" onclick="openTab(event, 'debit')">Дебетовые карты</button>
             <button class="tab-trigger" id="btn-credit" onclick="openTab(event, 'credit')">Кредитные карты</button>
@@ -482,7 +451,8 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-premium">Суперкэшбэк</span>
+                        <!-- Цвет тега изменен под цвет Альфа-Банка -->
+                        <span class="meta-tag" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">Суперкэшбэк</span>
                     </div>
                     <div class="product-name">Апельсиновая карта от Альфа-Банка</div>
                     <div class="legal-info">АО «Альфа-Банк». Лиц. ЦБ РФ №1326</div>
@@ -504,7 +474,8 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-premium">Надежный выбор</span>
+                        <!-- Цвет тега изменен под цвет ВТБ -->
+                        <span class="meta-tag" style="background: rgba(0, 64, 133, 0.15); color: #38bdf8;">Надежный выбор</span>
                     </div>
                     <div class="product-name">Дебетовая карта МИР от ВТБ</div>
                     <div class="legal-info">Банк ВТБ (ПАО). Лиц. ЦБ РФ №1000</div>
@@ -520,13 +491,14 @@
                 </div>
             </div>
 
-            <div class="product-card" style="border-color: rgba(52, 211, 153, 0.25);">
+            <div class="product-card" style="border-color: rgba(46, 125, 50, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #2e7d32; color: #fff;">ОТП Банк</div>
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-popular" style="background: rgba(16, 185, 129, 0.12); color: #34d399;">Акция: 100% Кэшбэк</span>
+                        <!-- Цвет тега изменен под цвет ОТП -->
+                        <span class="meta-tag" style="background: rgba(46, 125, 50, 0.15); color: #34d399;">Акция: 100% Кэшбэк</span>
                     </div>
                     <div class="product-name">Умная «ОТП Карта» МИР</div>
                     <div class="legal-info">АО «ОТП Банк». Лиц. ЦБ РФ №2766</div>
@@ -548,7 +520,8 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-premium">Высокий доход</span>
+                        <!-- Цвет тега изменен под цвет БСПБ -->
+                        <span class="meta-tag" style="background: rgba(0, 120, 166, 0.15); color: #0078a6;">Высокий доход</span>
                     </div>
                     <div class="product-name">Дебетовая карта МИР от Банка Санкт-Петербург</div>
                     <div class="legal-info">ПАО «Банк «Санкт-Петербург». Лиц. ЦБ РФ №436</div>
@@ -570,7 +543,8 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-popular">Макс. выгода</span>
+                        <!-- Цвет тега изменен под цвет Ozon -->
+                        <span class="meta-tag" style="background: rgba(0, 91, 255, 0.15); color: #005bff;">Макс. выгода</span>
                     </div>
                     <div class="product-name">Дебетовая Ozon Карта</div>
                     <div class="legal-info">ООО «Озон Банк». Лиц. ЦБ РФ №3542</div>
@@ -592,7 +566,8 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-premium">Связь за 0 ₽</span>
+                        <!-- Цвет тега изменен под цвет МТС -->
+                        <span class="meta-tag" style="background: rgba(255, 0, 0, 0.15); color: #ff0000;">Связь за 0 ₽</span>
                     </div>
                     <div class="product-name">Дебетовая карта «МТС Деньги» от МТС Банка</div>
                     <div class="legal-info">ПАО «МТС-Банк». Лиц. ЦБ РФ №2289</div>
@@ -614,7 +589,8 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-popular">Приветственный бонус</span>
+                        <!-- Цвет тега изменен под цвет ПСБ -->
+                        <span class="meta-tag" style="background: rgba(0, 90, 170, 0.15); color: #005aaa;">Приветственный бонус</span>
                     </div>
                     <div class="product-name">Дебетовая карта «Твой кешбэк» от ПСБ</div>
                     <div class="legal-info">ПАО «Промсвязьбанк». Лиц. ЦБ РФ №3251</div>
@@ -636,7 +612,8 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-premium">Высокий процент</span>
+                        <!-- Цвет тега изменен под цвет Ак Барс -->
+                        <span class="meta-tag" style="background: rgba(0, 168, 150, 0.15); color: #00a896;">Высокий процент</span>
                     </div>
                     <div class="product-name">Дебетовая карта «Ничего лишнего» от Ак Барс Банка</div>
                     <div class="legal-info">ПАО САКБ «АК БАРС». Лиц. ЦБ РФ №2590</div>
@@ -658,7 +635,8 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-popular">Сезонный кэшбэк</span>
+                        <!-- Цвет тега изменен под цвет Фора-Банка -->
+                        <span class="meta-tag" style="background: rgba(142, 68, 173, 0.15); color: #8e44ad;">Сезонный кэшбэк</span>
                     </div>
                     <div class="product-name">Дебетовая карта МИР «Все включено» от Фора-Банка</div>
                     <div class="legal-info">АКБ «ФОРА-БАНК» (АО). Лиц. ЦБ РФ №1885</div>
@@ -680,7 +658,8 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-premium">Высокий процент</span>
+                        <!-- Цвет тега изменен под цвет Уралсиб -->
+                        <span class="meta-tag" style="background: rgba(0, 91, 170, 0.15); color: #005aaa;">Высокий процент</span>
                     </div>
                     <div class="product-name">Дебетовая карта «Прибыль» от Уралсиб Банка</div>
                     <div class="legal-info">ПАО БАНК «УРАЛСИБ». Лиц. ЦБ РФ №30</div>
@@ -702,7 +681,8 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-popular" style="background: rgba(234, 179, 8, 0.15); color: #ca8a04;">Новинка: С ароматом</span>
+                        <!-- Цвет тега изменен под цвет Т-Банка -->
+                        <span class="meta-tag" style="background: rgba(234, 179, 8, 0.15); color: #ca8a04;">Новинка: С ароматом</span>
                     </div>
                     <div class="product-name">Дебетовая Аромакарта Black от Т-Банка</div>
                     <div class="legal-info">АО «ТБанк». Лиц. ЦБ РФ №2673</div>
@@ -724,7 +704,8 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-premium" style="background: rgba(124, 58, 237, 0.12); color: #8b5cf6;">Для зарубежных сервисов</span>
+                        <!-- Цвет тега изменен под цвет Плати По Миру -->
+                        <span class="meta-tag" style="background: rgba(124, 58, 237, 0.15); color: #8b5cf6;">Для зарубежных сервисов</span>
                     </div>
                     <div class="product-name">Виртуальная карта «Плати по миру» (USD)</div>
                     <div class="legal-info">Сервис трансграничных платежей</div>
@@ -746,7 +727,8 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-popular">Для поездок</span>
+                        <!-- Цвет тега изменен под цвет РСХБ -->
+                        <span class="meta-tag" style="background: rgba(46, 125, 50, 0.15); color: #34d399;">Для поездок</span>
                     </div>
                     <div class="product-name">Дебетовая карта UnionPay от Россельхозбанка</div>
                     <div class="legal-info">АО «Россельхозбанк». Лиц. ЦБ РФ №3349</div>
@@ -768,7 +750,8 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-premium">Кэшбэк на ЖКУ</span>
+                        <!-- Цвет тега изменен под цвет УБРиР -->
+                        <span class="meta-tag" style="background: rgba(179, 0, 70, 0.15); color: #b30046;">Кэшбэк на ЖКУ</span>
                     </div>
                     <div class="product-name">Дебетовая карта «Моя Жизнь» от УБРиР Банка</div>
                     <div class="legal-info">ПАО КБ «УБРиР». Лиц. ЦБ РФ №429</div>
@@ -794,7 +777,7 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-premium">Рекомендация</span>
+                        <span class="meta-tag" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">Рекомендация</span>
                     </div>
                     <div class="product-name">Кредитная карта «365 дней» от Альфа-Банка</div>
                     <div class="legal-info">АО «Альфа-Банк». Лиц. ЦБ РФ №1326</div>
@@ -819,7 +802,7 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-business">Быстрый старт</span>
+                        <span class="meta-tag" style="background: rgba(234, 179, 8, 0.15); color: #ca8a04;">Быстрый старт</span>
                     </div>
                     <div class="product-name">Онлайн-регистрация ИП от Т-Банка</div>
                     <div class="legal-info">АО «ТБанк». Лиц. ЦБ РФ №2673</div>
@@ -844,7 +827,7 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <span class="meta-tag tag-premium">Выбор бизнеса</span>
+                        <span class="meta-tag" style="background: rgba(234, 179, 8, 0.15); color: #ca8a04;">Выбор бизнеса</span>
                     </div>
                     <div class="product-name">Расчетно-кассовое обеспечение (РКО) от Т-Банка</div>
                     <div class="legal-info">АО «ТБанк». Лиц. ЦБ РФ №2673</div>
@@ -865,15 +848,10 @@
         <footer>
             <div class="footer-wrap">
                 <div class="disclaimer-text">
-                    <p><strong>Правовое раскрытие информации:</strong> Электронный ресурс FinNavigate функционирует как независимый информационно-аналитический агрегатор. Проект осуществляет мониторинг, структуру и сравнение открытых коммерческих предложений financial сектора. Ресурс не является кредитной организацией, банком, МФО, инвестиционной платформой или профессиональным участником рынка ценных бумаг. Портал не осуществляет сбор, обработку персональных данных, не взимает плату за информационные услуги и не заключает договоров кредитования/банковского обслуживания.</p>
+                    <p><strong>Правовое раскрытие информации:</strong> Электронный ресурс FinNavigate функционирует как независимый информационно-аналитический агрегатор. Проект осуществляет мониторинг, структуру и сравнение открытых коммерческих предложений financial сектора. Ресурс не является кредитной организацией, банком, МФО, инвестиционной платформой или профессиональным участником рынка ценных бумаги. Портал не осуществляет сбор, обработку персональных данных, не взимает плату за информационные услуги и не заключает договоров кредитования/банковского обслуживания.</p>
                     <p>Все права на зарегистрированные товарные знаки, графические логотипы и официальную символику банковских учреждений принадлежат их законным правообладателям. Оформление любых финансовых продуктов производится строго на официальных интернет-страницах соответствующих банков, имеющих действующие лицензии Центрального Банка Российской Федерации.</p>
                 </div>
-                <div class="footer-nav">
-                    <a href="#">Политика конфиденциальности</a>
-                    <a href="#">Пользовательское соглашение</a>
-                    <a href="#">Раскрытие информации</a>
-                    <a href="#">Контакты регуляторам</a>
-                </div>
+                <!-- Блок ссылок footer-nav временно удален по запросу -->
             </div>
             <div class="bottom-bar">
                 <p>© 2026 FinNavigate. Все права защищены. Независимый аналитический мониторинг банковских рынков РФ.</p>
