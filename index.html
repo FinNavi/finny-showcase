@@ -58,11 +58,11 @@
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            flex-direction: row; /* В одну строку на мобильных */
-            justify-content: space-between; /* Лого слева, плашка справа */
+            flex-direction: row;
+            justify-content: space-between;
             align-items: center;
             gap: 12px;
-            padding: 14px 16px; /* Чуть компактнее отступы для мобилок */
+            padding: 14px 16px;
         }
 
         .logo-block {
@@ -71,7 +71,7 @@
         }
 
         .logo-text {
-            font-size: 18px; /* Уменьшили для мобильных, чтобы соответствовать плашке */
+            font-size: 18px;
             font-weight: 800;
             letter-spacing: -0.5px;
             color: #fff;
@@ -94,9 +94,9 @@
         .header-badge {
             background: rgba(16, 185, 129, 0.06);
             color: var(--success);
-            padding: 6px 10px; /* Компактные отступы */
+            padding: 6px 10px;
             border-radius: 8px;
-            font-size: 11px; /* Чуть меньше шрифт под стать логотипу */
+            font-size: 11px;
             font-weight: 600;
             border: 1px solid rgba(16, 185, 129, 0.12);
             display: flex;
@@ -124,7 +124,7 @@
         /* ГЛАВНЫЙ БЛОК */
         .hero-section {
             max-width: 1200px;
-            margin: 40px auto 40px;
+            margin: 24px auto 40px;
             padding: 0 24px;
             text-align: center;
             display: flex;
@@ -148,9 +148,9 @@
             width: 100%;
             max-width: 850px;
             line-height: 1.6;
+            text-align: center;
         }
 
-        /* Настройка абзацев описания для десктопа */
         .hero-desc-line {
             display: inline;
         }
@@ -251,7 +251,6 @@
             padding: 6px;
         }
 
-        /* ТЕКСТОВАЯ ЗОНА ОФФЕРА — ЦЕНТРИРОВАНИЕ ДЛЯ ВСЕХ ВЕРСИЙ */
         .meta-zone {
             display: flex;
             flex-direction: column;
@@ -393,7 +392,7 @@
             }
 
             .logo-text {
-                font-size: 26px; /* На десктопе возвращаем крупный размер */
+                font-size: 26px;
             }
 
             .header-badge {
@@ -402,24 +401,25 @@
             }
             
             .hero-section {
-                margin: 60px auto 50px;
+                margin: 32px auto 50px;
             }
             .hero-section h1 {
                 font-size: 42px;
             }
             .hero-section p {
                 font-size: 17px;
-                text-align: left;
+                text-align: center;
             }
 
-            /* Разделение предложений на десктопе с красной строки */
             .hero-desc-line {
-                display: block;
+                display: inline-block;
+                width: 100%;
                 margin-bottom: 4px;
             }
             .hero-desc-indent {
-                display: block;
-                text-indent: 25px;
+                display: inline-block;
+                width: 100%;
+                text-indent: 0;
             }
 
             .filter-tabs {
@@ -470,7 +470,6 @@
 
     <main class="main-content" id="marketplace-showcase">
         
-        <!-- КАТЕГОРИИ В ВИДЕ ТАБЛИЦЫ 2х2 -->
         <div class="filter-tabs">
             <button class="tab-trigger active" id="btn-debit" onclick="openTab(event, 'debit')">Дебетовые карты</button>
             <button class="tab-trigger" id="btn-credit" onclick="openTab(event, 'credit')">Кредитные карты</button>
@@ -635,6 +634,7 @@
                 </div>
             </div>
 
+            <!-- ОБНОВЛЕННАЯ ССЫЛКА ДЛЯ АК БАРС БАНКА -->
             <div class="product-card" style="border-color: rgba(0, 168, 150, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #00a896; color: #fff;">Ак Барс</div>
@@ -652,7 +652,7 @@
                     <div class="spec-cell"><span class="spec-value">+2 000 ₽</span><span class="spec-title">Бонус к пенсии</span></div>
                 </div>
                 <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/1j1jrvc3jywi/7nx1fw2phahb/?partner=185269&erid=2SDnjdk3DDX&platform_id=38227" target="_blank" class="btn-action" style="background-color: #00a896;">Оформить заявку</a>
+                    <a href="https://u-cpa.ru/offer/rs/1lj1jrvc3jywi/7nx1fw2phahb/?partner=185269&erid=2SDnjdk3DDX&platform_id=38227" target="_blank" class="btn-action" style="background-color: #00a896;">Оформить заявку</a>
                     <span class="cta-note">На сайте akbars.ru</span>
                 </div>
             </div>
