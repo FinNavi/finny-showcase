@@ -3,221 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Выгодные финансовые предложения</title>
+    <title>FinNavigate — Аналитический маркетплейс финансовых продуктов</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ==========================================================================
-           ГЛОБАЛЬНЫЕ СТИЛИ И ПЕРЕМЕННЫЕ
-           ========================================================================== */
         :root {
-            --primary: #005bff;
-            --primary-hover: #0046d5;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
+            --bg-main: #0b0f17;
+            --bg-card: #121824;
+            --bg-card-hover: #161d2b;
+            --border-color: rgba(255, 255, 255, 0.06);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dark: #64748b;
+            --primary: #0284c7;
+            --primary-hover: #0369a1;
+            --success: #10b981;
+            --alfa-color: #ef4444;
+            --tbank-color: #facc15;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         html, body {
             max-width: 100%;
             overflow-x: hidden;
             position: relative;
-            background-color: var(--bg-color);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-main);
             color: var(--text-main);
             line-height: 1.5;
         }
 
-        .container {
-            width: 100%;
+        /* НАВИГАЦИЯ */
+        header {
+            background: rgba(11, 15, 23, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 24px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
         }
 
-        header {
-            margin-bottom: 32px;
-            text-align: center;
+        .logo-block {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        header h1 {
-            font-size: 2rem;
+        .logo-text {
+            font-size: 20px;
             font-weight: 800;
-            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            color: #fff;
         }
 
-        header p {
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-link {
             color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
         }
 
-        /* ==========================================================================
-           НАВИГАЦИЯ / ТАБЫ
-           ========================================================================== */
-        .tabs-container {
-            margin-bottom: 24px;
-            border-bottom: 2px solid var(--border-color);
+        .nav-link:hover {
+            color: #fff;
         }
 
-        .tabs-navigation {
+        .header-badge {
+            background: rgba(16, 185, 129, 0.06);
+            color: var(--success);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid rgba(16, 185, 129, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--success);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 14px var(--success); }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+
+        /* ГЛАВНЫЙ БЛОК */
+        .hero-section {
+            max-width: 1200px;
+            margin: 50px auto 40px;
+            padding: 0 24px;
+            text-align: left;
+        }
+
+        .hero-section h1 {
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+            line-height: 1.15;
+            max-width: 800px;
+        }
+
+        .hero-section p {
+            color: var(--text-muted);
+            font-size: 16px;
+            max-width: 650px;
+        }
+
+        /* ТАБЫ / ИНТЕРФЕЙС ВИТРИНЫ */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            scroll-margin-top: 100px;
+        }
+
+        .filter-tabs {
             display: flex;
             gap: 8px;
-            list-style: none;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
         }
 
-        .tab-btn {
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: 600;
+        .filter-tabs::-webkit-scrollbar { display: none; }
+
+        .tab-trigger {
+            background: transparent;
+            border: 1px solid transparent;
             color: var(--text-muted);
-            background: none;
-            border: none;
-            border-bottom: 2px solid transparent;
-            margin-bottom: -2px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
             cursor: pointer;
+            white-space: nowrap;
             transition: all 0.2s ease;
         }
 
-        .tab-btn.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
+        .tab-trigger:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.03);
         }
 
-        /* ==========================================================================
-           СЕТКА ПРОДУКТОВ
-           ========================================================================== */
+        .tab-trigger.active {
+            background: rgba(2, 132, 199, 0.08);
+            border-color: rgba(2, 132, 199, 0.3);
+            color: #fff;
+        }
+
         .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-            gap: 24px;
-            display: none; /* Скрыто по умолчанию, управляется через JS или класс active */
+            display: none;
+            grid-template-columns: 1fr;
+            gap: 16px;
         }
 
         .products-grid.active {
             display: grid;
+            animation: sheetUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* ==========================================================================
-           СТИЛИ КАРТОЧКИ ПРОДУКТА
-           ========================================================================== */
+        @keyframes sheetUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* КАРТОЧКА ОБЪЕКТА */
         .product-card {
-            background: var(--card-bg);
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 14px;
             padding: 24px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            display: grid;
+            grid-template-columns: 80px 1.2fr 2fr 180px;
+            align-items: center;
+            gap: 24px;
+            position: relative;
+            transition: all 0.25s ease;
         }
 
         .product-card:hover {
+            background: var(--bg-card-hover);
             transform: translateY(-2px);
-            box-shadow: 0 12px 20px -4px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
         }
 
-        /* Верхняя зона бренда */
+        .card-alfa:hover { border-color: rgba(239, 68, 68, 0.25); }
+        .card-tbank:hover { border-color: rgba(250, 204, 21, 0.25); }
+
         .brand-zone {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            margin-bottom: 16px;
+            justify-content: center;
         }
 
         .brand-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 12px;
-            text-transform: uppercase;
+            font-weight: 800;
+            font-size: 11px;
             letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
             text-align: center;
             padding: 4px;
         }
 
-        /* Мета-информация (название, бейджи) */
         .meta-zone {
-            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
         .meta-badges {
             display: flex;
             gap: 6px;
-            margin-bottom: 8px;
+            margin-bottom: 2px;
         }
 
         .meta-tag {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 99px;
-            background: rgba(0, 91, 255, 0.08);
-            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
-
-        .tag-premium {
-            background: rgba(245, 158, 11, 0.12);
-            color: #d97706;
-        }
-
-        .tag-popular {
-            background: rgba(16, 185, 129, 0.12);
-            color: #059669;
-        }
+        .tag-premium { background: rgba(2, 132, 199, 0.12); color: #38bdf8; }
+        .tag-popular { background: rgba(245, 158, 11, 0.12); color: #fbbf24; }
+        .tag-business { background: rgba(16, 185, 129, 0.12); color: #34d399; }
 
         .product-name {
-            font-size: 18px;
+            font-size: 19px;
             font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 4px;
-            min-height: 54px; /* Чтобы карточки были одной высоты при разной длине текста */
-            display: flex;
-            align-items: center;
+            color: #fff;
         }
 
         .legal-info {
-            font-size: 11px;
-            color: var(--text-muted);
+            font-size: 12px;
+            color: var(--text-dark);
         }
 
-        /* Характеристики (фичи) */
+        /* ХАРАКТЕРИСТИКИ */
         .specs-zone {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            background: #f8fafc;
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.12);
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.01);
         }
 
         .spec-cell {
             display: flex;
             flex-direction: column;
-            text-align: center;
+            gap: 2px;
         }
 
         .spec-value {
             font-size: 15px;
-            font-weight: 700;
-            color: var(--text-main);
+            font-weight: 600;
+            color: #f1f5f9;
         }
 
         .spec-title {
             font-size: 11px;
             color: var(--text-muted);
-            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
-        /* Кнопка и примечание */
+        /* КНОПКА ДЕЙСТВИЯ */
         .cta-zone {
             display: flex;
             flex-direction: column;
@@ -225,16 +329,14 @@
         }
 
         .btn-action {
-            display: block;
-            width: 100%;
             background: var(--primary);
-            color: #ffffff;
-            text-align: center;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 15px;
+            color: #fff;
             text-decoration: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
             transition: background 0.15s ease;
         }
 
@@ -244,92 +346,168 @@
 
         .cta-note {
             font-size: 11px;
-            color: var(--text-muted);
+            color: var(--text-dark);
             text-align: center;
         }
 
-        /* ==========================================================================
-           МЕДИА-ЗАПРОСЫ ДЛЯ СМАРТФОНОВ (МОБИЛЬНАЯ ОПТИМИЗАЦИЯ)
-           ========================================================================== */
-        @media screen and (max-width: 768px) {
-            .container {
-                padding: 16px 12px !important;
-            }
+        /* ПОДВАЛ */
+        footer {
+            background: #090d14;
+            border-top: 1px solid var(--border-color);
+            margin-top: 100px;
+            padding: 40px 24px 30px;
+        }
 
-            header h1 {
-                font-size: 1.6rem;
-            }
+        .footer-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 60px;
+            font-size: 12px;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
 
-            .products-grid {
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 16px !important;
-                width: 100% !important;
-            }
+        .disclaimer-text p {
+            margin-bottom: 12px;
+        }
 
-            .products-grid:not(.active) {
-                display: none !important;
-            }
+        .footer-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-end;
+        }
 
+        .footer-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .footer-nav a:hover {
+            color: #fff;
+        }
+
+        .bottom-bar {
+            max-width: 1200px;
+            margin: 30px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.02);
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-dark);
+        }
+
+        /* МОБИЛЬНАЯ ОПТИМИЗАЦИЯ СМАРТФОНОВ (ДО 768px И КРУПНЫХ МОБИЛОК 1024px) */
+        @media (max-width: 1024px) {
+            .nav-container {
+                padding: 12px 16px;
+            }
+            .header-badge {
+                display: none; /* Прячем плашку на мобильных, чтобы освободить место */
+            }
+            .hero-section {
+                margin: 24px auto 20px;
+                padding: 0 16px;
+            }
+            .hero-section h1 { font-size: 28px; }
+            .main-content { padding: 0 16px; }
+            
             .product-card {
-                width: 100% !important;
-                padding: 16px !important;
-                border-radius: 12px !important;
+                grid-template-columns: 1fr !important;
+                gap: 16px;
+                padding: 16px;
             }
-
-            .product-name {
-                min-height: auto;
-                margin-top: 8px;
+            .brand-zone {
+                flex-direction: row;
+                justify-content: space-between;
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 12px;
+                align-items: center;
             }
-
+            .brand-avatar { width: 48px; height: 48px; font-size: 10px; border-radius: 10px; }
+            
             .specs-zone {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
-                gap: 12px !important;
-                margin: 16px 0 !important;
+                grid-template-columns: repeat(3, 1fr) !important; /* Удобные три колонки на мобилках */
+                padding: 10px;
+                gap: 8px;
             }
+            .spec-value { font-size: 13px; }
+            .spec-title { font-size: 9px; }
 
             .btn-action {
-                padding: 14px 20px !important;
-                font-size: 16px !important;
-            }
-
-            .tabs-navigation {
-                overflow-x: auto !important;
-                white-space: nowrap !important;
-                padding-bottom: 8px !important;
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            .tab-btn {
-                padding: 10px 16px;
+                padding: 14px 16px;
                 font-size: 15px;
             }
+
+            .footer-wrap {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .footer-nav {
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .specs-zone {
+                grid-template-columns: 1fr !important; /* На совсем крошечных экранах вытягиваем фичи вертикально */
+                text-align: left;
+            }
+            .spec-cell {
+                flex-direction: row;
+                justify-content: space-between;
+                border-bottom: 1px solid rgba(255,255,255,0.03);
+                padding-bottom: 4px;
+            }
+            .spec-cell:last-child { border-bottom: none; }
+            .spec-title { order: 1; }
+            .spec-value { order: 2; }
+            .nav-menu { gap: 12px; }
+            .nav-link { font-size: 12px; }
+            .logo-text { font-size: 18px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Лучшие предложения банков</h1>
-            <p>Выберите подходящий финансовый продукт и оформите онлайн-заявку</p>
-        </header>
-
-        <!-- Переключатель категорий -->
-        <div class="tabs-container">
-            <div class="tabs-navigation">
-                <button class="tab-btn active" onclick="switchTab('debit')">Дебетовые карты</button>
-                <button class="tab-btn" onclick="switchTab('credit')">Кредитные карты</button>
+    <header>
+        <div class="nav-container">
+            <div class="logo-block">
+                <div class="logo-text" onclick="scrollToTop()" style="cursor: pointer;">FIN<span>NAVIGATE</span></div>
+            </div>
+            <nav class="nav-menu">
+                <span class="nav-link" onclick="triggerTabAndScroll('debit')">Дебетовые</span>
+                <span class="nav-link" onclick="triggerTabAndScroll('credit')">Кредитные</span>
+                <span class="nav-link" onclick="triggerTabAndScroll('biz-reg')">Регистрация ИП</span>
+                <span class="nav-link" onclick="triggerTabAndScroll('rko-accounts')">Расчетные счета</span>
+            </nav>
+            <div class="header-badge">
+                <span class="badge-dot"></span> Тарифы обновлены: Сегодня
             </div>
         </div>
+    </header>
 
-        <!-- ==========================================================================
-             ТАБ: ДЕБЕТОВЫЕ КАРТЫ (ВСЕ ТВОИ ОФФЕРЫ)
-             ========================================================================== -->
+    <section class="hero-section">
+        <h1>Аналитический финтех-навигатор по банковским продуктам</h1>
+        <p>Независимый аудит условий, процентных ставок и кэшбэк-программ. Мы агрегируем официальные данные лицензированных банков РФ без скрытых комиссий.</p>
+    </section>
+
+    <main class="main-content" id="marketplace-showcase">
+        
+        <div class="filter-tabs">
+            <button class="tab-trigger active" id="btn-debit" onclick="openTab(event, 'debit')">Дебетовые карты</button>
+            <button class="tab-trigger" id="btn-credit" onclick="openTab(event, 'credit')">Кредитные карты</button>
+            <button class="tab-trigger" id="btn-biz-reg" onclick="openTab(event, 'biz-reg')">Регистрация бизнеса (ИП)</button>
+            <button class="tab-trigger" id="btn-rko-accounts" onclick="openTab(event, 'rko-accounts')">Расчетные счета для бизнеса</button>
+        </div>
+
+        <!-- ТАБ: ДЕБЕТОВЫЕ КАРТЫ -->
         <div id="debit" class="products-grid active">
-            
             <!-- Альфа Банк — Апельсиновая Карта -->
-            <div class="product-card" style="border-color: rgba(239, 68, 68, 0.15);" onmouseover="this.style.borderColor='rgba(239, 68, 68, 0.35)'" onmouseout="this.style.borderColor='var(--border-color)'">
+            <div class="product-card card-alfa" style="border-color: rgba(239, 68, 68, 0.15);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #ef4444; color: #fff;">Альфа</div>
                 </div>
@@ -553,13 +731,13 @@
                     <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Переводы и ЖКХ</span></div>
                 </div>
                 <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/1qzp8a3ynefyx/1ljh7dly2nbu6/?partner=185269&erid=2SDnje8NTj8&platform_id=38227" target="_blank" class="btn-action">Оформить заявку</a>
+                    <a href="https://u-cpa.ru/offer/rs/1qzp8a3ynefyx/1ljh7dly2nbu6/?partner=185269&erid=2SDnjche8NTj8&platform_id=38227" target="_blank" class="btn-action">Оформить заявку</a>
                     <span class="cta-note">На сайте uralsib.ru</span>
                 </div>
             </div>
 
             <!-- Т-Банк — Аромакарта Black -->
-            <div class="product-card" style="border-color: rgba(250, 204, 21, 0.15);" onmouseover="this.style.borderColor='rgba(250, 204, 21, 0.35)'" onmouseout="this.style.borderColor='var(--border-color)'">
+            <div class="product-card card-tbank">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Т-Банк</div>
                 </div>
@@ -626,7 +804,7 @@
                     <span class="cta-note">На сайте rshb.ru</span>
                 </div>
             </div>
-
+            
             <!-- УБРиР Банк — Моя Жизнь -->
             <div class="product-card" style="border-color: rgba(179, 0, 70, 0.15);" onmouseover="this.style.borderColor='rgba(179, 0, 70, 0.35)'" onmouseout="this.style.borderColor='var(--border-color)'">
                 <div class="brand-zone">
@@ -649,32 +827,140 @@
                     <span class="cta-note">На сайте ubrr.ru</span>
                 </div>
             </div>
+        </div> <!-- Закрыли тег дебетовых карт правильно! -->
 
-        </div>
-
-        <!-- ==========================================================================
-             ТАБ: КРЕДИТНЫЕ КАРТЫ (СЮДА БУДЕМ ДОБАВЛЯТЬ НОВЫЕ)
-             ========================================================================== -->
+        <!-- ТАБ: КРЕДИТНЫЕ КАРТЫ -->
         <div id="credit" class="products-grid">
-            <!-- Сюда мы вставим твои кредитки -->
+            <div class="product-card card-alfa">
+                <div class="brand-zone">
+                    <div class="brand-avatar" style="background: #ef4444; color: #fff;">Альфа</div>
+                </div>
+                <div class="meta-zone">
+                    <div class="meta-badges">
+                        <span class="meta-tag tag-premium">Рекомендация</span>
+                    </div>
+                    <div class="product-name">Кредитная карта «365 дней» от Альфа-Банка</div>
+                    <div class="legal-info">АО «Альфа-Банк». Лиц. ЦБ РФ №1326</div>
+                </div>
+                <div class="specs-zone">
+                    <div class="spec-cell"><span class="spec-value">365 дней</span><span class="spec-title">Без процентов</span></div>
+                    <div class="spec-cell"><span class="spec-value">До 1 млн ₽</span><span class="spec-title">Лимит кредита</span></div>
+                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Первый год</span></div>
+                </div>
+                <div class="cta-zone">
+                    <a href="#" target="_blank" class="btn-action">Оформить заявку</a>
+                    <span class="cta-note">На сайте alfabank.ru</span>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <!-- Простой скрипт для переключения вкладок -->
+        <!-- ТАБ: РЕГИСТРАЦИЯ БИЗНЕСА -->
+        <div id="biz-reg" class="products-grid">
+            <div class="product-card card-tbank">
+                <div class="brand-zone">
+                    <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Т-Банк</div>
+                </div>
+                <div class="meta-zone">
+                    <div class="meta-badges">
+                        <span class="meta-tag tag-business">Быстрый старт</span>
+                    </div>
+                    <div class="product-name">Онлайн-регистрация ИП от Т-Банка</div>
+                    <div class="legal-info">АО «ТБанк». Лиц. ЦБ РФ №2673</div>
+                </div>
+                <div class="specs-zone">
+                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Госпошлина</span></div>
+                    <div class="spec-cell"><span class="spec-value">100% Онлайн</span><span class="spec-title">Формат подачи</span></div>
+                    <div class="spec-cell"><span class="spec-value">Без визита</span><span class="spec-title">В налоговую и ФНС</span></div>
+                </div>
+                <div class="cta-zone">
+                    <a href="#" target="_blank" class="btn-action">Зарегистрировать</a>
+                    <span class="cta-note">На сайте tbank.ru</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ТАБ: РАСЧЕТНЫЕ СЧЕТА -->
+        <div id="rko-accounts" class="products-grid">
+            <div class="product-card card-tbank">
+                <div class="brand-zone">
+                    <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Т-Банк</div>
+                </div>
+                <div class="meta-zone">
+                    <div class="meta-badges">
+                        <span class="meta-tag tag-premium">Выбор бизнеса</span>
+                    </div>
+                    <div class="product-name">Расчетно-кассовое обеспечение (РКО) от Т-Банка</div>
+                    <div class="legal-info">АО «ТБанк». Лиц. ЦБ РФ №2673</div>
+                </div>
+                <div class="specs-zone">
+                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Открытие счета</span></div>
+                    <div class="spec-cell"><span class="spec-value">До 4 мес.</span><span class="spec-title">Бесплатно</span></div>
+                    <div class="spec-cell"><span class="spec-value">Личный кабинет</span><span class="spec-title">Экосистема B2B</span></div>
+                </div>
+                <div class="cta-zone">
+                    <a href="#" target="_blank" class="btn-action">Открыть счет</a>
+                    <span class="cta-note">На сайте tbank.ru</span>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-wrap">
+                <div class="disclaimer-text">
+                    <p><strong>Правовое раскрытие информации:</strong> Электронный ресурс FinNavigate функционирует как независимый информационно-аналитический агрегатор. Проект осуществляет мониторинг, структурирование и сравнение открытых коммерческих предложений финансового сектора. Ресурс не является кредитной организацией, банком, МФО, инвестиционной платформой или профессиональным участником рынка ценных бумаг. Портал не осуществляет сбор, обработку персональных данных, не взимает плату за информационные услуги и не заключает договоров кредитования/банковского обслуживания.</p>
+                    <p>Все права на зарегистрированные товарные знаки, графические логотипы и официальную символику банковских учреждений принадлежат их законным правообладателям. Оформление любых финансовых продуктов производится строго на официальных интернет-страницах соответствующих банков, имеющих действующие лицензии Центрального Банка Российской Федерации.</p>
+                </div>
+                <div class="footer-nav">
+                    <a href="#">Политика конфиденциальности</a>
+                    <a href="#">Пользовательское соглашение</a>
+                    <a href="#">Раскрытие информации</a>
+                    <a href="#">Контакты регуляторам</a>
+                </div>
+            </div>
+            <div class="bottom-bar">
+                <p>© 2026 FinNavigate. Все права защищены. Независимый аналитический мониторинг банковских рынков РФ.</p>
+            </div>
+        </footer>
+
+    </main>
+
     <script>
-        function switchTab(tabId) {
-            // Скрываем все сетки продуктов
-            document.querySelectorAll('.products-grid').forEach(grid => {
-                grid.classList.remove('active');
-            });
-            // Убираем активный статус у всех кнопок
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("products-grid");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab-trigger");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+            if (evt) {
+                evt.currentTarget.classList.add("active");
+            }
+        }
+
+        function triggerTabAndScroll(tabName) {
+            var targetButton = document.getElementById("btn-" + tabName);
+            openTab(null, tabName);
             
-            // Показываем нужный таб и делаем кнопку активной
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+            var tablinks = document.getElementsByClassName("tab-trigger");
+            for (var i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            if (targetButton) {
+                targetButton.classList.add("active");
+            }
+
+            var targetElement = document.getElementById("marketplace-showcase");
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
         }
     </script>
 </body>
