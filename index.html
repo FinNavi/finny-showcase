@@ -240,14 +240,18 @@
             padding: 6px;
         }
 
+        /* ТЕКСТОВАЯ ЗОНА ОФФЕРА — ЦЕНТРИРОВАНИЕ ДЛЯ ВСЕХ ВЕРСИЙ */
         .meta-zone {
             display: flex;
             flex-direction: column;
+            align-items: center; 
+            text-align: center;
             gap: 6px;
         }
 
         .meta-badges {
             display: flex;
+            justify-content: center;
             gap: 6px;
             margin-bottom: 2px;
         }
@@ -398,8 +402,9 @@
                 overflow: hidden;
             }
 
+            /* Текст остается отцентрированным внутри своей колонки */
             .product-card {
-                grid-template-columns: 100px 1.2fr 2fr 180px;
+                grid-template-columns: 100px 1.4fr 1.8fr 180px;
                 padding: 24px;
                 gap: 24px;
             }
@@ -451,7 +456,6 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <!-- Цвет тега изменен под цвет Альфа-Банка -->
                         <span class="meta-tag" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">Суперкэшбэк</span>
                     </div>
                     <div class="product-name">Апельсиновая карта от Альфа-Банка</div>
@@ -474,7 +478,6 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <!-- Цвет тега изменен под цвет ВТБ -->
                         <span class="meta-tag" style="background: rgba(0, 64, 133, 0.15); color: #38bdf8;">Надежный выбор</span>
                     </div>
                     <div class="product-name">Дебетовая карта МИР от ВТБ</div>
@@ -497,7 +500,6 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <!-- Цвет тега изменен под цвет ОТП -->
                         <span class="meta-tag" style="background: rgba(46, 125, 50, 0.15); color: #34d399;">Акция: 100% Кэшбэк</span>
                     </div>
                     <div class="product-name">Умная «ОТП Карта» МИР</div>
@@ -520,7 +522,6 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <!-- Цвет тега изменен под цвет БСПБ -->
                         <span class="meta-tag" style="background: rgba(0, 120, 166, 0.15); color: #0078a6;">Высокий доход</span>
                     </div>
                     <div class="product-name">Дебетовая карта МИР от Банка Санкт-Петербург</div>
@@ -543,7 +544,6 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <!-- Цвет тега изменен под цвет Ozon -->
                         <span class="meta-tag" style="background: rgba(0, 91, 255, 0.15); color: #005bff;">Макс. выгода</span>
                     </div>
                     <div class="product-name">Дебетовая Ozon Карта</div>
@@ -566,7 +566,6 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <!-- Цвет тега изменен под цвет МТС -->
                         <span class="meta-tag" style="background: rgba(255, 0, 0, 0.15); color: #ff0000;">Связь за 0 ₽</span>
                     </div>
                     <div class="product-name">Дебетовая карта «МТС Деньги» от МТС Банка</div>
@@ -589,7 +588,6 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <!-- Цвет тега изменен под цвет ПСБ -->
                         <span class="meta-tag" style="background: rgba(0, 90, 170, 0.15); color: #005aaa;">Приветственный бонус</span>
                     </div>
                     <div class="product-name">Дебетовая карта «Твой кешбэк» от ПСБ</div>
@@ -612,7 +610,6 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <!-- Цвет тега изменен под цвет Ак Барс -->
                         <span class="meta-tag" style="background: rgba(0, 168, 150, 0.15); color: #00a896;">Высокий процент</span>
                     </div>
                     <div class="product-name">Дебетовая карта «Ничего лишнего» от Ак Барс Банка</div>
@@ -635,7 +632,6 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <!-- Цвет тега изменен под цвет Фора-Банка -->
                         <span class="meta-tag" style="background: rgba(142, 68, 173, 0.15); color: #8e44ad;">Сезонный кэшбэк</span>
                     </div>
                     <div class="product-name">Дебетовая карта МИР «Все включено» от Фора-Банка</div>
@@ -658,7 +654,6 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <!-- Цвет тега изменен под цвет Уралсиб -->
                         <span class="meta-tag" style="background: rgba(0, 91, 170, 0.15); color: #005aaa;">Высокий процент</span>
                     </div>
                     <div class="product-name">Дебетовая карта «Прибыль» от Уралсиб Банка</div>
@@ -681,7 +676,6 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <!-- Цвет тега изменен под цвет Т-Банка -->
                         <span class="meta-tag" style="background: rgba(234, 179, 8, 0.15); color: #ca8a04;">Новинка: С ароматом</span>
                     </div>
                     <div class="product-name">Дебетовая Аромакарта Black от Т-Банка</div>
@@ -704,7 +698,6 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <!-- Цвет тега изменен под цвет Плати По Миру -->
                         <span class="meta-tag" style="background: rgba(124, 58, 237, 0.15); color: #8b5cf6;">Для зарубежных сервисов</span>
                     </div>
                     <div class="product-name">Виртуальная карта «Плати по миру» (USD)</div>
@@ -727,7 +720,6 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <!-- Цвет тега изменен под цвет РСХБ -->
                         <span class="meta-tag" style="background: rgba(46, 125, 50, 0.15); color: #34d399;">Для поездок</span>
                     </div>
                     <div class="product-name">Дебетовая карта UnionPay от Россельхозбанка</div>
@@ -750,7 +742,6 @@
                 </div>
                 <div class="meta-zone">
                     <div class="meta-badges">
-                        <!-- Цвет тега изменен под цвет УБРиР -->
                         <span class="meta-tag" style="background: rgba(179, 0, 70, 0.15); color: #b30046;">Кэшбэк на ЖКУ</span>
                     </div>
                     <div class="product-name">Дебетовая карта «Моя Жизнь» от УБРиР Банка</div>
@@ -851,7 +842,6 @@
                     <p><strong>Правовое раскрытие информации:</strong> Электронный ресурс FinNavigate функционирует как независимый информационно-аналитический агрегатор. Проект осуществляет мониторинг, структуру и сравнение открытых коммерческих предложений financial сектора. Ресурс не является кредитной организацией, банком, МФО, инвестиционной платформой или профессиональным участником рынка ценных бумаги. Портал не осуществляет сбор, обработку персональных данных, не взимает плату за информационные услуги и не заключает договоров кредитования/банковского обслуживания.</p>
                     <p>Все права на зарегистрированные товарные знаки, графические логотипы и официальную символику банковских учреждений принадлежат их законным правообладателям. Оформление любых финансовых продуктов производится строго на официальных интернет-страницах соответствующих банков, имеющих действующие лицензии Центрального Банка Российской Федерации.</p>
                 </div>
-                <!-- Блок ссылок footer-nav временно удален по запросу -->
             </div>
             <div class="bottom-bar">
                 <p>© 2026 FinNavigate. Все права защищены. Независимый аналитический мониторинг банковских рынков РФ.</p>
