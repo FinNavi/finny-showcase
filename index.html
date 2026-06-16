@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinNavigate — Аналитический маркетплейс финансовых продуктов</title>
     
+    <!-- ИКОНКА ВКЛАДКИ (Крупная, геометрически точная) -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231c2635'/><g fill='%23ffffff'><path d='M7 8h8v2.5h-5V13h4v2.5h-4V24H7V8z'/></g><g fill='%230284c7'><path d='M16 8h3l3 7.5V8h3v16h-3l-3-7.5V24h-3V8z'/></g></svg>">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -149,7 +150,7 @@
             line-height: 1.6;
         }
 
-        /* ТАБЫ / КАТЕГОРИИ — ПО УМОЛЧАНИЮ ДЛЯ МОБИЛЬНЫХ (Горизонтальный скролл) */
+        /* ТАБЫ / КАТЕГОРИИ — ПО УМОЛЧАНИЮ ДЛЯ МОБИЛЬНЫХ (Таблица/Сетка 2х2) */
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -158,45 +159,48 @@
         }
 
         .filter-tabs {
-            display: flex;
-            overflow-x: auto;
-            scrollbar-width: none;
-            -webkit-overflow-scrolling: touch;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 колонки */
             gap: 10px;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 16px;
+            padding-bottom: 20px;
             margin-bottom: 35px;
         }
 
-        .filter-tabs::-webkit-scrollbar {
-            display: none; /* Прячем дефолтный скроллбар */
-        }
-
         .tab-trigger {
-            flex: 0 0 auto;
-            background: transparent;
-            border: 1px solid transparent;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
             color: var(--text-muted);
-            padding: 10px 20px;
-            font-size: 14px;
+            padding: 12px 10px;
+            font-size: 13px;
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
             text-align: center;
             transition: all 0.2s ease;
-            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px; /* Чтобы текст в две строки не ломал высоту соседней кнопки */
         }
 
         .tab-trigger:hover {
             color: #fff;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .tab-trigger.active {
             background: rgba(2, 132, 199, 0.08);
-            border-color: rgba(2, 132, 199, 0.3);
+            border-color: rgba(2, 132, 199, 0.4);
             color: #fff;
         }
+
+        /* Чтобы сохранить нужный порядок (Дебетовые -> Рег.бизнеса -> Кредитные -> Расчетные),
+           я явно пропишу порядок flex/grid-item через order на мобильных */
+        #btn-debit { order: 1; }       /* Слева сверху */
+        #btn-biz-reg { order: 2; }     /* Справа сверху */
+        #btn-credit { order: 3; }      /* Слева снизу */
+        #btn-rko-accounts { order: 4; }/* Справа снизу */
 
         .products-grid {
             display: none;
@@ -395,7 +399,7 @@
             color: var(--text-dark);
         }
 
-        /* СТИЛИ ДЛЯ ОСТАЛЬНЫХ СРЕДНИХ ИЛИ МОБИЛЬНЫХ ЭКРАНОВ */
+        /* СТИЛИ ДЛЯ МОБИЛЬНЫХ ЭКРАНОВ (КОНТЕНТ КАРТОЧЕК) */
         @media (max-width: 480px) {
             .specs-zone { grid-template-columns: 1fr !important; }
             .spec-cell {
@@ -426,16 +430,22 @@
                 font-size: 17px;
             }
 
-            /* 3. Категории растягиваются по всей ширине на 4 равные колонки */
+            /* 3. Изменение сетки категорий: превращаем 2х2 в сплошную строку на 4 колонки */
             .filter-tabs {
-                display: grid; 
                 grid-template-columns: repeat(4, 1fr);
             }
             .tab-trigger {
                 padding: 12px 10px;
-                text-overflow: ellipsis;
-                overflow: hidden;
+                font-size: 14px;
+                background: transparent;
+                border: 1px solid transparent;
             }
+            
+            /* Сбрасываем мобильный кастомный порядок кнопок для десктопа */
+            #btn-debit { order: unset; }
+            #btn-credit { order: unset; }
+            #btn-biz-reg { order: unset; }
+            #btn-rko-accounts { order: unset; }
 
             /* Разметка карточек для десктопа (в одну строку) */
             .product-card {
@@ -481,6 +491,7 @@
 
     <main class="main-content" id="marketplace-showcase">
         
+        <!-- Сетка категорий (Таблица 2х2 на мобильных, 1х4 на десктопе) -->
         <div class="filter-tabs">
             <button class="tab-trigger active" id="btn-debit" onclick="openTab(event, 'debit')">Дебетовые карты</button>
             <button class="tab-trigger" id="btn-credit" onclick="openTab(event, 'credit')">Кредитные карты</button>
@@ -488,8 +499,10 @@
             <button class="tab-trigger" id="btn-rko-accounts" onclick="openTab(event, 'rko-accounts')">Расчетные счета для бизнеса</button>
         </div>
 
+        <!-- ТАБ: ДЕБЕТОВЫЕ КАРТЫ -->
         <div id="debit" class="products-grid active">
             
+            <!-- 1. Альфа Банк -->
             <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #ef4444; color: #fff;">Альфа-Банк</div>
@@ -512,6 +525,7 @@
                 </div>
             </div>
 
+            <!-- 2. ВТБ -->
             <div class="product-card" style="border-color: rgba(0, 64, 133, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #004085; color: #fff;">ВТБ Банк</div>
@@ -534,6 +548,7 @@
                 </div>
             </div>
 
+            <!-- 3. ОТП Банк -->
             <div class="product-card" style="border-color: rgba(52, 211, 153, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #2e7d32; color: #fff;">ОТП Банк</div>
@@ -556,6 +571,7 @@
                 </div>
             </div>
 
+            <!-- 4. Банк Санкт-Петербург -->
             <div class="product-card" style="border-color: rgba(0, 120, 166, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #0078a6; color: #fff;">Банк БСПБ</div>
@@ -578,6 +594,7 @@
                 </div>
             </div>
 
+            <!-- 5. Ozon Банк -->
             <div class="product-card" style="border-color: rgba(0, 91, 255, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #005bff; color: #fff;">Ozon Банк</div>
@@ -600,6 +617,7 @@
                 </div>
             </div>
 
+            <!-- 6. МТС Банк -->
             <div class="product-card" style="border-color: rgba(255, 0, 0, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #ff0000; color: #fff;">МТС Банк</div>
@@ -622,6 +640,7 @@
                 </div>
             </div>
 
+            <!-- 7. Промсвязьбанк -->
             <div class="product-card" style="border-color: rgba(0, 90, 170, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #005aaa; color: #fff;">ПСБ Банк</div>
@@ -644,6 +663,7 @@
                 </div>
             </div>
 
+            <!-- 8. Ак Барс Банк -->
             <div class="product-card" style="border-color: rgba(0, 168, 150, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #00a896; color: #fff;">Ак Барс</div>
@@ -666,6 +686,7 @@
                 </div>
             </div>
 
+            <!-- 9. ФОРА-БАНК -->
             <div class="product-card" style="border-color: rgba(142, 68, 173, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #8e44ad; color: #fff;">Фора-Банк</div>
@@ -688,6 +709,7 @@
                 </div>
             </div>
 
+            <!-- 10. Уралсиб Банк -->
             <div class="product-card" style="border-color: rgba(0, 91, 170, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #005aaa; color: #fff;">Уралсиб</div>
@@ -710,6 +732,7 @@
                 </div>
             </div>
 
+            <!-- 11. Т-Банк -->
             <div class="product-card" style="border-color: rgba(250, 204, 21, 0.35);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Т-Банк</div>
@@ -732,6 +755,7 @@
                 </div>
             </div>
 
+            <!-- 12. Плати по миру -->
             <div class="product-card" style="border-color: rgba(124, 58, 237, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #7c3aed; color: #fff;">Плати По Миру</div>
@@ -754,6 +778,7 @@
                 </div>
             </div>
 
+            <!-- 13. Россельхозбанк -->
             <div class="product-card" style="border-color: rgba(46, 125, 50, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #2e7d32; color: #fff;">РСХБ Банк</div>
@@ -776,6 +801,7 @@
                 </div>
             </div>
             
+            <!-- 14. УБРиР Банк -->
             <div class="product-card" style="border-color: rgba(179, 0, 70, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #b30046; color: #fff;">УБРиР Банк</div>
@@ -800,6 +826,7 @@
 
         </div>
 
+        <!-- ТАБ: КРЕДИТНЫЕ КАРТЫ -->
         <div id="credit" class="products-grid">
             <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
                 <div class="brand-zone">
@@ -824,6 +851,7 @@
             </div>
         </div>
 
+        <!-- ТАБ: РЕГИСТРАЦИЯ БИЗНЕСА -->
         <div id="biz-reg" class="products-grid">
             <div class="product-card" style="border-color: rgba(250, 204, 21, 0.35);">
                 <div class="brand-zone">
@@ -848,6 +876,7 @@
             </div>
         </div>
 
+        <!-- ТАБ: РАСЧЕТНЫЕ СЧЕТА -->
         <div id="rko-accounts" class="products-grid">
             <div class="product-card" style="border-color: rgba(250, 204, 21, 0.35);">
                 <div class="brand-zone">
@@ -875,7 +904,7 @@
         <footer>
             <div class="footer-wrap">
                 <div class="disclaimer-text">
-                    <p><strong>Правовое раскрытие информации:</strong> Электронный ресурс FinNavigate функционирует как независимый информационно-аналитический агрегатор. Проект осуществляет мониторинг, структуру и сравнение открытых коммерческих предложений финансового сектора. Ресурс не является кредитной организацией, банком, МФО, инвестиционной платформой или профессиональным участником рынка ценных бумаг. Портал не осуществляет сбор, обработку персональных данных, не взимает плату за информационные услуги и не заключает договоров кредитования/банковского обслуживания.</p>
+                    <p><strong>Правовое раскрытие информации:</strong> Электронный ресурс FinNavigate функционирует как независимый информационно-аналитический агрегатор. Проект осуществляет мониторинг, структуру и сравнение открытых коммерческих предложений financial-сектора. Ресурс не является кредитной организацией, банком, МФО, инвестиционной платформой или профессиональным участником рынка ценных бумаг. Портал не осуществляет сбор, обработку персональных данных, не взимает плату за информационные услуги и не заключает договоров кредитования/банковского обслуживания.</p>
                     <p>Все права на зарегистрированные товарные знаки, графические логотипы и официальную символику банковских учреждений принадлежат их законным правообладателям. Оформление любых финансовых продуктов производится строго на официальных интернет-страницах соответствующих банков, имеющих действующие лицензии Центрального Банка Российской Федерации.</p>
                 </div>
                 <div class="footer-nav">
