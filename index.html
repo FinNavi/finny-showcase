@@ -4,19 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinNavigate — Аналитический маркетплейс финансовых продуктов</title>
-
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231c2635'/><g fill='%23ffffff'><path d='M7 8h8v2.5h-5V13h4v2.5h-4V24H7V8z'/></g><g fill='%230284c7'><path d='M16 8h3l3 7.5V8h3v16h-3l-3-7.5V24h-3V8z'/></g></svg>">
     
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231c2635'/><g fill='%23ffffff'><path d='M7 8h8v2.5h-5V13h4v2.5h-4V24H7V8z'/></g><g fill='%230284c7'><path d='M16 8h3l3 7.5V8h3v16h-3l-3-7.5V24h-3V8z'/></g></svg>">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-main: #070a10;
-            /* Сделали внутренний фон карточек заметно светлее для мощного контраста */
             --bg-card: #1c2635;
             --bg-card-hover: #233043;
-            /* Слегка адаптировали границы под новый фон */
             --border-color: rgba(255, 255, 255, 0.1);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
@@ -47,7 +45,7 @@
             line-height: 1.5;
         }
 
-        /* НАВИГАЦИЯ */
+        /* НАВИГАЦИЯ — ПО УМОЛЧАНИЮ ДЛЯ МОБИЛЬНЫХ (Центрировано) */
         header {
             background: rgba(7, 10, 16, 0.85);
             backdrop-filter: blur(16px);
@@ -60,25 +58,23 @@
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
+            display: flex;
+            flex-direction: column; /* На мобильных в колонку */
             align-items: center;
-            padding: 20px 24px;
+            gap: 12px;
+            padding: 16px 24px;
         }
 
         .logo-block {
-            grid-column: 2;
             display: flex;
             align-items: center;
-            justify-content: center;
         }
 
         .logo-text {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
             letter-spacing: -0.5px;
             color: #fff;
-            text-align: center;
             transition: transform 0.2s ease;
         }
 
@@ -91,9 +87,7 @@
         }
 
         .header-badge-wrap {
-            grid-column: 3;
             display: flex;
-            justify-content: flex-end;
         }
 
         .header-badge {
@@ -126,30 +120,36 @@
             100% { transform: scale(0.95); opacity: 0.5; }
         }
 
-        /* ГЛАВНЫЙ БЛОК */
+        /* ГЛАВНЫЙ БЛОК — ДЛЯ ВСЕХ ВЕРСИЙ (Центрировано и растянуто) */
         .hero-section {
             max-width: 1200px;
-            margin: 50px auto 40px;
+            margin: 40px auto 40px;
             padding: 0 24px;
-            text-align: left;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .hero-section h1 {
-            font-size: 40px;
+            font-size: 28px;
             font-weight: 800;
             letter-spacing: -1px;
-            margin-bottom: 12px;
-            line-height: 1.15;
-            max-width: 800px;
+            margin-bottom: 16px;
+            line-height: 1.2;
+            width: 100%;
+            max-width: 1000px;
         }
 
         .hero-section p {
             color: var(--text-muted);
-            font-size: 16px;
-            max-width: 650px;
+            font-size: 15px;
+            width: 100%;
+            max-width: 850px;
+            line-height: 1.6;
         }
 
-        /* ТАБЫ */
+        /* ТАБЫ / КАТЕГОРИИ — ПО УМОЛЧАНИЮ ДЛЯ МОБИЛЬНЫХ (Горизонтальный скролл) */
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -159,18 +159,21 @@
 
         .filter-tabs {
             display: flex;
-            gap: 8px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 16px;
-            margin-bottom: 30px;
             overflow-x: auto;
             scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+            margin-bottom: 35px;
         }
 
-        .filter-tabs::-webkit-scrollbar { display: none; }
+        .filter-tabs::-webkit-scrollbar {
+            display: none; /* Прячем дефолтный скроллбар */
+        }
 
         .tab-trigger {
+            flex: 0 0 auto;
             background: transparent;
             border: 1px solid transparent;
             color: var(--text-muted);
@@ -179,8 +182,9 @@
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
-            white-space: nowrap;
+            text-align: center;
             transition: all 0.2s ease;
+            white-space: nowrap;
         }
 
         .tab-trigger:hover {
@@ -215,21 +219,14 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 24px;
+            padding: 20px;
             display: grid;
-            grid-template-columns: 100px 1.2fr 2fr 180px;
+            grid-template-columns: 1fr;
             align-items: center;
-            gap: 24px;
+            gap: 16px;
             position: relative;
             transition: all 0.25s ease;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .product-card:hover {
-            background: var(--bg-card-hover);
-            transform: translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
         }
 
         .brand-zone {
@@ -240,8 +237,8 @@
         }
 
         .brand-avatar {
-            width: 80px;
-            height: 80px;
+            width: 100%;
+            height: 40px;
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -286,7 +283,7 @@
 
         .legal-info {
             font-size: 12px;
-            color: #8292a6; /* Сделали текст лицензий чуть светлее для читаемости на новом фоне */
+            color: #8292a6;
         }
 
         /* ХАРАКТЕРИСТИКИ */
@@ -294,7 +291,7 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
-            background: rgba(0, 0, 0, 0.35); /* Сделали подложку характеристик глубже, чтобы она выделялась внутри карточки */
+            background: rgba(0, 0, 0, 0.35);
             padding: 14px 18px;
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.03);
@@ -360,8 +357,8 @@
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 3fr 1fr;
-            gap: 60px;
+            grid-template-columns: 1fr;
+            gap: 40px;
             font-size: 12px;
             color: var(--text-dark);
             line-height: 1.6;
@@ -375,7 +372,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            align-items: flex-end;
+            align-items: flex-start;
         }
 
         .footer-nav a {
@@ -398,98 +395,67 @@
             color: var(--text-dark);
         }
 
-        /* АДАПТИВ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ */
-        @media (max-width: 1024px) {
-            .nav-container {
-                grid-template-columns: 1fr;
-                justify-items: center;
-                gap: 10px;
-                padding: 16px;
-            }
-            .logo-block { grid-column: 1; }
-            .logo-text { font-size: 22px; }
-            .header-badge-wrap {
-                grid-column: 1;
-                justify-content: center;
-                width: 100%;
-            }
-            .header-badge {
-                font-size: 12px;
-                padding: 5px 12px;
-            }
-            .hero-section {
-                margin: 30px auto 20px;
-                padding: 0 16px;
-            }
-            .hero-section h1 { font-size: 28px; }
-            .main-content { padding: 0 16px; }
-            
-            .products-grid {
-                gap: 16px;
-            }
-
-            .product-card {
-                grid-template-columns: 1fr !important;
-                gap: 16px;
-                padding: 18px;
-                background: linear-gradient(145deg, #1c2635, #161e2b);
-            }
-
-            .brand-zone {
-                width: 100%;
-                display: block;
-            }
-
-            .brand-avatar {
-                width: 100% !important;
-                height: 40px !important;
-                border-radius: 8px !important;
-                font-size: 13px !important;
-                font-weight: 700 !important;
-                text-transform: uppercase;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 0 12px;
-                box-shadow: none;
-            }
-            
-            .specs-zone {
-                grid-template-columns: repeat(3, 1fr) !important;
-                padding: 12px;
-                gap: 8px;
-            }
-            .spec-value { font-size: 13px; }
-            .spec-title { font-size: 9px; }
-
-            .btn-action {
-                padding: 14px 16px;
-                font-size: 15px;
-            }
-
-            .footer-wrap {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-            .footer-nav { align-items: flex-start; }
-        }
-
+        /* СТИЛИ ДЛЯ ОСТАЛЬНЫХ СРЕДНИХ ИЛИ МОБИЛЬНЫХ ЭКРАНОВ */
         @media (max-width: 480px) {
-            .specs-zone {
-                grid-template-columns: 1fr !important;
-                text-align: left;
-            }
+            .specs-zone { grid-template-columns: 1fr !important; }
             .spec-cell {
                 flex-direction: row;
                 justify-content: space-between;
                 border-bottom: 1px solid rgba(255,255,255,0.04);
                 padding-bottom: 6px;
-                margin-bottom: 2px;
             }
-            .spec-cell:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
-            .spec-title { order: 1; }
-            .spec-value { order: 2; }
-            .logo-text { font-size: 20px; }
+        }
+
+        /* ДЕСКТОПНАЯ ВЕРСИЯ (Применяется только на экранах шире 1024px) */
+        @media (min-width: 1025px) {
+            /* 1. Логотип влево, бэдж вправо */
+            .nav-container {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 20px 24px;
+            }
+            
+            /* 2. Текст главного блока раскрывается крупнее */
+            .hero-section {
+                margin: 60px auto 50px;
+            }
+            .hero-section h1 {
+                font-size: 42px;
+            }
+            .hero-section p {
+                font-size: 17px;
+            }
+
+            /* 3. Категории растягиваются по всей ширине на 4 равные колонки */
+            .filter-tabs {
+                display: grid; 
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .tab-trigger {
+                padding: 12px 10px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
+            /* Разметка карточек для десктопа (в одну строку) */
+            .product-card {
+                grid-template-columns: 100px 1.2fr 2fr 180px;
+                padding: 24px;
+                gap: 24px;
+            }
+            .brand-avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 11px;
+                padding: 6px;
+            }
+            .footer-wrap {
+                grid-template-columns: 3fr 1fr;
+                gap: 60px;
+            }
+            .footer-nav {
+                align-items: flex-end;
+            }
         }
     </style>
 </head>
@@ -522,10 +488,8 @@
             <button class="tab-trigger" id="btn-rko-accounts" onclick="openTab(event, 'rko-accounts')">Расчетные счета для бизнеса</button>
         </div>
 
-        <!-- ТАБ: ДЕБЕТОВЫЕ КАРТЫ -->
         <div id="debit" class="products-grid active">
             
-            <!-- 1. Альфа Банк -->
             <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #ef4444; color: #fff;">Альфа-Банк</div>
@@ -548,7 +512,6 @@
                 </div>
             </div>
 
-            <!-- 2. ВТБ -->
             <div class="product-card" style="border-color: rgba(0, 64, 133, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #004085; color: #fff;">ВТБ Банк</div>
@@ -571,7 +534,6 @@
                 </div>
             </div>
 
-            <!-- 3. ОТП Банк -->
             <div class="product-card" style="border-color: rgba(52, 211, 153, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #2e7d32; color: #fff;">ОТП Банк</div>
@@ -594,7 +556,6 @@
                 </div>
             </div>
 
-            <!-- 4. Банк Санкт-Петербург (БСПБ) -->
             <div class="product-card" style="border-color: rgba(0, 120, 166, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #0078a6; color: #fff;">Банк БСПБ</div>
@@ -617,7 +578,6 @@
                 </div>
             </div>
 
-            <!-- 5. Ozon Банк -->
             <div class="product-card" style="border-color: rgba(0, 91, 255, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #005bff; color: #fff;">Ozon Банк</div>
@@ -640,7 +600,6 @@
                 </div>
             </div>
 
-            <!-- 6. МТС Банк -->
             <div class="product-card" style="border-color: rgba(255, 0, 0, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #ff0000; color: #fff;">МТС Банк</div>
@@ -663,7 +622,6 @@
                 </div>
             </div>
 
-            <!-- 7. Промсвязьбанк -->
             <div class="product-card" style="border-color: rgba(0, 90, 170, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #005aaa; color: #fff;">ПСБ Банк</div>
@@ -686,7 +644,6 @@
                 </div>
             </div>
 
-            <!-- 8. Ак Барс Банк -->
             <div class="product-card" style="border-color: rgba(0, 168, 150, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #00a896; color: #fff;">Ак Барс</div>
@@ -709,7 +666,6 @@
                 </div>
             </div>
 
-            <!-- 9. ФОРА-БАНК -->
             <div class="product-card" style="border-color: rgba(142, 68, 173, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #8e44ad; color: #fff;">Фора-Банк</div>
@@ -732,7 +688,6 @@
                 </div>
             </div>
 
-            <!-- 10. Уралсиб Банк -->
             <div class="product-card" style="border-color: rgba(0, 91, 170, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #005aaa; color: #fff;">Уралсиб</div>
@@ -755,7 +710,6 @@
                 </div>
             </div>
 
-            <!-- 11. Т-Банк -->
             <div class="product-card" style="border-color: rgba(250, 204, 21, 0.35);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Т-Банк</div>
@@ -778,7 +732,6 @@
                 </div>
             </div>
 
-            <!-- 12. Плати по миру -->
             <div class="product-card" style="border-color: rgba(124, 58, 237, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #7c3aed; color: #fff;">Плати По Миру</div>
@@ -801,7 +754,6 @@
                 </div>
             </div>
 
-            <!-- 13. Россельхозбанк -->
             <div class="product-card" style="border-color: rgba(46, 125, 50, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #2e7d32; color: #fff;">РСХБ Банк</div>
@@ -824,7 +776,6 @@
                 </div>
             </div>
             
-            <!-- 14. УБРиР Банк -->
             <div class="product-card" style="border-color: rgba(179, 0, 70, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #b30046; color: #fff;">УБРиР Банк</div>
@@ -849,7 +800,6 @@
 
         </div>
 
-        <!-- ТАБ: КРЕДИТНЫЕ КАРТЫ -->
         <div id="credit" class="products-grid">
             <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
                 <div class="brand-zone">
@@ -874,7 +824,6 @@
             </div>
         </div>
 
-        <!-- ТАБ: РЕГИСТРАЦИЯ БИЗНЕСА -->
         <div id="biz-reg" class="products-grid">
             <div class="product-card" style="border-color: rgba(250, 204, 21, 0.35);">
                 <div class="brand-zone">
@@ -899,7 +848,6 @@
             </div>
         </div>
 
-        <!-- ТАБ: РАСЧЕТНЫЕ СЧЕТА -->
         <div id="rko-accounts" class="products-grid">
             <div class="product-card" style="border-color: rgba(250, 204, 21, 0.35);">
                 <div class="brand-zone">
@@ -927,7 +875,7 @@
         <footer>
             <div class="footer-wrap">
                 <div class="disclaimer-text">
-                    <p><strong>Правовое раскрытие информации:</strong> Электронный ресурс FinNavigate функционирует как независимый информационно-аналитический агрегатор. Проект осуществляет мониторинг, структурирование и сравнение открытых коммерческих предложений финансового сектора. Ресурс не является кредитной организацией, банком, МФО, инвестиционной платформой или профессиональным участником рынка ценных бумаг. Портал не осуществляет сбор, обработку персональных данных, не взимает плату за информационные услуги и не заключает договоров кредитования/банковского обслуживания.</p>
+                    <p><strong>Правовое раскрытие информации:</strong> Электронный ресурс FinNavigate функционирует как независимый информационно-аналитический агрегатор. Проект осуществляет мониторинг, структуру и сравнение открытых коммерческих предложений финансового сектора. Ресурс не является кредитной организацией, банком, МФО, инвестиционной платформой или профессиональным участником рынка ценных бумаг. Портал не осуществляет сбор, обработку персональных данных, не взимает плату за информационные услуги и не заключает договоров кредитования/банковского обслуживания.</p>
                     <p>Все права на зарегистрированные товарные знаки, графические логотипы и официальную символику банковских учреждений принадлежат их законным правообладателям. Оформление любых финансовых продуктов производится строго на официальных интернет-страницах соответствующих банков, имеющих действующие лицензии Центрального Банка Российской Федерации.</p>
                 </div>
                 <div class="footer-nav">
