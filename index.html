@@ -20,7 +20,6 @@
             --text-muted: #94a3b8;
             --text-dark: #64748b;
             --primary: #0284c7;
-            --primary-hover: #0369a1;
             --success: #10b981;
         }
 
@@ -45,7 +44,7 @@
             line-height: 1.5;
         }
 
-        /* НАВИГАЦИЯ — ПО УМОЛЧАНИЮ ДЛЯ МОБИЛЬНЫХ (Центрировано) */
+        /* НАВИГАЦИЯ */
         header {
             background: rgba(7, 10, 16, 0.85);
             backdrop-filter: blur(16px);
@@ -59,7 +58,7 @@
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            flex-direction: column; /* На мобильных в команду */
+            flex-direction: column;
             align-items: center;
             gap: 12px;
             padding: 16px 24px;
@@ -120,7 +119,7 @@
             100% { transform: scale(0.95); opacity: 0.5; }
         }
 
-        /* ГЛАВНЫЙ БЛОК — ДЛЯ ВСЕХ ВЕРСИЙ (Центрировано и растянуто) */
+        /* ГЛАВНЫЙ БЛОК */
         .hero-section {
             max-width: 1200px;
             margin: 40px auto 40px;
@@ -149,7 +148,6 @@
             line-height: 1.6;
         }
 
-        /* ТАБЫ / КАТЕГОРИИ — ПО УМОЛЧАНИЮ ДЛЯ МОБИЛЬНЫХ (Горизонтальный скролл) */
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -157,44 +155,35 @@
             scroll-margin-top: 100px;
         }
 
+        /* ТАБЛИЦА КАТЕГОРИЙ ДЛЯ МОБИЛЬНЫХ (Сетка 2х2 по умолчанию) */
         .filter-tabs {
-            display: flex;
-            overflow-x: auto;
-            scrollbar-width: none;
-            -webkit-overflow-scrolling: touch;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 16px;
             margin-bottom: 35px;
         }
 
-        .filter-tabs::-webkit-scrollbar {
-            display: none; /* Прячем дефолтный скроллбар */
-        }
-
         .tab-trigger {
-            flex: 0 0 auto;
-            background: transparent;
-            border: 1px solid transparent;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
             color: var(--text-muted);
-            padding: 10px 20px;
-            font-size: 14px;
+            padding: 12px 10px;
+            font-size: 13px;
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
             text-align: center;
             transition: all 0.2s ease;
-            white-space: nowrap;
         }
 
         .tab-trigger:hover {
             color: #fff;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.06);
         }
 
         .tab-trigger.active {
-            background: rgba(2, 132, 199, 0.08);
-            border-color: rgba(2, 132, 199, 0.3);
+            background: rgba(2, 132, 199, 0.12);
+            border-color: rgba(2, 132, 199, 0.4);
             color: #fff;
         }
 
@@ -394,7 +383,7 @@
             color: var(--text-dark);
         }
 
-        /* СТИЛИ ДЛЯ ОСТАЛЬНЫХ СРЕДНИХ ИЛИ МОБИЛЬНЫХ ЭКРАНОВ */
+        /* ДЛЯ МОБИЛЬНЫХ ЭКРАНОВ */
         @media (max-width: 480px) {
             .specs-zone { grid-template-columns: 1fr !important; }
             .spec-cell {
@@ -405,16 +394,14 @@
             }
         }
 
-        /* ДЕСКТОПНАЯ ВЕРСИЯ (Применяется только на экранах шире 1024px) */
+        /* ДЕСКТОПНАЯ ВЕРСИЯ */
         @media (min-width: 1025px) {
-            /* 1. Логотип влево, бэдж вправо */
             .nav-container {
                 flex-direction: row;
                 justify-content: space-between;
                 padding: 20px 24px;
             }
             
-            /* 2. Текст главного блока раскрывается крупнее */
             .hero-section {
                 margin: 60px auto 50px;
             }
@@ -425,9 +412,8 @@
                 font-size: 17px;
             }
 
-            /* 3. Категории растягиваются по всей ширине на 4 равные колонки */
+            /* На десктопе категории выстраиваются в одну ровную строку */
             .filter-tabs {
-                display: grid; 
                 grid-template-columns: repeat(4, 1fr);
             }
             .tab-trigger {
@@ -436,7 +422,6 @@
                 overflow: hidden;
             }
 
-            /* Разметка карточек для десктопа (в одну строку) */
             .product-card {
                 grid-template-columns: 100px 1.2fr 2fr 180px;
                 padding: 24px;
@@ -480,13 +465,15 @@
 
     <main class="main-content" id="marketplace-showcase">
         
+        <!-- КАТЕГОРИИ 2х2 НА МОБИЛЬНЫХ -->
         <div class="filter-tabs">
             <button class="tab-trigger active" id="btn-debit" onclick="openTab(event, 'debit')">Дебетовые карты</button>
             <button class="tab-trigger" id="btn-credit" onclick="openTab(event, 'credit')">Кредитные карты</button>
-            <button class="tab-trigger" id="btn-biz-reg" onclick="openTab(event, 'biz-reg')">Регистрация бизнеса (ИП)</button>
-            <button class="tab-trigger" id="btn-rko-accounts" onclick="openTab(event, 'rko-accounts')">Расчетные счета для бизнеса</button>
+            <button class="tab-trigger" id="btn-biz-reg" onclick="openTab(event, 'biz-reg')">Регистрация ИП</button>
+            <button class="tab-trigger" id="btn-rko-accounts" onclick="openTab(event, 'rko-accounts')">РКО для бизнеса</button>
         </div>
 
+        <!-- ДЕБЕТОВЫЕ КАРТЫ -->
         <div id="debit" class="products-grid active">
             
             <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
@@ -799,6 +786,7 @@
 
         </div>
 
+        <!-- КРЕДИТНЫЕ КАРТЫ -->
         <div id="credit" class="products-grid">
             <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
                 <div class="brand-zone">
@@ -823,6 +811,7 @@
             </div>
         </div>
 
+        <!-- РЕГИСТРАЦИЯ ИП -->
         <div id="biz-reg" class="products-grid">
             <div class="product-card" style="border-color: rgba(250, 204, 21, 0.35);">
                 <div class="brand-zone">
@@ -847,6 +836,7 @@
             </div>
         </div>
 
+        <!-- РКО ДЛЯ БИЗНЕСА -->
         <div id="rko-accounts" class="products-grid">
             <div class="product-card" style="border-color: rgba(250, 204, 21, 0.35);">
                 <div class="brand-zone">
@@ -871,6 +861,7 @@
             </div>
         </div>
 
+        <!-- ПОДВАЛ -->
         <footer>
             <div class="footer-wrap">
                 <div class="disclaimer-text">
