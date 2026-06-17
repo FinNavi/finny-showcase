@@ -473,11 +473,10 @@
         <div class="filter-tabs">
             <button class="tab-trigger active" id="btn-debit" onclick="openTab(event, 'debit')">Дебетовые карты</button>
             <button class="tab-trigger" id="btn-credit" onclick="openTab(event, 'credit')">Кредитные карты</button>
-            <button class="tab-trigger" id="btn-biz-reg" onclick="openTab(event, 'biz-reg')">Регистрация ИП</button>
-            <button class="tab-trigger" id="btn-rko-accounts" onclick="openTab(event, 'rko-accounts')">РКО для бизнеса</button>
+            <button class="tab-trigger" id="btn-biz-reg" onclick="openTab(event, 'business-registration')">Регистрация бизнеса</button>
+            <button class="tab-trigger" id="btn-checking-accounts" onclick="openTab(event, 'checking-accounts')">Расчетные счета</button>
         </div>
 
-        <!-- ДЕБЕТОВЫЕ КАРТЫ -->
         <div id="debit" class="products-grid active">
             
             <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
@@ -634,7 +633,6 @@
                 </div>
             </div>
 
-            <!-- ОБНОВЛЕННАЯ ССЫЛКА ДЛЯ АК БАРС БАНКА -->
             <div class="product-card" style="border-color: rgba(0, 168, 150, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #00a896; color: #fff;">Ак Барс</div>
@@ -701,7 +699,7 @@
                 </div>
             </div>
 
-            <div class="product-card" style="border-color: rgba(250, 204, 21, 0.35);">
+            <div class="product-card" style="border-color: rgba(255, 204, 21, 0.35);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Т-Банк</div>
                 </div>
@@ -791,10 +789,8 @@
 
         </div>
 
-        <!-- КРЕДИТНЫЕ КАРТЫ -->
         <div id="credit" class="products-grid">
             
-            <!-- ЯНДЕКС БАНК -->
             <div class="product-card" style="border-color: rgba(252, 186, 3, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #000000; color: #fcba03; font-weight: bold;">Яндекс</div>
@@ -817,7 +813,6 @@
                 </div>
             </div>
             
-            <!-- ВТБ -->
             <div class="product-card" style="border-color: rgba(0, 64, 133, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #004085; color: #fff;">ВТБ</div>
@@ -840,7 +835,6 @@
                 </div>
             </div>
 
-            <!-- ОТП БАНК -->
             <div class="product-card" style="border-color: rgba(46, 125, 50, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #2e7d32; color: #fff;">ОТП</div>
@@ -863,7 +857,6 @@
                 </div>
             </div>
 
-            <!-- АЛЬФА-БАНК -->
             <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #ef4444; color: #fff;">Альфа</div>
@@ -886,7 +879,6 @@
                 </div>
             </div>
 
-            <!-- РЕНЕССАНС БАНК -->
             <div class="product-card" style="border-color: rgba(141, 19, 54, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #8d1336; color: #fff;">Ренессанс</div>
@@ -909,7 +901,6 @@
                 </div>
             </div>
 
-            <!-- Т-БАНК -->
             <div class="product-card" style="border-color: rgba(51, 65, 85, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #334155; color: #fff;">Т-Банк</div>
@@ -932,7 +923,6 @@
                 </div>
             </div>
 
-            <!-- СОВКОМБАНК (ХАЛВА) -->
             <div class="product-card" style="border-color: rgba(0, 57, 166, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: linear-gradient(135deg, #ff4e00, #0039a6); color: #fff;">Совком</div>
@@ -955,7 +945,6 @@
                 </div>
             </div>
 
-            <!-- УРАЛСИБ БАНК -->
             <div class="product-card" style="border-color: rgba(0, 82, 157, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #0052fd; color: #fff;">Уралсиб</div>
@@ -978,7 +967,6 @@
                 </div>
             </div>
 
-            <!-- БАНК ЗЕНИТ -->
             <div class="product-card" style="border-color: rgba(0, 102, 102, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #006666; color: #fff;">Зенит</div>
@@ -1001,7 +989,6 @@
                 </div>
             </div>
 
-            <!-- АК БАРС БАНК -->
             <div class="product-card" style="border-color: rgba(0, 149, 116, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #009574; color: #fff;">Ак Барс</div>
@@ -1024,7 +1011,6 @@
                 </div>
             </div>
 
-            <!-- ЗАЙМЕР (ВИРТУАЛЬНАЯ КАРТА) -->
             <div class="product-card" style="border-color: rgba(101, 163, 13, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #65a30d; color: #fff;">Займер</div>
@@ -1047,7 +1033,6 @@
                 </div>
             </div>
 
-            <!-- СБЕРБАНК -->
             <div class="product-card" style="border-color: rgba(22, 163, 74, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #16a34a; color: #fff;">Сбер</div>
@@ -1070,7 +1055,6 @@
                 </div>
             </div>
 
-            <!-- КРЕДИТ ЕВРОПА БАНК -->
             <div class="product-card" style="border-color: rgba(0, 44, 119, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #002c77; color: #fff;">КЕБ</div>
@@ -1093,7 +1077,6 @@
                 </div>
             </div>
 
-            <!-- БАНК РУССКИЙ СТАНДАРТ -->
             <div class="product-card" style="border-color: rgba(122, 12, 38, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #7a0c26; color: #fff;">РС</div>
@@ -1116,7 +1099,6 @@
                 </div>
             </div>
 
-            <!-- РОССЕЛЬХОЗБАНК (РСХБ) -->
             <div class="product-card" style="border-color: rgba(0, 106, 54, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #006a36; color: #fff;">РСХБ</div>
@@ -1139,7 +1121,6 @@
                 </div>
             </div>
 
-            <!-- OZON БАНК -->
             <div class="product-card" style="border-color: rgba(0, 91, 255, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: linear-gradient(135deg, #005bff, #f011a6); color: #fff;">Ozon</div>
@@ -1163,10 +1144,8 @@
             </div>
         </div>
 
-        <!-- КАТЕГОРИЯ: РЕГИСТРАЦИЯ БИЗНЕСА -->
         <div id="business-registration" class="products-grid">
             
-            <!-- ВТБ — РЕГИСТРАЦИЯ БИЗНЕСА -->
             <div class="product-card" style="border-color: rgba(0, 64, 133, 0.3);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #004085; color: #fff;">ВТБ</div>
@@ -1189,7 +1168,6 @@
                 </div>
             </div>
 
-            <!-- БАНК САНКТ-ПЕТЕРБУРГ — РЕГИСТРАЦИЯ БИЗНЕСА -->
             <div class="product-card" style="border-color: rgba(0, 114, 187, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #0072bb; color: #fff;">БСПБ</div>
@@ -1212,7 +1190,6 @@
                 </div>
             </div>
 
-            <!-- АЛЬФА-БАНК — РЕГИСТРАЦИЯ БИЗНЕСА -->
             <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #ef4444; color: #fff;">Альфа</div>
@@ -1221,7 +1198,7 @@
                     <div class="meta-badges">
                         <span class="meta-tag" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">Идеально под НПД (Самозанятость)</span>
                     </div>
-                    <div class="product-name">Альфа-Банк — Регистрация ИП</div>
+                    <div class="product-name">Альфа-Банк — Регистрация бизнеса</div>
                     <div class="legal-info">АО «Альфа-Банк». Лиц. ЦБ РФ №1326</div>
                 </div>
                 <div class="specs-zone">
@@ -1237,8 +1214,7 @@
 
         </div>
 
-        <!-- РКО ДЛЯ БИЗНЕСА -->
-        <div id="rko-accounts" class="products-grid">
+        <div id="checking-accounts" class="products-grid">
             <div class="product-card" style="border-color: rgba(250, 204, 21, 0.35);">
                 <div class="brand-zone">
                     <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Т-Банк</div>
@@ -1262,7 +1238,6 @@
             </div>
         </div>
 
-        <!-- ПОДВАЛ -->
         <footer>
             <div class="footer-wrap">
                 <div class="disclaimer-text">
