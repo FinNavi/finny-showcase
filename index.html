@@ -1,1564 +1,714 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinNavigate — Аналитический маркетплейс финансовых продуктов</title>
-    
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231c2635'/><g fill='%23ffffff'><path d='M7 8h8v2.5h-5V13h4v2.5h-4V24H7V8z'/></g><g fill='%230284c7'><path d='M16 8h3l3 7.5V8h3v16h-3l-3-7.5V24h-3V8z'/></g></svg>">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinNavigate — независимый аналитический навигатор по банковским продуктам РФ</title>
+<meta name="description" content="FinNavigate сравнивает дебетовые и кредитные карты, расчётные счета и предложения по регистрации бизнеса от лицензированных банков России. Независимый мониторинг условий, ставок и кэшбэка.">
+<meta property="og:title" content="FinNavigate — аналитический навигатор по банковским продуктам">
+<meta property="og:description" content="Сравнение условий, ставок и кэшбэка лицензированных банков РФ в одном месте.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0e1512">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-main: #070a10;
-            --bg-card: #1c2635;
-            --bg-card-hover: #233043;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --text-dark: #64748b;
-            --primary: #0284c7;
-            --success: #10b981;
-        }
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230e1512'/><g fill='%23f6f2e7'><path d='M7 8h8v2.5h-5V13h4v2.5h-4V24H7V8z'/></g><g fill='%23c79a3d'><path d='M16 8h3l3 7.5V8h3v16h-3l-3-7.5V24h-3V8z'/></g></svg>">
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 
-        html {
-            scroll-behavior: smooth;
-        }
+<style>
+    :root {
+        /* ---- Токены ---- */
+        --vault: #0e1512;
+        --vault-2: #131b17;
+        --paper: #f6f2e7;
+        --paper-dim: #ece5d3;
+        --ink: #1a2420;
+        --ink-soft: #4b564f;
+        --brass: #c79a3d;
+        --brass-soft: rgba(199, 154, 61, 0.16);
+        --ledger-green: #2f8f5b;
+        --rule: rgba(246, 242, 231, 0.12);
+        --rule-strong: rgba(246, 242, 231, 0.22);
 
-        html, body {
-            max-width: 100%;
-            overflow-x: hidden;
-            position: relative;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            line-height: 1.5;
-        }
+        --font-display: 'Fraunces', serif;
+        --font-body: 'Inter', sans-serif;
+        --font-mono: 'IBM Plex Mono', monospace;
 
-        /* НАВИГАЦИЯ */
-        header {
-            background: rgba(7, 10, 16, 0.85);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        --content-max: 1180px;
+    }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 16px;
-        }
+    @media (min-width: 1300px) { :root { --content-max: 1360px; } }
+    @media (min-width: 1560px) { :root { --content-max: 1520px; } }
+    @media (min-width: 1900px) { :root { --content-max: 1680px; } }
 
-        .logo-block {
-            display: flex;
-            align-items: center;
-        }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+    html { scroll-behavior: smooth; }
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+        background: var(--vault);
+        color: var(--paper);
+        font-family: var(--font-body);
+        line-height: 1.5;
+    }
 
-        .logo-text {
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            color: #fff;
-            transition: transform 0.2s ease;
-            white-space: nowrap;
-        }
+    a { color: inherit; }
+    button { font-family: inherit; }
+    :focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
 
-        .logo-text span {
-            color: var(--primary);
-        }
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+    }
 
-        .logo-text:hover {
-            transform: scale(1.02);
-        }
+    /* ============ ШАПКА ============ */
+    header {
+        background: rgba(14, 21, 18, 0.92);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--rule);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
 
-        .header-badge-wrap {
-            display: flex;
-        }
+    .nav-container {
+        max-width: var(--content-max);
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 20px;
+    }
 
-        .header-badge {
-            background: rgba(16, 185, 129, 0.06);
-            color: var(--success);
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            border: 1px solid rgba(16, 185, 129, 0.12);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-        }
+    .logo-text {
+        font-family: var(--font-display);
+        font-size: 19px;
+        font-weight: 600;
+        letter-spacing: -0.2px;
+        color: var(--paper);
+        cursor: pointer;
+        white-space: nowrap;
+        border: none;
+        background: none;
+    }
+    .logo-text em { font-style: normal; color: var(--brass); }
 
-        .badge-dot {
-            width: 6px;
-            height: 6px;
-            background-color: var(--success);
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 10px var(--success);
-            animation: pulse 2s infinite;
-        }
+    .header-badge {
+        background: rgba(47, 143, 91, 0.1);
+        color: #6bd39a;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 500;
+        border: 1px solid rgba(47, 143, 91, 0.22);
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        white-space: nowrap;
+    }
 
-        @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 14px var(--success); }
-            100% { transform: scale(0.95); opacity: 0.5; }
-        }
+    .badge-dot {
+        width: 6px; height: 6px;
+        background-color: #6bd39a;
+        border-radius: 50%;
+        box-shadow: 0 0 8px #6bd39a;
+        animation: pulse 2.2s infinite;
+    }
+    @keyframes pulse {
+        0% { transform: scale(0.9); opacity: 0.5; }
+        50% { transform: scale(1.1); opacity: 1; }
+        100% { transform: scale(0.9); opacity: 0.5; }
+    }
 
-        /* ГЛАВНЫЙ БЛОК */
-        .hero-section {
-            max-width: 1200px;
-            margin: 24px auto 40px;
-            padding: 0 24px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    /* ============ ТИКЕР (сигнатурный элемент) ============ */
+    .ticker-strip {
+        border-bottom: 1px solid var(--rule);
+        background: var(--vault-2);
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+        z-index: 5;
+    }
+    .ticker-strip::before, .ticker-strip::after {
+        content: "";
+        position: absolute;
+        top: 0; bottom: 0; width: 40px; z-index: 2;
+    }
+    .ticker-strip::before { left: 0; background: linear-gradient(90deg, var(--vault-2), transparent); }
+    .ticker-strip::after { right: 0; background: linear-gradient(270deg, var(--vault-2), transparent); }
 
-        .hero-section h1 {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin-bottom: 16px;
-            line-height: 1.2;
-            width: 100%;
-            max-width: 1000px;
-        }
+    .ticker-track {
+        display: inline-flex;
+        gap: 40px;
+        padding: 10px 0;
+        animation: scroll-ticker 42s linear infinite;
+        font-family: var(--font-mono);
+        font-size: 12.5px;
+    }
+    .ticker-strip:hover .ticker-track { animation-play-state: paused; }
+    @keyframes scroll-ticker {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+    }
+    .ticker-item { color: var(--ink-soft); color: #9aa79f; display: inline-flex; gap: 8px; align-items: baseline; }
+    .ticker-item b { color: var(--brass); font-weight: 600; }
+    .ticker-sep { color: var(--rule-strong); }
 
-        .hero-section p {
-            color: var(--text-muted);
-            font-size: 15px;
-            width: 100%;
-            max-width: 850px;
-            line-height: 1.6;
-            text-align: center;
-        }
+    /* ============ ГЕРОЙ ============ */
+    .hero-section {
+        max-width: var(--content-max);
+        margin: 0 auto;
+        padding: 36px 20px 40px;
+    }
+    .hero-inner {
+        position: relative;
+    }
+    .hero-text { max-width: 100%; }
+    .hero-eyebrow {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--brass);
+        margin-bottom: 18px;
+        display: block;
+    }
+    .hero-section h1 {
+        font-family: var(--font-display);
+        font-size: 32px;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+        line-height: 1.15;
+        max-width: 720px;
+        margin-bottom: 18px;
+    }
+    .hero-section p {
+        color: #b7c0ba;
+        font-size: 15.5px;
+        max-width: 640px;
+        line-height: 1.65;
+    }
 
-        .hero-desc-line {
-            display: inline;
-        }
-        
-        .hero-desc-indent {
-            display: inline;
-        }
+    @media (min-width: 900px) {
+        .hero-section h1 { max-width: 680px; }
+        .hero-section p { max-width: 620px; }
+    }
+    @media (min-width: 1300px) {
+        .hero-section h1 { max-width: 780px; }
+        .hero-section p { max-width: 700px; }
+    }
+    @media (min-width: 1560px) {
+        .hero-section h1 { max-width: 840px; }
+        .hero-section p { max-width: 760px; }
+    }
+    @media (min-width: 1900px) {
+        .hero-section h1 { max-width: 940px; }
+        .hero-section p { max-width: 860px; }
+    }
 
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            scroll-margin-top: 100px;
-        }
+    /* Печать-эмблема — выровнена по границе табов «Регистрация бизнеса» / «Расчётные счета» (75% ширины) */
+    .hero-art {
+        display: none;
+        position: absolute;
+        left: 75%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .hero-emblem {
+        width: 220px;
+        height: 220px;
+        opacity: 0.92;
+        filter: drop-shadow(0 12px 26px rgba(0,0,0,0.45));
+    }
 
-        /* ТАБЛИЦА КАТЕГОРИЙ ДЛЯ МОБИЛЬНЫХ */
-        .filter-tabs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 35px;
-        }
+    .main-content {
+        max-width: var(--content-max);
+        margin: 0 auto;
+        padding: 0 20px 40px;
+        scroll-margin-top: 110px;
+    }
 
-        .tab-trigger {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 12px 10px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s ease;
-        }
+    /* ============ ТАБЫ (карточный указатель) ============ */
+    .filter-tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 32px;
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 0;
+    }
 
-        .tab-trigger:hover {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.06);
-        }
+    .tab-trigger {
+        background: transparent;
+        border: 1px solid var(--rule);
+        border-bottom: none;
+        color: #8e9994;
+        padding: 12px 10px;
+        font-size: 13px;
+        font-weight: 600;
+        border-radius: 10px 10px 0 0;
+        cursor: pointer;
+        text-align: center;
+        transition: color 0.15s ease, background-color 0.15s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+    }
+    .tab-trigger .tab-count {
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        background: var(--rule);
+        color: #b7c0ba;
+        padding: 1px 6px;
+        border-radius: 999px;
+    }
+    .tab-trigger:hover { color: var(--paper); background: rgba(255,255,255,0.03); }
+    .tab-trigger[aria-selected="true"] {
+        background: var(--paper);
+        color: var(--ink);
+        border-color: var(--paper);
+    }
+    .tab-trigger[aria-selected="true"] .tab-count { background: var(--brass-soft); color: #8a6417; }
 
-        .tab-trigger.active {
-            background: rgba(2, 132, 199, 0.12);
-            border-color: rgba(2, 132, 199, 0.4);
-            color: #fff;
-        }
+    .products-grid {
+        display: none;
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+    .products-grid.active {
+        display: grid;
+        animation: sheetUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes sheetUp {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-        .products-grid {
-            display: none;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
+    /* ============ КАРТОЧКА-ЛИСТ (paper on vault) ============ */
+    .product-card {
+        background: var(--paper);
+        color: var(--ink);
+        border-radius: 14px;
+        padding: 18px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        position: relative;
+        border: 1px solid var(--paper-dim);
+        box-shadow: 0 14px 30px rgba(0,0,0,0.35);
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .product-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+    }
 
-        .products-grid.active {
-            display: grid;
-            animation: sheetUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+    .card-top {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
 
-        @keyframes sheetUp {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .brand-avatar {
+        width: 48px; height: 48px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 10px;
+        letter-spacing: 0.2px;
+        text-align: center;
+        padding: 4px;
+        flex-shrink: 0;
+    }
 
-        /* КАРТОЧКА ОБЪЕКТА */
+    .meta-zone { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .meta-tag {
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        font-weight: 600;
+        padding: 2px 7px;
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        width: fit-content;
+    }
+    .product-name { font-size: 16.5px; font-weight: 700; color: var(--ink); line-height: 1.25; }
+
+    /* Печать-лицензия — сигнатурный элемент доверия */
+    .legal-info {
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        color: var(--ink-soft);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .legal-info::before {
+        content: "◈";
+        color: var(--brass);
+        font-size: 11px;
+    }
+
+    /* ХАРАКТЕРИСТИКИ — как строка гроссбуха */
+    .specs-zone {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        border-top: 1px dashed var(--paper-dim);
+        border-bottom: 1px dashed var(--paper-dim);
+        padding: 12px 2px;
+    }
+    .spec-cell { display: flex; flex-direction: column; gap: 2px; }
+    .spec-value { font-family: var(--font-mono); font-size: 14px; font-weight: 600; color: var(--ink); }
+    .spec-title { font-size: 10.5px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.3px; }
+
+    .cta-zone { display: flex; flex-direction: column; gap: 6px; }
+    .btn-action {
+        color: #fff;
+        text-decoration: none;
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        text-align: center;
+        transition: filter 0.15s ease;
+        display: block;
+    }
+    .btn-action:hover { filter: brightness(0.9); }
+    .cta-note { font-size: 11px; color: var(--ink-soft); text-align: center; }
+
+    /* ============ ПОДВАЛ ============ */
+    footer {
+        background: #090d0b;
+        border-top: 1px solid var(--rule);
+        margin-top: 60px;
+        padding: 40px 20px 30px;
+    }
+    .footer-wrap {
+        max-width: var(--content-max);
+        margin: 0 auto;
+        font-size: 12px;
+        color: #6d7a73;
+        line-height: 1.65;
+    }
+    .disclaimer-text p { margin-bottom: 12px; }
+    .bottom-bar {
+        max-width: var(--content-max);
+        margin: 26px auto 0;
+        padding-top: 18px;
+        border-top: 1px solid var(--rule);
+        text-align: center;
+        font-size: 12px;
+        color: #58635d;
+        font-family: var(--font-mono);
+    }
+
+    /* ============ ПЛАНШЕТЫ ============ */
+    @media (min-width: 640px) and (max-width: 1024px) {
+        .products-grid { grid-template-columns: repeat(2, 1fr); }
+        .filter-tabs { grid-template-columns: repeat(4, 1fr); }
+        .hero-section h1 { font-size: 38px; }
+    }
+
+    /* Эмблема появляется, как только в шапке есть место — не трогает мобильную версию */
+    @media (min-width: 900px) {
+        .hero-art { display: flex; align-items: center; justify-content: center; }
+    }
+
+    /* ============ МОБИЛЬНЫЕ ============ */
+    @media (max-width: 480px) {
+        .specs-zone { grid-template-columns: 1fr; }
+        .spec-cell { flex-direction: row; justify-content: space-between; align-items: baseline; border-bottom: 1px dashed var(--paper-dim); padding-bottom: 6px; }
+    }
+
+    /* ============ ДЕСКТОП ============ */
+    @media (min-width: 1025px) {
+        .nav-container { padding: 20px 24px; }
+        .logo-text { font-size: 24px; }
+        .hero-section { padding: 64px 24px 48px; }
+        .hero-section h1 { font-size: 46px; }
+        .hero-section p { font-size: 17px; }
+
+        .filter-tabs { grid-template-columns: repeat(4, 1fr); }
+
+        .products-grid { grid-template-columns: repeat(2, 1fr); }
+
         .product-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 220px 1.3fr 170px;
             align-items: center;
-            gap: 16px;
-            position: relative;
-            transition: all 0.25s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 22px 24px;
         }
+        .card-top { flex-direction: column; align-items: flex-start; }
+        .brand-avatar { width: 100%; height: 44px; }
+        .meta-zone { align-items: flex-start; }
+        .specs-zone { border-left: 1px dashed var(--paper-dim); border-top: none; border-bottom: none; border-right: 1px dashed var(--paper-dim); padding: 0 18px; grid-template-columns: 1fr; }
 
-        .brand-zone {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+        .hero-emblem { width: 250px; height: 250px; }
+    }
 
-        .brand-avatar {
-            width: 100%;
-            height: 40px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 11px;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            text-align: center;
-            padding: 6px;
-        }
+    @media (min-width: 1400px) {
+        .products-grid { grid-template-columns: repeat(2, 1fr); }
+        .hero-emblem { width: 280px; height: 280px; }
+    }
 
-        .meta-zone {
-            display: flex;
-            flex-direction: column;
-            align-items: center; 
-            text-align: center;
-            gap: 6px;
-        }
+    /* ============ ШИРОКИЕ ЭКРАНЫ — увеличиваем весь интерфейс вместо пустых полей ============ */
+    @media (min-width: 1560px) {
+        .logo-text { font-size: 27px; }
+        .header-badge { font-size: 12px; padding: 7px 14px; }
 
-        .meta-badges {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 2px;
-        }
+        .hero-section { padding: 76px 24px 56px; }
+        .hero-section h1 { font-size: 54px; }
+        .hero-section p { font-size: 18.5px; }
+        .hero-emblem { width: 310px; height: 310px; }
 
-        .meta-tag {
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
+        .tab-trigger { font-size: 14.5px; padding: 15px 14px; }
+        .tab-trigger .tab-count { font-size: 11.5px; }
 
-        .product-name {
-            font-size: 19px;
-            font-weight: 700;
-            color: #fff;
-        }
+        .products-grid { gap: 20px; }
+        .product-card { grid-template-columns: 250px 1.3fr 200px; padding: 28px 30px; gap: 18px; }
+        .brand-avatar { height: 50px; font-size: 11px; }
+        .product-name { font-size: 18.5px; }
+        .legal-info { font-size: 11.5px; }
+        .meta-tag { font-size: 11.5px; padding: 3px 9px; }
+        .spec-value { font-size: 16px; }
+        .spec-title { font-size: 11.5px; }
+        .btn-action { font-size: 15.5px; padding: 14px 18px; }
+        .cta-note { font-size: 12px; }
+    }
 
-        .legal-info {
-            font-size: 12px;
-            color: #8292a6;
-        }
+    @media (min-width: 1900px) {
+        .hero-section h1 { font-size: 60px; }
+        .hero-section p { font-size: 19.5px; }
+        .hero-emblem { width: 340px; height: 340px; }
 
-        /* ХАРАКТЕРИСТИКИ */
-        .specs-zone {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            background: rgba(0, 0, 0, 0.35);
-            padding: 14px 18px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .spec-cell {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .spec-value {
-            font-size: 15px;
-            font-weight: 600;
-            color: #f1f5f9;
-        }
-
-        .spec-title {
-            font-size: 11px;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        /* КНОПКА ДЕЙСТВИЯ */
-        .cta-zone {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .btn-action {
-            color: #fff;
-            text-decoration: none;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            text-align: center;
-            transition: background-color 0.15s ease, filter 0.15s ease;
-        }
-
-        .btn-action:hover {
-            filter: brightness(0.85);
-        }
-
-        .cta-note {
-            font-size: 11px;
-            color: #8292a6;
-            text-align: center;
-        }
-
-        /* ПОДВАЛ */
-        footer {
-            background: #04060a;
-            border-top: 1px solid var(--border-color);
-            margin-top: 100px;
-            padding: 40px 24px 30px;
-        }
-
-        .footer-wrap {
-            max-width: 1200px;
-            margin: 0 auto;
-            font-size: 12px;
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        .disclaimer-text p {
-            margin-bottom: 12px;
-        }
-
-        .bottom-bar {
-            max-width: 1200px;
-            margin: 30px auto 0;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.02);
-            text-align: center;
-            font-size: 12px;
-            color: var(--text-dark);
-        }
-
-        /* ДЛЯ МОБИЛЬНЫХ ЭКРАНОВ */
-        @media (max-width: 480px) {
-            .specs-zone { grid-template-columns: 1fr !important; }
-            .spec-cell {
-                flex-direction: row;
-                justify-content: space-between;
-                border-bottom: 1px solid rgba(255,255,255,0.04);
-                padding-bottom: 6px;
-            }
-        }
-
-        /* ДЕСКТОПНАЯ ВЕРСИЯ */
-        @media (min-width: 1025px) {
-            .nav-container {
-                padding: 20px 24px;
-            }
-
-            .logo-text {
-                font-size: 26px;
-            }
-
-            .header-badge {
-                font-size: 13px;
-                padding: 6px 14px;
-            }
-            
-            .hero-section {
-                margin: 32px auto 50px;
-            }
-            .hero-section h1 {
-                font-size: 42px;
-            }
-            .hero-section p {
-                font-size: 17px;
-                text-align: center;
-            }
-
-            .hero-desc-line {
-                display: inline-block;
-                width: 100%;
-                margin-bottom: 4px;
-            }
-            .hero-desc-indent {
-                display: inline-block;
-                width: 100%;
-                text-indent: 0;
-            }
-
-            .filter-tabs {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            .tab-trigger {
-                padding: 12px 10px;
-                text-overflow: ellipsis;
-                overflow: hidden;
-            }
-
-            .product-card {
-                grid-template-columns: 100px 1.4fr 1.8fr 180px;
-                padding: 24px;
-                gap: 24px;
-            }
-            .brand-avatar {
-                width: 80px;
-                height: 80px;
-                font-size: 11px;
-                padding: 6px;
-            }
-        }
-    </style>
+        .product-card { grid-template-columns: 270px 1.3fr 210px; padding: 32px 34px; }
+        .product-name { font-size: 20px; }
+        .brand-avatar { height: 54px; }
+        .spec-value { font-size: 17px; }
+    }
+</style>
 </head>
 <body>
 
-    <header>
-        <div class="nav-container">
-            <div class="logo-block">
-                <div class="logo-text" onclick="scrollToTop()" style="cursor: pointer;">FIN<span>NAVIGATE</span></div>
-            </div>
-            <div class="header-badge-wrap">
-                <div class="header-badge">
-                    <span class="badge-dot"></span> Тарифы обновлены: Сегодня
-                </div>
+<header>
+    <div class="nav-container">
+        <button class="logo-text" onclick="scrollToTop()">FIN<em>NAVIGATE</em></button>
+        <div class="header-badge">
+            <span class="badge-dot"></span> Тарифы обновлены: сегодня
+        </div>
+    </div>
+</header>
+
+<div class="ticker-strip" aria-hidden="true">
+    <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+<section class="hero-section">
+    <div class="hero-inner">
+        <div class="hero-text">
+            <span class="hero-eyebrow">Независимый мониторинг банковского рынка РФ</span>
+            <h1>Аналитический навигатор по картам, счетам и кредитным линиям</h1>
+            <p>
+                Сверяем условия, ставки и кэшбэк-программы лицензированных банков по официальным данным —
+                без скрытых комиссий и без собственных финансовых продуктов.
+            </p>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+            <svg class="hero-emblem" viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Печать-навигатор FinNavigate">
+    <circle cx="170" cy="170" r="150" fill="none" stroke="var(--brass)" stroke-width="1" opacity="0.45"/>
+    <circle cx="170" cy="170" r="118" fill="none" stroke="var(--rule-strong)" stroke-width="1" stroke-dasharray="2 4"/>
+    <circle cx="170" cy="170" r="88" fill="none" stroke="var(--brass)" stroke-width="1" opacity="0.3"/>
+    <line x1="318.0" y1="170.0" x2="308.0" y2="170.0" stroke="var(--brass)" stroke-width="1.6" opacity="0.9"/>
+        <line x1="317.2" y1="185.5" x2="307.2" y2="184.4" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="314.8" y1="200.8" x2="305.0" y2="198.7" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="310.8" y1="215.7" x2="301.2" y2="212.6" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="305.2" y1="230.2" x2="296.1" y2="226.1" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="298.2" y1="244.0" x2="289.5" y2="239.0" stroke="var(--brass)" stroke-width="1.6" opacity="0.9"/>
+        <line x1="289.7" y1="257.0" x2="281.6" y2="251.1" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="280.0" y1="269.0" x2="272.6" y2="262.3" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="269.0" y1="280.0" x2="262.3" y2="272.6" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="257.0" y1="289.7" x2="251.1" y2="281.6" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="244.0" y1="298.2" x2="239.0" y2="289.5" stroke="var(--brass)" stroke-width="1.6" opacity="0.9"/>
+        <line x1="230.2" y1="305.2" x2="226.1" y2="296.1" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="215.7" y1="310.8" x2="212.6" y2="301.2" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="200.8" y1="314.8" x2="198.7" y2="305.0" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="185.5" y1="317.2" x2="184.4" y2="307.2" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="170.0" y1="318.0" x2="170.0" y2="308.0" stroke="var(--brass)" stroke-width="1.6" opacity="0.9"/>
+        <line x1="154.5" y1="317.2" x2="155.6" y2="307.2" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="139.2" y1="314.8" x2="141.3" y2="305.0" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="124.3" y1="310.8" x2="127.4" y2="301.2" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="109.8" y1="305.2" x2="113.9" y2="296.1" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="96.0" y1="298.2" x2="101.0" y2="289.5" stroke="var(--brass)" stroke-width="1.6" opacity="0.9"/>
+        <line x1="83.0" y1="289.7" x2="88.9" y2="281.6" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="71.0" y1="280.0" x2="77.7" y2="272.6" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="60.0" y1="269.0" x2="67.4" y2="262.3" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="50.3" y1="257.0" x2="58.4" y2="251.1" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="41.8" y1="244.0" x2="50.5" y2="239.0" stroke="var(--brass)" stroke-width="1.6" opacity="0.9"/>
+        <line x1="34.8" y1="230.2" x2="43.9" y2="226.1" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="29.2" y1="215.7" x2="38.8" y2="212.6" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="25.2" y1="200.8" x2="35.0" y2="198.7" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="22.8" y1="185.5" x2="32.8" y2="184.4" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="22.0" y1="170.0" x2="32.0" y2="170.0" stroke="var(--brass)" stroke-width="1.6" opacity="0.9"/>
+        <line x1="22.8" y1="154.5" x2="32.8" y2="155.6" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="25.2" y1="139.2" x2="35.0" y2="141.3" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="29.2" y1="124.3" x2="38.8" y2="127.4" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="34.8" y1="109.8" x2="43.9" y2="113.9" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="41.8" y1="96.0" x2="50.5" y2="101.0" stroke="var(--brass)" stroke-width="1.6" opacity="0.9"/>
+        <line x1="50.3" y1="83.0" x2="58.4" y2="88.9" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="60.0" y1="71.0" x2="67.4" y2="77.7" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="71.0" y1="60.0" x2="77.7" y2="67.4" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="83.0" y1="50.3" x2="88.9" y2="58.4" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="96.0" y1="41.8" x2="101.0" y2="50.5" stroke="var(--brass)" stroke-width="1.6" opacity="0.9"/>
+        <line x1="109.8" y1="34.8" x2="113.9" y2="43.9" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="124.3" y1="29.2" x2="127.4" y2="38.8" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="139.2" y1="25.2" x2="141.3" y2="35.0" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="154.5" y1="22.8" x2="155.6" y2="32.8" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="170.0" y1="22.0" x2="170.0" y2="32.0" stroke="var(--brass)" stroke-width="1.6" opacity="0.9"/>
+        <line x1="185.5" y1="22.8" x2="184.4" y2="32.8" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="200.8" y1="25.2" x2="198.7" y2="35.0" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="215.7" y1="29.2" x2="212.6" y2="38.8" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="230.2" y1="34.8" x2="226.1" y2="43.9" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="244.0" y1="41.8" x2="239.0" y2="50.5" stroke="var(--brass)" stroke-width="1.6" opacity="0.9"/>
+        <line x1="257.0" y1="50.3" x2="251.1" y2="58.4" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="269.0" y1="60.0" x2="262.3" y2="67.4" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="280.0" y1="71.0" x2="272.6" y2="77.7" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="289.7" y1="83.0" x2="281.6" y2="88.9" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="298.2" y1="96.0" x2="289.5" y2="101.0" stroke="var(--brass)" stroke-width="1.6" opacity="0.9"/>
+        <line x1="305.2" y1="109.8" x2="296.1" y2="113.9" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="310.8" y1="124.3" x2="301.2" y2="127.4" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="314.8" y1="139.2" x2="305.0" y2="141.3" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+        <line x1="317.2" y1="154.5" x2="307.2" y2="155.6" stroke="var(--brass)" stroke-width="0.7" opacity="0.4"/>
+    <path d="M 170.0,170.0 L 169.1,161.0 L 170.0,96.0 L 170.9,161.0 Z" fill="var(--brass)" opacity="0.95"/>
+        <path d="M 170.0,170.0 L 179.0,169.1 L 244.0,170.0 L 179.0,170.9 Z" fill="var(--brass)" opacity="0.95"/>
+        <path d="M 170.0,170.0 L 170.9,179.0 L 170.0,244.0 L 169.1,179.0 Z" fill="var(--brass)" opacity="0.95"/>
+        <path d="M 170.0,170.0 L 161.0,170.9 L 96.0,170.0 L 161.0,169.1 Z" fill="var(--brass)" opacity="0.95"/>
+        <path d="M 170.0,170.0 L 175.7,163.0 L 198.3,141.7 L 177.0,164.3 Z" fill="var(--paper-dim)" opacity="0.5"/>
+        <path d="M 170.0,170.0 L 177.0,175.7 L 198.3,198.3 L 175.7,177.0 Z" fill="var(--paper-dim)" opacity="0.5"/>
+        <path d="M 170.0,170.0 L 164.3,177.0 L 141.7,198.3 L 163.0,175.7 Z" fill="var(--paper-dim)" opacity="0.5"/>
+        <path d="M 170.0,170.0 L 163.0,164.3 L 141.7,141.7 L 164.3,163.0 Z" fill="var(--paper-dim)" opacity="0.5"/>
+    <circle cx="170" cy="170" r="7" fill="var(--vault)" stroke="var(--brass)" stroke-width="1.5"/>
+    <g font-family="var(--font-mono)" font-size="8.5" font-weight="600" fill="var(--paper)" text-anchor="middle" opacity="0.85" letter-spacing="0.5">
+        <text x="170" y="61">КАРТЫ</text>
+        <text x="279" y="173">КРЕДИТ</text>
+        <text x="170" y="285">БИЗНЕС</text>
+        <text x="61" y="173">СЧЕТА</text>
+    </g>
+</svg>
+        </div>
+    </div>
+</section>
+
+<main class="main-content" id="marketplace-showcase">
+
+    <div class="filter-tabs" role="tablist" aria-label="Категории финансовых продуктов">
+        <button class="tab-trigger" id="btn-debit" role="tab" aria-selected="true" aria-controls="debit" onclick="openTab(event, 'debit')">Дебетовые карты <span class="tab-count" id="count-debit"></span></button>
+        <button class="tab-trigger" id="btn-credit" role="tab" aria-selected="false" aria-controls="credit" onclick="openTab(event, 'credit')">Кредитные карты <span class="tab-count" id="count-credit"></span></button>
+        <button class="tab-trigger" id="btn-business-registration" role="tab" aria-selected="false" aria-controls="business-registration" onclick="openTab(event, 'business-registration')">Регистрация бизнеса <span class="tab-count" id="count-business-registration"></span></button>
+        <button class="tab-trigger" id="btn-checking-accounts" role="tab" aria-selected="false" aria-controls="checking-accounts" onclick="openTab(event, 'checking-accounts')">Расчётные счета <span class="tab-count" id="count-checking-accounts"></span></button>
+    </div>
+
+    <div id="debit" class="products-grid active" role="tabpanel" aria-labelledby="btn-debit"></div>
+    <div id="credit" class="products-grid" role="tabpanel" aria-labelledby="btn-credit" hidden></div>
+    <div id="business-registration" class="products-grid" role="tabpanel" aria-labelledby="btn-business-registration" hidden></div>
+    <div id="checking-accounts" class="products-grid" role="tabpanel" aria-labelledby="btn-checking-accounts" hidden></div>
+
+    <footer>
+        <div class="footer-wrap">
+            <div class="disclaimer-text">
+                <p><strong>Правовое раскрытие информации:</strong> Электронный ресурс FinNavigate функционирует как независимый информационно-аналитический агрегатор. Проект осуществляет мониторинг, структуру и сравнение открытых коммерческих предложений financial сектора. Ресурс не является кредитной организацией, банком, МФО, инвестиционной платформой или профессиональным участником рынка ценных бумаги. Портал не осуществляет сбор, обработку персональных данных, не взимает плату за информационные услуги и не заключает договоров кредитования/банковского обслуживания.</p>
+                <p>Все права на зарегистрированные товарные знаки, графические логотипы и официальную символику банковских учреждений принадлежат их законным правообладателям. Оформление любых финансовых продуктов производится строго на официальных интернет-страницах соответствующих банков, имеющих действующие лицензии Центрального Банка Российской Федерации.</p>
             </div>
         </div>
-    </header>
-
-    <section class="hero-section">
-        <h1>Аналитический финтех-навигатор по банковским продуктам</h1>
-        <p>
-            <span class="hero-desc-line">Независимый аудит условий, процентных ставок и кэшбэк-программ.</span>
-            <span class="hero-desc-indent">Мы агрегируем официальные данные лицензированных банков РФ без скрытых комиссий.</span>
-        </p>
-    </section>
-
-    <main class="main-content" id="marketplace-showcase">
-        
-        <div class="filter-tabs">
-            <button class="tab-trigger active" id="btn-debit" onclick="openTab(event, 'debit')">Дебетовые карты</button>
-            <button class="tab-trigger" id="btn-credit" onclick="openTab(event, 'credit')">Кредитные карты</button>
-            <button class="tab-trigger" id="btn-biz-reg" onclick="openTab(event, 'business-registration')">Регистрация бизнеса</button>
-            <button class="tab-trigger" id="btn-checking-accounts" onclick="openTab(event, 'checking-accounts')">Расчетные счета</button>
+        <div class="bottom-bar">
+            <p>© 2026 FinNavigate. Независимый аналитический мониторинг банковских рынков РФ.</p>
         </div>
+    </footer>
 
-        <div id="debit" class="products-grid active">
-            
-            <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #ef4444; color: #fff;">Альфа-Банк</div>
-                </div>
+</main>
+
+<script type="application/json" id="product-data">
+{"debit": [{"brand": "Альфа-Банк", "avatar_bg": "#ef4444", "avatar_color": "#fff", "badge": "Суперкэшбэк", "badge_bg": "rgba(239, 68, 68, 0.15)", "badge_color": "#ef4444", "name": "Апельсиновая карта от Альфа-Банка", "legal": "АО «Альфа-Банк». Лиц. ЦБ РФ №1326", "specs": [{"value": "0 ₽", "title": "Обслуживание"}, {"value": "До 7%", "title": "В торговых сетях"}, {"value": "До 100%", "title": "Оплата баллами"}], "href": "https://u-cpa.ru/offer/rs/1g144akgmy5x7/5b2lnhywzqk8/?partner=185269&erid=2SDnjcaJeQ6&platform_id=38227", "btn_bg": "#ef4444", "btn_color": "#fff", "note": "На сайте alfabank.ru", "border_color": "rgba(239, 68, 68, 0.25)"}, {"brand": "ВТБ Банк", "avatar_bg": "#004085", "avatar_color": "#fff", "badge": "Надежный выбор", "badge_bg": "rgba(0, 64, 133, 0.15)", "badge_color": "#38bdf8", "name": "Дебетовая карта МИР от ВТБ", "legal": "Банк ВТБ (ПАО). Лиц. ЦБ РФ №1000", "specs": [{"value": "0 ₽", "title": "Обслуживание"}, {"value": "До 13%", "title": "По счету"}, {"value": "До 50%", "title": "Кэшбэк у партнеров"}], "href": "https://u-cpa.ru/offer/rs/2kktqbn0vhg02/38ynycdkfpvoc/?partner=185269&erid=Kra23hiMc&platform_id=38227", "btn_bg": "#004085", "btn_color": "#fff", "note": "На сайте vtb.ru", "border_color": "rgba(0, 64, 133, 0.3)"}, {"brand": "ОТП Банк", "avatar_bg": "#2e7d32", "avatar_color": "#fff", "badge": "Акция: 100% Кэшбэк", "badge_bg": "rgba(46, 125, 50, 0.15)", "badge_color": "#34d399", "name": "Умная «ОТП Карта» МИР", "legal": "АО «ОТП Банк». Лиц. ЦБ РФ №2766", "specs": [{"value": "1 000 ₽", "title": "Бонус за активацию"}, {"value": "От 1 000 ₽", "title": "Первая покупка"}, {"value": "0 ₽", "title": "Выпуск и сервис"}], "href": "https://u-cpa.ru/offer/rs/3uldk7nvtm68u/110yndpldbeie/?partner=185269&erid=2SDnjcVTZXG&platform_id=38227", "btn_bg": "#2e7d32", "btn_color": "#fff", "note": "На сайте otpbank.ru", "border_color": "rgba(46, 125, 50, 0.25)"}, {"brand": "ОТП Банк", "avatar_bg": "#2e7d32", "avatar_color": "#fff", "badge": "Популярные категории", "badge_bg": "rgba(46, 125, 50, 0.12)", "badge_color": "#4ade80", "name": "Дебетовая ОТП Карта", "legal": "АО «ОТП Банк». Лиц. ЦБ РФ №2766", "specs": [{"value": "0 ₽", "title": "Обслуживание"}, {"value": "До 5%", "title": "Кэшбэк на каждый день"}, {"value": "До 17%", "title": "По накопительному счету"}], "href": "https://getlink.su/click/3cafb2ae78d9457f3a358cae7440de9f?erid=2W5zFJuQ8sz", "btn_bg": "#2e7d32", "btn_color": "#fff", "note": "На сайте otpbank.ru", "border_color": "rgba(46, 125, 50, 0.25)"}, {"brand": "Банк БСПБ", "avatar_bg": "#0078a6", "avatar_color": "#fff", "badge": "Высокий доход", "badge_bg": "rgba(0, 120, 166, 0.15)", "badge_color": "#0078a6", "name": "Дебетовая карта МИР от Банка Санкт-Петербург", "legal": "ПАО «Банк «Санкт-Петербург». Лиц. ЦБ РФ №436", "specs": [{"value": "0 ₽", "title": "При использовании"}, {"value": "До 15%", "title": "На остаток"}, {"value": "До 25%", "title": "Бонусы за покупки"}], "href": "https://u-cpa.ru/offer/rs/3rx3edfp5emt0/1vey9li279ot4/?partner=185269&erid=2SDnjdr3Jk8&platform_id=38227", "btn_bg": "#0078a6", "btn_color": "#fff", "note": "На сайте bspb.ru", "border_color": "rgba(0, 120, 166, 0.3)"}, {"brand": "Ozon Банк", "avatar_bg": "#005bff", "avatar_color": "#fff", "badge": "Макс. выгода", "badge_bg": "rgba(0, 91, 255, 0.15)", "badge_color": "#005bff", "name": "Дебетовая Ozon Карта", "legal": "ООО «Озон Банк». Лиц. ЦБ РФ №3542", "specs": [{"value": "До 30%", "title": "Скидки на Ozon"}, {"value": "До 25%", "title": "Кэшбэк вне Ozon"}, {"value": "0 ₽", "title": "Обслуживание"}], "href": "https://u-cpa.ru/offer/rs/n75sgs9vd49j/f9jm9lf621mp/?partner=185269&erid=2SDnjcFAwQM&platform_id=38227", "btn_bg": "#005bff", "btn_color": "#fff", "note": "На сайте ozon.ru", "border_color": "rgba(0, 91, 255, 0.3)"}, {"brand": "МТС Банк", "avatar_bg": "#ff0000", "avatar_color": "#fff", "badge": "Связь за 0 ₽", "badge_bg": "rgba(255, 0, 0, 0.15)", "badge_color": "#ff0000", "name": "Дебетовая карта «МТС Деньги» от МТС Банка", "legal": "ПАО «МТС-Банк». Лиц. ЦБ РФ №2289", "specs": [{"value": "30%", "title": "Кэшбэк на связь МТС"}, {"value": "До 24%", "title": "По накопительному счету"}, {"value": "0 ₽", "title": "Выпуск и сервис"}], "href": "https://u-cpa.ru/offer/rs/1heitf4zaqrf/1g4hiypxoqnrm/?partner=185269&erid=2SDnjd4PpZD&platform_id=38227", "btn_bg": "#ff0000", "btn_color": "#fff", "note": "На сайте mtsbank.ru", "border_color": "rgba(255, 0, 0, 0.25)"}, {"brand": "ПСБ Банк", "avatar_bg": "#005aaa", "avatar_color": "#fff", "badge": "Приветственный бонус", "badge_bg": "rgba(0, 90, 170, 0.15)", "badge_color": "#005aaa", "name": "Дебетовая карта «Твой кешбэк» от ПСБ", "legal": "ПАО «Промсвязьбанк». Лиц. ЦБ РФ №3251", "specs": [{"value": "25%", "title": "Кэшбэк на все покупки"}, {"value": "Навсегда 0 ₽", "title": "Без условий"}, {"value": "От 1 дня", "title": "Бесплатная доставка"}], "href": "https://u-cpa.ru/offer/rs/333r0ynlmivos/fhdyzssxixhq/?partner=185269&erid=2SDnjeiGTs6&platform_id=38227", "btn_bg": "#005aaa", "btn_color": "#fff", "note": "На сайте psbank.ru", "border_color": "rgba(0, 90, 170, 0.3)"}, {"brand": "Ак Барс", "avatar_bg": "#00a896", "avatar_color": "#fff", "badge": "Высокий процент", "badge_bg": "rgba(0, 168, 150, 0.15)", "badge_color": "#00a896", "name": "Дебетовая карта «Ничего лишнего» от Ак Барс Банка", "legal": "ПАО САКБ «АК БАРС». Лиц. ЦБ РФ №2590", "specs": [{"value": "До 10%", "title": "На остаток"}, {"value": "До +0.5%", "title": "Ставка по вкладам"}, {"value": "+2 000 ₽", "title": "Бонус к пенсии"}], "href": "https://u-cpa.ru/offer/rs/1lj1jrvc3jywi/7nx1fw2phahb/?partner=185269&erid=2SDnjdk3DDX&platform_id=38227", "btn_bg": "#00a896", "btn_color": "#fff", "note": "На сайте akbars.ru", "border_color": "rgba(0, 168, 150, 0.3)"}, {"brand": "Фора-Банк", "avatar_bg": "#8e44ad", "avatar_color": "#fff", "badge": "Сезонный кэшбэк", "badge_bg": "rgba(142, 68, 173, 0.15)", "badge_color": "#8e44ad", "name": "Дебетовая карта МИР «Все включено» от Фора-Банка", "legal": "АКБ «ФОРА-БАНК» (АО). Лиц. ЦБ РФ №1885", "specs": [{"value": "От 0 ₽", "title": "Обслуживание"}, {"value": "5%", "title": "На категории сезона"}, {"value": "До 10 000 ₽", "title": "Лимит кэшбэка в месяц"}], "href": "https://u-cpa.ru/offer/rs/2zoh0gz4h9ujm/3ro9e7if6dkmy/?partner=185269&erid=Kra23zsWn&platform_id=38227", "btn_bg": "#8e44ad", "btn_color": "#fff", "note": "На сайте forabank.ru", "border_color": "rgba(142, 68, 173, 0.3)"}, {"brand": "Рокетбанк", "avatar_bg": "#ff4e00", "avatar_color": "#fff", "badge": "Любимый кешбэк", "badge_bg": "rgba(255, 78, 0, 0.15)", "badge_color": "#ff4e00", "name": "Дебетовая карта Рокетбанка", "legal": "Филиал ПАО «Совкомбанк». Лиц. ЦБ РФ №963", "specs": [{"value": "1,5%", "title": "На всё рублями"}, {"value": "Без лимитов", "title": "Возврат за покупки"}, {"value": "До 7%", "title": "Кешбэк в рокетсах"}], "href": "https://u-cpa.ru/offer/rs/19f3olaco1146/35xyzv06at23z/?partner=185269&erid=2SDnje3nAn&platform_id=38227", "btn_bg": "#ff4e00", "btn_color": "#fff", "note": "На сайте rocketbank.ru", "border_color": "rgba(255, 78, 0, 0.3)"}, {"brand": "Уралсиб", "avatar_bg": "#005aaa", "avatar_color": "#fff", "badge": "Высокий процент", "badge_bg": "rgba(0, 91, 170, 0.15)", "badge_color": "#005aaa", "name": "Дебетовая карта «Прибыль» от Уралсиб Банка", "legal": "ПАО БАНК «УРАЛСИБ». Лиц. ЦБ РФ №30", "specs": [{"value": "До 12.5%", "title": "На остаток"}, {"value": "До 3%", "title": "Кэшбэк на покупки"}, {"value": "0 ₽", "title": "Переводы и ЖКХ"}], "href": "https://u-cpa.ru/offer/rs/1qzp8a3ynefyx/1ljh7dly2nbu6/?partner=185269&erid=2SDnje8NTj8&platform_id=38227", "btn_bg": "#005aaa", "btn_color": "#fff", "note": "На сайте uralsib.ru", "border_color": "rgba(0, 91, 170, 0.3)"}, {"brand": "Т-Банк", "avatar_bg": "#facc15", "avatar_color": "#1e293b", "badge": "Новинка: С ароматом", "badge_bg": "rgba(234, 179, 8, 0.15)", "badge_color": "#ca8a04", "name": "Дебетовая Аромакарта Black от Т-Банка", "legal": "АО «ТБанк». Лиц. ЦБ РФ №2673", "specs": [{"value": "5 ароматов", "title": "На выбор"}, {"value": "До 30%", "title": "Кэшбэк у партнеров"}, {"value": "От 0 ₽", "title": "Обслуживание"}], "href": "https://u-cpa.ru/offer/rs/xqx4c7swtzkp/27s08yxvn40cv/?partner=185269&erid=2SDnjcSnKgk&platform_id=38227", "btn_bg": "#facc15", "btn_color": "#1e293b", "note": "На сайте tbank.ru", "border_color": "rgba(255, 204, 21, 0.35)"}, {"brand": "Плати По Миру", "avatar_bg": "#7c3aed", "avatar_color": "#fff", "badge": "Для зарубежных сервисов", "badge_bg": "rgba(124, 58, 237, 0.15)", "badge_color": "#8b5cf6", "name": "Виртуальная карта «Плати по миру» (USD)", "legal": "Сервис трансграничных платежей", "specs": [{"value": "В рублях", "title": "Пополнение через СБП"}, {"value": "100%", "title": "Оплата подписок и ПО"}, {"value": "Валюта USD", "title": "Для работы и отдыха"}], "href": "https://u-cpa.ru/offer/rs/39951z36toppq/30tw0dlchl2a7/?partner=185269&erid=2SDnjcu2f7G&platform_id=38227", "btn_bg": "#7c3aed", "btn_color": "#fff", "note": "На сайте platipomiru", "border_color": "rgba(124, 58, 237, 0.3)"}, {"brand": "РСХБ Банк", "avatar_bg": "#2e7d32", "avatar_color": "#fff", "badge": "Для поездок", "badge_bg": "rgba(46, 125, 50, 0.15)", "badge_color": "#34d399", "name": "Дебетовая карта UnionPay от Россельхозбанка", "legal": "АО «Россельхозбанк». Лиц. ЦБ РФ №3349", "specs": [{"value": "180+ стран", "title": "Покупки за границей"}, {"value": "Бесплатно", "title": "Выпуск и сервис"}, {"value": "До 15%", "title": "Кэшбэк баллами"}], "href": "https://u-cpa.ru/offer/rs/2cn5c27hp55e2/32bvnxhabtxjv/?partner=185269&erid=2SDnjcDDmQe&platform_id=38227", "btn_bg": "#2e7d32", "btn_color": "#fff", "note": "На сайте rshb.ru", "border_color": "rgba(46, 125, 50, 0.3)"}, {"brand": "УБРиР Банк", "avatar_bg": "#b30046", "avatar_color": "#fff", "badge": "Кэшбэк на ЖКУ", "badge_bg": "rgba(179, 0, 70, 0.15)", "badge_color": "#b30046", "name": "Дебетовая карта «Моя Жизнь» от УБРиР Банка", "legal": "ПАО КБ «УБРиР». Лиц. ЦБ РФ №429", "specs": [{"value": "До 6%", "title": "Кэшбэк (вкл. ЖКУ)"}, {"value": "До 10%", "title": "На онлайн-покупки"}, {"value": "До 14%", "title": "На накопительный счет"}], "href": "https://u-cpa.ru/offer/rs/1867bp9622pll/24fa4yrmk2mdi/?partner=185269&erid=2SDnjd7A3GN&platform_id=38227", "btn_bg": "#b30046", "btn_color": "#fff", "note": "На сайте ubrr.ru", "border_color": "rgba(179, 0, 70, 0.3)"}, {"brand": "ГПБ", "avatar_bg": "#0066b3", "avatar_color": "#fff", "badge": "Умный кешбэк", "badge_bg": "rgba(0, 102, 179, 0.12)", "badge_color": "#0066b3", "name": "Дебетовая карта «Мир» Газпромбанка", "legal": "Банк ГПБ (АО). Лиц. ЦБ РФ №354", "specs": [{"value": "0 ₽", "title": "Обслуживание"}, {"value": "До 5%", "title": "Кэшбэк на выбор"}, {"value": "До 20%", "title": "Кэшбэк у партнеров"}], "href": "https://affstorm.trk2afse.com/click?pid=44&offer_id=31", "btn_bg": "#0066b3", "btn_color": "#fff", "note": "На сайте gazprombank.ru", "border_color": "rgba(0, 102, 179, 0.25)"}, {"brand": "banki.ru", "avatar_bg": "#ff6700", "avatar_color": "#fff", "badge": "Умный подбор", "badge_bg": "rgba(255, 103, 0, 0.15)", "badge_color": "#ff6700", "name": "Мастер подбора дебетовых карт", "legal": "Сервис Банки.ру. Подбор за 5 минут", "specs": [{"value": "1 запрос", "title": "Несколько карт"}, {"value": "Индивидуально", "title": "Под твои потребности"}, {"value": "Эксклюзив", "title": "Спецпредложения"}], "href": "https://getlink.su/click/1634523909bace8fa2725c975ef716d4?erid=2W5zFHUeuvx", "btn_bg": "#ff6700", "btn_color": "#fff", "note": "На сайте banki.ru", "border_color": "rgba(255, 103, 0, 0.35)"}], "credit": [{"brand": "Яндекс", "avatar_bg": "#000000", "avatar_color": "#fcba03", "badge": "Первый платеж через месяц", "badge_bg": "rgba(252, 186, 3, 0.15)", "badge_color": "#eab308", "name": "Яндекс Банк — Кредитная карта супер Сплит", "legal": "АО «Яндекс Банк». Лиц. ЦБ РФ №3528", "specs": [{"value": "От 2 до 24 мес.", "title": "Деление оплаты"}, {"value": "0 ₽", "title": "Бесплатный сервис"}, {"value": "До 1 млн ₽", "title": "Кредитный лимит"}], "href": "https://u-cpa.ru/offer/rs/2ee8gah930be0/1ew4jbczr19gd/?partner=185269&erid=2SDnjca4J6W&platform_id=38227", "btn_bg": "#000000", "btn_color": "#fcba03", "note": "На сайте bank.yandex.ru", "border_color": "rgba(252, 186, 3, 0.3)"}, {"brand": "ВТБ", "avatar_bg": "#004085", "avatar_color": "#fff", "badge": "До 200 дней без %", "badge_bg": "rgba(0, 64, 133, 0.15)", "badge_color": "#38bdf8", "name": "ВТБ Банк — Кредитная карта возможностей", "legal": "Банк ВТБ (ПАО). Лиц. ЦБ РФ №1000", "specs": [{"value": "До 200 дней", "title": "Без процентов"}, {"value": "0 ₽", "title": "Сервис и доставка"}, {"value": "До 15%", "title": "Кэшбэк рублями"}], "href": "https://u-cpa.ru/offer/rs/2y3t5vlo0y7ze/3n91cojklf9oe/?partner=185269&erid=2SDnjeyZW6n&platform_id=38227", "btn_bg": "#004085", "btn_color": "#fff", "note": "На сайте vtb.ru", "border_color": "rgba(0, 64, 133, 0.3)"}, {"brand": "ОТП", "avatar_bg": "#2e7d32", "avatar_color": "#fff", "badge": "Навсегда 0 ₽", "badge_bg": "rgba(46, 125, 50, 0.15)", "badge_color": "#34d399", "name": "ОТП Банк — Кредитная карта «120 дней без %»", "legal": "АО «ОТП Банк». Лиц. ЦБ РФ №2766", "specs": [{"value": "120 дней", "title": "Честный период"}, {"value": "До 10%", "title": "В 5 топ-категориях"}, {"value": "Без %", "title": "Снятие и рассрочка"}], "href": "https://u-cpa.ru/offer/rs/2916klt524od/39qxpqetgvhlb/?partner=185269&erid=2SDnjd482U2&platform_id=38227", "btn_bg": "#2e7d32", "btn_color": "#fff", "note": "На сайте otpbank.ru", "border_color": "rgba(46, 125, 50, 0.25)"}, {"brand": "Альфа", "avatar_bg": "#ef4444", "avatar_color": "#fff", "badge": "1-й год бесплатно", "badge_bg": "rgba(239, 68, 68, 0.15)", "badge_color": "#ef4444", "name": "Альфа-Банк — Кредитная карта «100 дней без %»", "legal": "АО «Альфа-Банк». Лиц. ЦБ РФ №1326", "specs": [{"value": "100 дней", "title": "На всё и рефинанс"}, {"value": "До 50 000 ₽", "title": "Снятие без комиссий"}, {"value": "Выборный", "title": "Категорийный кэшбэк"}], "href": "https://u-cpa.ru/offer/rs/15ti9j0osk8d1/t7t6qe0v01ww/?partner=185269&erid=2SDnje5VWAn&platform_id=38227", "btn_bg": "#ef4444", "btn_color": "#fff", "note": "На сайте alfabank.ru", "border_color": "rgba(239, 68, 68, 0.25)"}, {"brand": "Ренессанс", "avatar_bg": "#8d1336", "avatar_color": "#fff", "badge": "115 дней без %", "badge_bg": "rgba(141, 19, 54, 0.15)", "badge_color": "#f43f5e", "name": "Ренессанс Банк — Кредитная карта", "legal": "КБ «Ренессанс Кредит» (ООО). Лиц. ЦБ РФ №3354", "specs": [{"value": "До 115 дней", "title": "В 1-й month без %"}, {"value": "До 600 000 ₽", "title": "Кредитный лимит"}, {"value": "0 ₽", "title": "Первое снятие"}], "href": "https://u-cpa.ru/offer/rs/1px4dakkfh21i/whrtfmlt997h/?partner=185269&erid=2SDnjdq5BGW&platform_id=38227", "btn_bg": "#8d1336", "btn_color": "#fff", "note": "На сайте rencredit.ru", "border_color": "rgba(141, 19, 54, 0.25)"}, {"brand": "Т-Банк", "avatar_bg": "#334155", "avatar_color": "#fff", "badge": "До 12 мес. рассрочка", "badge_bg": "rgba(250, 204, 21, 0.2)", "badge_color": "#eab308", "name": "Т-Банк — Кредитная карта «Платинум»", "legal": "АО «Т-Банк». Лиц. ЦБ РФ №2673", "specs": [{"value": "До 55 дней", "title": "Без % на покупки"}, {"value": "До 50 000 ₽", "title": "Переводы без комис."}, {"value": "120 дней", "title": "На погашение кр."}], "href": "https://u-cpa.ru/offer/rs/3mfdk3hwwx3iu/3q8s9nqp1qx31/?partner=185269&erid=2SDnjcK72Dz&platform_id=38227", "btn_bg": "#334155", "btn_color": "#fff", "note": "На сайте tbank.ru", "border_color": "rgba(33, 41, 53, 0.3)"}, {"brand": "Совком", "avatar_bg": "linear-gradient(135deg, #ff4e00, #0039a6)", "avatar_color": "#fff", "badge": "0 ₽ обслуживание навсегда", "badge_bg": "rgba(255, 78, 0, 0.15)", "badge_color": "#f97316", "name": "Совкомбанк — Карта рассрочки «Халва»", "legal": "ПАО «Совкомбанк». Лиц. ЦБ РФ №963", "specs": [{"value": "0%", "title": "Рассрочка до 36 мес."}, {"value": "250 000+", "title": "Магазинов-партнеров"}, {"value": "Бесплатно", "title": "Выпуск и доставка"}], "href": "https://u-cpa.ru/offer/rs/3esbri2owhaq6/25ophkx5n0vfs/?partner=185269&erid=Kra23m5ny&platform_id=38227", "btn_bg": "linear-gradient(135deg, #ff4e00, #ff6b00)", "btn_color": "#fff", "note": "На сайте halvacard.ru", "border_color": "rgba(0, 57, 166, 0.25)"}, {"brand": "Уралсиб", "avatar_bg": "#0052fd", "avatar_color": "#fff", "badge": "По паспорту", "badge_bg": "rgba(0, 82, 253, 0.15)", "badge_color": "#60a5fa", "name": "Уралсиб Банк — Кредитная карта «120 дней»", "legal": "ПАО БАНК «УРАЛСИБ». Лиц. ЦБ РФ №30", "specs": [{"value": "120 дней", "title": "Без процентов"}, {"value": "0 ₽", "title": "Обслуживание"}, {"value": "До 3%", "title": "Кешбэк на покупки"}], "href": "https://u-cpa.ru/offer/rs/b8mrgg3cl9aq/n3m2q994gt77/?partner=185269&erid=2SDnjckJo2a&platform_id=38227", "btn_bg": "#0052fd", "btn_color": "#fff", "note": "На сайте uralsib.ru", "border_color": "rgba(0, 82, 157, 0.25)"}, {"brand": "Зенит", "avatar_bg": "#006666", "avatar_color": "#fff", "badge": "Два льготных периода", "badge_bg": "rgba(0, 102, 102, 0.15)", "badge_color": "#14b8a6", "name": "Банк Зенит — Кредитная карта с кешбэком", "legal": "ПАО Банк «Зенит». Лиц. ЦБ РФ №3255", "specs": [{"value": "120 + 120 дн.", "title": "На покупки и наличные"}, {"value": "0 ₽", "title": "Выпуск и сервис"}, {"value": "До 30%", "title": "Кешбэк у партнеров"}], "href": "https://u-cpa.ru/offer/rs/z1ufkv46li5l/3ml4ysk2e5otz/?partner=185269&erid=2SDnjdkQATJ&platform_id=38227", "btn_bg": "#006666", "btn_color": "#fff", "note": "На сайте zenit.ru", "border_color": "rgba(0, 102, 102, 0.25)"}, {"brand": "Ак Барс", "avatar_bg": "#009574", "avatar_color": "#fff", "badge": "До 30% кешбэк в 90 дней", "badge_bg": "rgba(0, 149, 116, 0.15)", "badge_color": "#059669", "name": "Ак Барс Банк — Кредитная карта «115 дней»", "legal": "ПАО САКБ «АК БАРС». Лиц. ЦБ РФ №2590", "specs": [{"value": "115 дней", "title": "Без процентов на всё"}, {"value": "0 ₽", "title": "Обслуживание без условий"}, {"value": "До 3 000 ₽", "title": "Кешбэк в месяц"}], "href": "https://u-cpa.ru/offer/rs/mqpabflrqpka/1rfxmujzivrhu/?partner=185269&erid=2SDnjdpVB4Z&platform_id=38227", "btn_bg": "#009574", "btn_color": "#fff", "note": "На сайте akbars.ru", "border_color": "rgba(0, 149, 116, 0.25)"}, {"brand": "Займер", "avatar_bg": "#65a30d", "avatar_color": "#fff", "badge": "Промокод: Unicom24", "badge_bg": "rgba(101, 163, 13, 0.15)", "badge_color": "#84cc16", "name": "Займер — Виртуальная карта (Первый займ 0%)", "legal": "МФК «Займер» (ПАО). Рег. номер №651303045004116", "specs": [{"value": "0%", "title": "На первый займ"}, {"value": "Скидка 20%", "title": "На второй займ"}, {"value": "Онлайн", "title": "Моментальный выпуск"}], "href": "https://getlink.su/click/bdc54a1337b2072276244bc1a5c371aa?erid=2W5zFGQLUG8", "btn_bg": "#65a30d", "btn_color": "#fff", "note": "На сайте zaymer.ru", "border_color": "rgba(101, 163, 13, 0.3)"}, {"brand": "Сбер", "avatar_bg": "#16a34a", "avatar_color": "#fff", "badge": "Без документов за 2 мин", "badge_bg": "rgba(22, 163, 74, 0.15)", "badge_color": "#22c55e", "name": "Сбербанк — Кредитная СберКарта", "legal": "ПАО Сбербанк. Лиц. ЦБ РФ №1481", "specs": [{"value": "120 дней", "title": "Без % навсегда"}, {"value": "0 ₽", "title": "Выпуск и обслуживание"}, {"value": "До 1 млн ₽", "title": "Кредитный лимит"}], "href": "https://u-cpa.ru/offer/rs/3c7e96c74tt6f/947dd2f81g8l/?partner=185269&erid=", "btn_bg": "#16a34a", "btn_color": "#fff", "note": "На сайте sberbank.ru", "border_color": "rgba(22, 163, 74, 0.25)"}, {"brand": "КЕБ", "avatar_bg": "#002c77", "avatar_color": "#fff", "badge": "Доставка за 1 день", "badge_bg": "rgba(0, 44, 119, 0.15)", "badge_color": "#3b82f6", "name": "Кредит Европа Банк — Кредитная Карта", "legal": "АО «Кредит Европа Банк (Россия)». Лиц. ЦБ РФ №3343", "specs": [{"value": "55 дней", "title": "Без % на покупки"}, {"value": "До 600 000 ₽", "title": "Кредитный лимит"}, {"value": "от 29.9%", "title": "Ставка по кредиту"}], "href": "https://rfnd.io/t/c5zd9/?pid=460&erid=2SDnjcpZhGv", "btn_bg": "#002c77", "btn_color": "#fff", "note": "На сайте crediteuropabank.ru", "border_color": "rgba(0, 44, 119, 0.25)"}, {"brand": "РС", "avatar_bg": "#7a0c26", "avatar_color": "#fff", "badge": "Навсегда бесплатно", "badge_bg": "rgba(122, 12, 38, 0.15)", "badge_color": "#f43f5e", "name": "Банк Русский Стандарт — Кредитная карта «Мир»", "legal": "АО «Банк Русский Стандарт». Лиц. ЦБ РФ №2289", "specs": [{"value": "До 24 мес.", "title": "Без % в рассрочку"}, {"value": "До 1 млн ₽", "title": "Кредитный лимит"}, {"value": "До 10%", "title": "Выборный кэшбэк"}], "href": "https://clck.ru/3UJYWZ", "btn_bg": "#7a0c26", "btn_color": "#fff", "note": "На сайте rsn.ru", "border_color": "rgba(122, 12, 38, 0.25)"}, {"brand": "РСХБ", "avatar_bg": "#006a36", "avatar_color": "#fff", "badge": "Для покупок за границей", "badge_bg": "rgba(0, 106, 54, 0.15)", "badge_color": "#10b981", "name": "Россельхозбанк — Кредитная карта UnionPay", "legal": "АО «Россельхозбанк». Лиц. ЦБ РФ №3349", "specs": [{"value": "До 115 дней", "title": "Льготный период"}, {"value": "UnionPay", "title": "Работает в 150+ странах"}, {"value": "До 1 млн ₽", "title": "Кредитный лимит"}], "href": "https://u-cpa.ru/offer/rs/2cglce3k765b1/3ti1jut629s0k/?partner=185269&erid=2SDnjcEhkgz&platform_id=38227", "btn_bg": "#006a36", "btn_color": "#fff", "note": "На сайте rshb.ru", "border_color": "rgba(0, 106, 54, 0.25)"}, {"brand": "Ozon", "avatar_bg": "linear-gradient(135deg, #005bff, #f011a6)", "avatar_color": "#fff", "badge": "Скидки до 30% на Ozon", "badge_bg": "rgba(0, 91, 255, 0.15)", "badge_color": "#3b82f6", "name": "Ozon Банк — Кредитная карта", "legal": "ООО «Еком Банк». Лиц. ЦБ РФ №3542", "specs": [{"value": "До 140 дней", "title": "Льготный период"}, {"value": "0 ₽", "title": "Сервис без условий"}, {"value": "До 25%", "title": "Кэшбэк вне Ozon"}], "href": "https://u-cpa.ru/offer/rs/228udw03sii9e/1qzn69rvoho0x/?partner=185269&erid=2SDnjca71Ye&platform_id=38227", "btn_bg": "linear-gradient(135deg, #005bff, #0077ff)", "btn_color": "#fff", "note": "На сайте ozon.ru", "border_color": "rgba(0, 91, 255, 0.25)"}, {"brand": "banki.ru", "avatar_bg": "#ff6700", "avatar_color": "#fff", "badge": "Высокое одобрение", "badge_bg": "rgba(255, 103, 0, 0.15)", "badge_color": "#ff6700", "name": "Мастер подбора кредитных карт", "legal": "Сервис Банки.ру. Подбор за 5 минут", "specs": [{"value": "1 запрос", "title": "Несколько банков"}, {"value": "Высокий %", "title": "Шанс на одобрение"}, {"value": "Эксклюзив", "title": "Спецпредложения"}], "href": "https://getlink.su/click/5b5fc208ebfe405493477519144c6e4f?erid=2W5zFHc4rLg", "btn_bg": "#ff6700", "btn_color": "#fff", "note": "На сайте banki.ru", "border_color": "rgba(255, 103, 0, 0.35)"}], "business-registration": [{"brand": "ВТБ", "avatar_bg": "#004085", "avatar_color": "#fff", "badge": "Надежный банк с господдержкой", "badge_bg": "rgba(0, 64, 133, 0.15)", "badge_color": "#38bdf8", "name": "ВТБ Банк — Регистрация бизнеса", "legal": "Банк ВТБ (ПАО). Лиц. ЦБ РФ №1000", "specs": [{"value": "0 ₽", "title": "Госпошлина и КЭП"}, {"value": "Для ИП и ООО", "title": "Формат оформления"}, {"value": "Включено", "title": "Помощь с ОКВЭД"}], "href": "https://u-cpa.ru/offer/rs/fepiep2hxeoz/tj7a06n8u5uj/?partner=185269&erid=Kra23s7mG&platform_id=38227", "btn_bg": "#004085", "btn_color": "#fff", "note": "На сайте vtb.ru", "border_color": "rgba(0, 64, 133, 0.3)"}, {"brand": "БСПБ", "avatar_bg": "#0072bb", "avatar_color": "#fff", "badge": "Без ошибок со стороны ФНС", "badge_bg": "rgba(0, 114, 187, 0.15)", "badge_color": "#60a5fa", "name": "Банк Санкт-Петербург — Регистрация бизнеса", "legal": "ПАО «Банк «Санкт-Петербург». Лиц. ЦБ РФ №436", "specs": [{"value": "3–5 дней", "title": "Срок оформления"}, {"value": "0 ₽", "title": "Подача документов"}, {"value": "Включен", "title": "Персональный менеджер"}], "href": "https://u-cpa.ru/offer/rs/ye721r336kt3/154qtjy7g767k/?partner=185269&erid=2SDnje1BGAv&platform_id=38227", "btn_bg": "#0072bb", "btn_color": "#fff", "note": "На сайте bspb.ru", "border_color": "rgba(0, 114, 187, 0.25)"}, {"brand": "Альфа", "avatar_bg": "#ef4444", "avatar_color": "#fff", "badge": "Идеально под НПД (Самозанятость)", "badge_bg": "rgba(239, 68, 68, 0.15)", "badge_color": "#ef4444", "name": "Альфа-Банк — Регистрация бизнеса", "legal": "АО «Альфа-Банк». Лиц. ЦБ РФ №1326", "specs": [{"value": "100% Онлайн", "title": "Без пошлин и юристов"}, {"value": "Бесплатно", "title": "Пакет документов"}, {"value": "300 000 ₽", "title": "Бонусы от партнеров"}], "href": "https://u-cpa.ru/offer/rs/uoortp0vrzug/3k6tcqeqd46x2/?partner=185269&erid=2SDnjesMp1G&platform_id=38227", "btn_bg": "#ef4444", "btn_color": "#fff", "note": "На сайте alfabank.ru", "border_color": "rgba(239, 68, 68, 0.25)"}], "checking-accounts": [{"brand": "Ozon Банк", "avatar_bg": "#005bff", "avatar_color": "#fff", "badge": "Живая поддержка", "badge_bg": "rgba(0, 91, 255, 0.15)", "badge_color": "#005bff", "name": "Расчетный счет от Ozon Банка", "legal": "ООО «Озон Банк». Лиц. ЦБ РФ №3542", "specs": [{"value": "От 0 ₽", "title": "Обслуживание"}, {"value": "+15%", "title": "На остаток выручки"}, {"value": "До 1 мес.", "title": "Пробный период"}], "href": "https://finlg.ru/aff_c?aff_id=90074&offer_id=6835&p=10110&erid=2W5zFHEzZ4U", "btn_bg": "#005bff", "btn_color": "#fff", "note": "На сайте ozon.ru", "border_color": "rgba(0, 91, 255, 0.3)"}, {"brand": "ПСБ Банк", "avatar_bg": "#005aaa", "avatar_color": "#fff", "badge": "Огромные переводы", "badge_bg": "rgba(0, 90, 170, 0.15)", "badge_color": "#005aaa", "name": "РКО для бизнеса от Промсвязьбанка", "legal": "ПАО «Промсвязьбанк». Лиц. ЦБ РФ №3251", "specs": [{"value": "От 0 ₽", "title": "Обслуживание счета"}, {"value": "До 10 млн ₽", "title": "Физлицам без %"}, {"value": "От 0.9%", "title": "Мгновенный эквайринг"}], "href": "https://finlg.ru/aff_c?aff_id=90074&offer_id=7029&p=10110&erid=2W5zFJEjRtL", "btn_bg": "#005aaa", "btn_color": "#fff", "note": "На сайте psbank.ru", "border_color": "rgba(0, 90, 170, 0.3)"}, {"brand": "ОТП Банк", "avatar_bg": "#2e7d32", "avatar_color": "#fff", "badge": "SWIFT-переводы", "badge_bg": "rgba(46, 125, 50, 0.15)", "badge_color": "#34d399", "name": "Расчетный счет от ОТП Банка", "legal": "АО «ОТП Банк». Лиц. ЦБ РФ №2766", "specs": [{"value": "0 ₽", "title": "Зарплатный проект"}, {"value": "0 ₽", "title": "Бизнес-карта (1 год)"}, {"value": "От 0.15%", "title": "Валютный контроль"}], "href": "https://u-cpa.ru/offer/rs/kaikj7xdfpgv/2wtwoz4t8wtie/?partner=185269&erid=2SDnjbzH6TX&platform_id=38227", "btn_bg": "#2e7d32", "btn_color": "#fff", "note": "На сайте otpbank.ru", "border_color": "rgba(46, 125, 50, 0.3)"}, {"brand": "Альфа-Банк", "avatar_bg": "#ef4444", "avatar_color": "#fff", "badge": "Открытие за 10 мин", "badge_bg": "rgba(239, 68, 68, 0.15)", "badge_color": "#ef4444", "name": "РКО для ИП и ООО от Альфа-Банка", "legal": "АО «Альфа-Банк». Лиц. ЦБ РФ №1326", "specs": [{"value": "Навсегда 0 ₽", "title": "Обслуживание счета"}, {"value": "Безлимит", "title": "Бесплатные платежи"}, {"value": "До 15%", "title": "На остаток счета"}], "href": "https://u-cpa.ru/offer/rs/1hfkmpv587ezl/qiiox7zgvkyg/?partner=185269&erid=2SDnjct4ZTY&platform_id=38227", "btn_bg": "#ef4444", "btn_color": "#fff", "note": "На сайте alfabank.ru", "border_color": "rgba(239, 68, 68, 0.25)"}, {"brand": "Ак Барс", "avatar_bg": "#00a896", "avatar_color": "#fff", "badge": "Карта в подарок", "badge_bg": "rgba(0, 168, 150, 0.15)", "badge_color": "#00a896", "name": "Расчетный счет от Ак Барс Банка", "legal": "ПАО САКБ «АК БАРС». Лиц. ЦБ РФ №2590", "specs": [{"value": "До 2 млн ₽", "title": "Физлицам без %"}, {"value": "15%", "title": "На остаток счета"}, {"value": "До 150 тыс.", "title": "Снятие без %"}], "href": "https://u-cpa.ru/offer/rs/z4fux67f1fqn/3cetaojqo698x/?partner=185269&erid=2SDnjd2t559&platform_id=38227", "btn_bg": "#00a896", "btn_color": "#fff", "note": "На сайте akbars.ru", "border_color": "rgba(0, 168, 150, 0.3)"}, {"brand": "Точка", "avatar_bg": "#facc15", "avatar_color": "#1e293b", "badge": "Скидка 80% на 3 мес.", "badge_bg": "rgba(234, 179, 8, 0.15)", "badge_color": "#ca8a04", "name": "Счет для юрлиц и ИП в Точке", "legal": "АО «Банк ТОЧКА». Лиц. ЦБ РФ №3541", "specs": [{"value": "0 ₽", "title": "Открытие счета"}, {"value": "До 1 млн ₽", "title": "Физлицам за 0 ₽"}, {"value": "До 7%", "title": "Кэшбэк на остаток"}], "href": "https://u-cpa.ru/offer/rs/3pdpn2otr7nnk/11jg8hsxooumj/?partner=185269&erid=2SDnjcxAieg&platform_id=38227", "btn_bg": "#facc15", "btn_color": "#1e293b", "note": "На сайте tochka.com", "border_color": "rgba(252, 186, 3, 0.35)"}, {"brand": "Банк БСПБ", "avatar_bg": "#0078a6", "avatar_color": "#fff", "badge": "Высокая скорость", "badge_bg": "rgba(0, 120, 166, 0.15)", "badge_color": "#0078a6", "name": "РКО от Банка Санкт-Петербург", "legal": "ПАО «Банк «Санкт-Петербург». Лиц. ЦБ РФ №436", "specs": [{"value": "От 1 ₽", "title": "Обслуживание"}, {"value": "До 1.05 млн", "title": "Переводы физлицам"}, {"value": "Онлайн", "title": "Управление счетом"}], "href": "https://u-cpa.ru/offer/rs/3my4pb2oes3qa/38vjpu0op0kq7/?partner=185269&erid=2SDnjdyiHLN&platform_id=38227", "btn_bg": "#0078a6", "btn_color": "#fff", "note": "На сайте bspb.ru", "border_color": "rgba(0, 120, 166, 0.3)"}, {"brand": "УБРиР", "avatar_bg": "#d90328", "avatar_color": "#fff", "badge": "Бесплатная внутрянка", "badge_bg": "rgba(217, 3, 40, 0.15)", "badge_color": "#fb7185", "name": "РКО для бизнеса от УБРиР", "legal": "ПАО «УБРиР». Лиц. ЦБ РФ №429", "specs": [{"value": "0 ₽", "title": "Обслуживание"}, {"value": "0 ₽", "title": "Перевод физлицу в банк"}, {"value": "110 ₽", "title": "Межбанковский платеж"}], "href": "https://finlg.ru/aff_c?aff_id=90074&offer_id=6096&p=10110&erid=2W5zFGrrVm2", "btn_bg": "#d90328", "btn_color": "#fff", "note": "На сайте ubrr.ru", "border_color": "rgba(217, 3, 40, 0.25)"}, {"brand": "ВТБ", "avatar_bg": "#0055a5", "avatar_color": "#fff", "badge": "Господдержка", "badge_bg": "rgba(0, 170, 255, 0.15)", "badge_color": "#0055a5", "name": "Расчетный счет от Банка ВТБ", "legal": "Банк ВТБ (ПАО). Лиц. ЦБ РФ №1000", "specs": [{"value": "До 12 мес.", "title": "0 ₽ обслуживание"}, {"value": "Без лимитов", "title": "Переводы ИП себе на физ."}, {"value": "0 ₽", "title": "КЭП для бизнеса"}], "href": "https://rfnd.io/t/ybewd/?erid=2SDnjdsvRb6", "btn_bg": "#0055a5", "btn_color": "#fff", "note": "На сайте vtb.ru", "border_color": "rgba(0, 170, 255, 0.3)"}]}
+</script>
+
+<script>
+    const DATA = JSON.parse(document.getElementById('product-data').textContent);
+    const TAB_ORDER = ['debit', 'credit', 'business-registration', 'checking-accounts'];
+
+    function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, s => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[s]));
+    }
+
+    function renderCard(item) {
+        const specsHtml = item.specs.map(s => `
+            <div class="spec-cell">
+                <span class="spec-value">${escapeHtml(s.value)}</span>
+                <span class="spec-title">${escapeHtml(s.title)}</span>
+            </div>`).join('');
+
+        return `
+        <div class="product-card">
+            <div class="card-top">
+                <div class="brand-avatar" style="background:${item.avatar_bg}; color:${item.avatar_color};">${escapeHtml(item.brand)}</div>
                 <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">Суперкэшбэк</span>
-                    </div>
-                    <div class="product-name">Апельсиновая карта от Альфа-Банка</div>
-                    <div class="legal-info">АО «Альфа-Банк». Лиц. ЦБ РФ №1326</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Обслуживание</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 7%</span><span class="spec-title">В торговых сетях</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 100%</span><span class="spec-title">Оплата баллами</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/1g144akgmy5x7/5b2lnhywzqk8/?partner=185269&erid=2SDnjcaJeQ6&platform_id=38227" target="_blank" class="btn-action" style="background-color: #ef4444;">Оформить заявку</a>
-                    <span class="cta-note">На сайте alfabank.ru</span>
+                    <span class="meta-tag" style="background:${item.badge_bg}; color:${item.badge_color};">${escapeHtml(item.badge)}</span>
+                    <div class="product-name">${escapeHtml(item.name)}</div>
+                    <div class="legal-info">${escapeHtml(item.legal)}</div>
                 </div>
             </div>
+            <div class="specs-zone">${specsHtml}</div>
+            <div class="cta-zone">
+                <a href="${item.href}" target="_blank" rel="noopener noreferrer" class="btn-action" style="background:${item.btn_bg}; color:${item.btn_color};">Открыть предложение</a>
+                <span class="cta-note">${escapeHtml(item.note)}</span>
+            </div>
+        </div>`;
+    }
 
-            <div class="product-card" style="border-color: rgba(0, 64, 133, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #004085; color: #fff;">ВТБ Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 64, 133, 0.15); color: #38bdf8;">Надежный выбор</span>
-                    </div>
-                    <div class="product-name">Дебетовая карта МИР от ВТБ</div>
-                    <div class="legal-info">Банк ВТБ (ПАО). Лиц. ЦБ РФ №1000</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Обслуживание</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 13%</span><span class="spec-title">По счету</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 50%</span><span class="spec-title">Кэшбэк у партнеров</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/2kktqbn0vhg02/38ynycdkfpvoc/?partner=185269&erid=Kra23hiMc&platform_id=38227" target="_blank" class="btn-action" style="background-color: #004085;">Оформить заявку</a>
-                    <span class="cta-note">На сайте vtb.ru</span>
-                </div>
-            </div>
+    TAB_ORDER.forEach(tabId => {
+        const list = DATA[tabId] || [];
+        document.getElementById(tabId).innerHTML = list.map(renderCard).join('');
+        const countEl = document.getElementById('count-' + tabId);
+        if (countEl) countEl.textContent = list.length;
+    });
 
-            <div class="product-card" style="border-color: rgba(46, 125, 50, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #2e7d32; color: #fff;">ОТП Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(46, 125, 50, 0.15); color: #34d399;">Акция: 100% Кэшбэк</span>
-                    </div>
-                    <div class="product-name">Умная «ОТП Карта» МИР</div>
-                    <div class="legal-info">АО «ОТП Банк». Лиц. ЦБ РФ №2766</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">1 000 ₽</span><span class="spec-title">Бонус за активацию</span></div>
-                    <div class="spec-cell"><span class="spec-value">От 1 000 ₽</span><span class="spec-title">Первая покупка</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Выпуск и сервис</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/3uldk7nvtm68u/110yndpldbeie/?partner=185269&erid=2SDnjcVTZXG&platform_id=38227" target="_blank" class="btn-action" style="background-color: #2e7d32;">Оформить заявку</a>
-                    <span class="cta-note">На сайте otpbank.ru</span>
-                </div>
-            </div>
+    /* ---- Тикер: реальные значения из данных, не декоративные ---- */
+    function buildTicker() {
+        const picks = [];
+        TAB_ORDER.forEach(tabId => {
+            (DATA[tabId] || []).forEach(item => {
+                item.specs.forEach(s => {
+                    if (/%/.test(s.value)) picks.push({ brand: item.brand, value: s.value, title: s.title });
+                });
+            });
+        });
+        // сортируем по числовому значению процента по убыванию, берём заметные
+        picks.sort((a, b) => (parseFloat(b.value) || 0) - (parseFloat(a.value) || 0));
+        const top = picks.slice(0, 14);
+        const html = top.map(p => `<span class="ticker-item"><b>${escapeHtml(p.value)}</b> ${escapeHtml(p.title.toLowerCase())} — ${escapeHtml(p.brand)}</span><span class="ticker-sep">/</span>`).join('');
+        document.getElementById('ticker-track').innerHTML = html + html; // дублируем для бесшовной прокрутки
+    }
+    buildTicker();
 
-            <div class="product-card" style="border-color: rgba(46, 125, 50, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #2e7d32; color: #fff;">ОТП Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(46, 125, 50, 0.12); color: #4ade80;">Популярные категории</span>
-                    </div>
-                    <div class="product-name">Дебетовая ОТП Карта</div>
-                    <div class="legal-info">АО «ОТП Банк». Лиц. ЦБ РФ №2766</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Обслуживание</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 5%</span><span class="spec-title">Кэшбэк на каждый день</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 17%</span><span class="spec-title">По накопительному счету</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://getlink.su/click/3cafb2ae78d9457f3a358cae7440de9f?erid=2W5zFJuQ8sz" target="_blank" class="btn-action" style="background-color: #2e7d32;">Оформить карту</a>
-                    <span class="cta-note">На сайте otpbank.ru</span>
-                </div>
-            </div>
-            
-            <div class="product-card" style="border-color: rgba(0, 120, 166, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #0078a6; color: #fff;">Банк БСПБ</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 120, 166, 0.15); color: #0078a6;">Высокий доход</span>
-                    </div>
-                    <div class="product-name">Дебетовая карта МИР от Банка Санкт-Петербург</div>
-                    <div class="legal-info">ПАО «Банк «Санкт-Петербург». Лиц. ЦБ РФ №436</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">При использовании</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 15%</span><span class="spec-title">На остаток</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 25%</span><span class="spec-title">Бонусы за покупки</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/3rx3edfp5emt0/1vey9li279ot4/?partner=185269&erid=2SDnjdr3Jk8&platform_id=38227" target="_blank" class="btn-action" style="background-color: #0078a6;">Оформить заявку</a>
-                    <span class="cta-note">На сайте bspb.ru</span>
-                </div>
-            </div>
+    function openTab(evt, tabName) {
+        TAB_ORDER.forEach(id => {
+            const panel = document.getElementById(id);
+            const btn = document.getElementById('btn-' + id);
+            const isActive = id === tabName;
+            panel.classList.toggle('active', isActive);
+            panel.hidden = !isActive;
+            if (btn) btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+    }
 
-            <div class="product-card" style="border-color: rgba(0, 91, 255, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #005bff; color: #fff;">Ozon Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 91, 255, 0.15); color: #005bff;">Макс. выгода</span>
-                    </div>
-                    <div class="product-name">Дебетовая Ozon Карта</div>
-                    <div class="legal-info">ООО «Озон Банк». Лиц. ЦБ РФ №3542</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">До 30%</span><span class="spec-title">Скидки на Ozon</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 25%</span><span class="spec-title">Кэшбэк вне Ozon</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Обслуживание</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/n75sgs9vd49j/f9jm9lf621mp/?partner=185269&erid=2SDnjcFAwQM&platform_id=38227" target="_blank" class="btn-action" style="background-color: #005bff;">Оформить заявку</a>
-                    <span class="cta-note">На сайте ozon.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(255, 0, 0, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #ff0000; color: #fff;">МТС Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(255, 0, 0, 0.15); color: #ff0000;">Связь за 0 ₽</span>
-                    </div>
-                    <div class="product-name">Дебетовая карта «МТС Деньги» от МТС Банка</div>
-                    <div class="legal-info">ПАО «МТС-Банк». Лиц. ЦБ РФ №2289</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">30%</span><span class="spec-title">Кэшбэк на связь МТС</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 24%</span><span class="spec-title">По накопительному счету</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Выпуск и сервис</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/1heitf4zaqrf/1g4hiypxoqnrm/?partner=185269&erid=2SDnjd4PpZD&platform_id=38227" target="_blank" class="btn-action" style="background-color: #ff0000;">Оформить заявку</a>
-                    <span class="cta-note">На сайте mtsbank.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 90, 170, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #005aaa; color: #fff;">ПСБ Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 90, 170, 0.15); color: #005aaa;">Приветственный бонус</span>
-                    </div>
-                    <div class="product-name">Дебетовая карта «Твой кешбэк» от ПСБ</div>
-                    <div class="legal-info">ПАО «Промсвязьбанк». Лиц. ЦБ РФ №3251</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">25%</span><span class="spec-title">Кэшбэк на все покупки</span></div>
-                    <div class="spec-cell"><span class="spec-value">Навсегда 0 ₽</span><span class="spec-title">Без условий</span></div>
-                    <div class="spec-cell"><span class="spec-value">От 1 дня</span><span class="spec-title">Бесплатная доставка</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/333r0ynlmivos/fhdyzssxixhq/?partner=185269&erid=2SDnjeiGTs6&platform_id=38227" target="_blank" class="btn-action" style="background-color: #005aaa;">Оформить заявку</a>
-                    <span class="cta-note">На сайте psbank.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 168, 150, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #00a896; color: #fff;">Ак Барс</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 168, 150, 0.15); color: #00a896;">Высокий процент</span>
-                    </div>
-                    <div class="product-name">Дебетовая карта «Ничего лишнего» от Ак Барс Банка</div>
-                    <div class="legal-info">ПАО САКБ «АК БАРС». Лиц. ЦБ РФ №2590</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">До 10%</span><span class="spec-title">На остаток</span></div>
-                    <div class="spec-cell"><span class="spec-value">До +0.5%</span><span class="spec-title">Ставка по вкладам</span></div>
-                    <div class="spec-cell"><span class="spec-value">+2 000 ₽</span><span class="spec-title">Бонус к пенсии</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/1lj1jrvc3jywi/7nx1fw2phahb/?partner=185269&erid=2SDnjdk3DDX&platform_id=38227" target="_blank" class="btn-action" style="background-color: #00a896;">Оформить заявку</a>
-                    <span class="cta-note">На сайте akbars.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(142, 68, 173, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #8e44ad; color: #fff;">Фора-Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(142, 68, 173, 0.15); color: #8e44ad;">Сезонный кэшбэк</span>
-                    </div>
-                    <div class="product-name">Дебетовая карта МИР «Все включено» от Фора-Банка</div>
-                    <div class="legal-info">АКБ «ФОРА-БАНК» (АО). Лиц. ЦБ РФ №1885</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">От 0 ₽</span><span class="spec-title">Обслуживание</span></div>
-                    <div class="spec-cell"><span class="spec-value">5%</span><span class="spec-title">На категории сезона</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 10 000 ₽</span><span class="spec-title">Лимит кэшбэка в месяц</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/2zoh0gz4h9ujm/3ro9e7if6dkmy/?partner=185269&erid=Kra23zsWn&platform_id=38227" target="_blank" class="btn-action" style="background-color: #8e44ad;">Оформить заявку</a>
-                    <span class="cta-note">На сайте forabank.ru</span>
-                </div>
-            </div>
-
-            <!-- Карточка Рокетбанка -->
-            <div class="product-card" style="border-color: rgba(255, 78, 0, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #ff4e00; color: #fff;">Рокетбанк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(255, 78, 0, 0.15); color: #ff4e00;">Любимый кешбэк</span>
-                    </div>
-                    <div class="product-name">Дебетовая карта Рокетбанка</div>
-                    <div class="legal-info">Филиал ПАО «Совкомбанк». Лиц. ЦБ РФ №963</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">1,5%</span><span class="spec-title">На всё рублями</span></div>
-                    <div class="spec-cell"><span class="spec-value">Без лимитов</span><span class="spec-title">Возврат за покупки</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 7%</span><span class="spec-title">Кешбэк в рокетсах</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/19f3olaco1146/35xyzv06at23z/?partner=185269&erid=2SDnje3nAn&platform_id=38227" target="_blank" class="btn-action" style="background-color: #ff4e00;">Оформить карту</a>
-                    <span class="cta-note">На сайте rocketbank.ru</span>
-                </div>
-            </div>
-            
-            <div class="product-card" style="border-color: rgba(0, 91, 170, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #005aaa; color: #fff;">Уралсиб</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 91, 170, 0.15); color: #005aaa;">Высокий процент</span>
-                    </div>
-                    <div class="product-name">Дебетовая карта «Прибыль» от Уралсиб Банка</div>
-                    <div class="legal-info">ПАО БАНК «УРАЛСИБ». Лиц. ЦБ РФ №30</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">До 12.5%</span><span class="spec-title">На остаток</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 3%</span><span class="spec-title">Кэшбэк на покупки</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Переводы и ЖКХ</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/1qzp8a3ynefyx/1ljh7dly2nbu6/?partner=185269&erid=2SDnje8NTj8&platform_id=38227" target="_blank" class="btn-action" style="background-color: #005aaa;">Оформить заявку</a>
-                    <span class="cta-note">На сайте uralsib.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(255, 204, 21, 0.35);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Т-Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(234, 179, 8, 0.15); color: #ca8a04;">Новинка: С ароматом</span>
-                    </div>
-                    <div class="product-name">Дебетовая Аромакарта Black от Т-Банка</div>
-                    <div class="legal-info">АО «ТБанк». Лиц. ЦБ РФ №2673</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">5 ароматов</span><span class="spec-title">На выбор</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 30%</span><span class="spec-title">Кэшбэк у партнеров</span></div>
-                    <div class="spec-cell"><span class="spec-value">От 0 ₽</span><span class="spec-title">Обслуживание</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/xqx4c7swtzkp/27s08yxvn40cv/?partner=185269&erid=2SDnjcSnKgk&platform_id=38227" target="_blank" class="btn-action" style="background-color: #facc15; color: #1e293b;">Оформить заявку</a>
-                    <span class="cta-note">На сайте tbank.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(124, 58, 237, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #7c3aed; color: #fff;">Плати По Миру</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(124, 58, 237, 0.15); color: #8b5cf6;">Для зарубежных сервисов</span>
-                    </div>
-                    <div class="product-name">Виртуальная карта «Плати по миру» (USD)</div>
-                    <div class="legal-info">Сервис трансграничных платежей</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">В рублях</span><span class="spec-title">Пополнение через СБП</span></div>
-                    <div class="spec-cell"><span class="spec-value">100%</span><span class="spec-title">Оплата подписок и ПО</span></div>
-                    <div class="spec-cell"><span class="spec-value">Валюта USD</span><span class="spec-title">Для работы и отдыха</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/39951z36toppq/30tw0dlchl2a7/?partner=185269&erid=2SDnjcu2f7G&platform_id=38227" target="_blank" class="btn-action" style="background-color: #7c3aed;">Оформить заявку</a>
-                    <span class="cta-note">На сайте platipomiru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(46, 125, 50, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #2e7d32; color: #fff;">РСХБ Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(46, 125, 50, 0.15); color: #34d399;">Для поездок</span>
-                    </div>
-                    <div class="product-name">Дебетовая карта UnionPay от Россельхозбанка</div>
-                    <div class="legal-info">АО «Россельхозбанк». Лиц. ЦБ РФ №3349</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">180+ стран</span><span class="spec-title">Покупки за границей</span></div>
-                    <div class="spec-cell"><span class="spec-value">Бесплатно</span><span class="spec-title">Выпуск и сервис</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 15%</span><span class="spec-title">Кэшбэк баллами</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/2cn5c27hp55e2/32bvnxhabtxjv/?partner=185269&erid=2SDnjcDDmQe&platform_id=38227" target="_blank" class="btn-action" style="background-color: #2e7d32;">Оформить заявку</a>
-                    <span class="cta-note">На сайте rshb.ru</span>
-                </div>
-            </div>
-            
-            <div class="product-card" style="border-color: rgba(179, 0, 70, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #b30046; color: #fff;">УБРиР Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(179, 0, 70, 0.15); color: #b30046;">Кэшбэк на ЖКУ</span>
-                    </div>
-                    <div class="product-name">Дебетовая карта «Моя Жизнь» от УБРиР Банка</div>
-                    <div class="legal-info">ПАО КБ «УБРиР». Лиц. ЦБ РФ №429</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">До 6%</span><span class="spec-title">Кэшбэк (вкл. ЖКУ)</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 10%</span><span class="spec-title">На онлайн-покупки</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 14%</span><span class="spec-title">На накопительный счет</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/1867bp9622pll/24fa4yrmk2mdi/?partner=185269&erid=2SDnjd7A3GN&platform_id=38227" target="_blank" class="btn-action" style="background-color: #b30046;">Оформить заявку</a>
-                    <span class="cta-note">На сайте ubrr.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 102, 179, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #0066b3; color: #fff;">ГПБ</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 102, 179, 0.12); color: #0066b3;">Умный кешбэк</span>
-                    </div>
-                    <div class="product-name">Дебетовая карта «Мир» Газпромбанка</div>
-                    <div class="legal-info">Банк ГПБ (АО). Лиц. ЦБ РФ №354</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Обслуживание</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 5%</span><span class="spec-title">Кэшбэк на выбор</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 20%</span><span class="spec-title">Кэшбэк у партнеров</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://affstorm.trk2afse.com/click?pid=44&offer_id=31" target="_blank" class="btn-action" style="background-color: #0066b3;">Оформить карту</a>
-                    <span class="cta-note">На сайте gazprombank.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(255, 103, 0, 0.35); background: linear-gradient(180deg, #ffffff 0%, #fffbf7 100%);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #ff6700; color: #fff;">banki.ru</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(255, 103, 0, 0.15); color: #ff6700;">Умный подбор</span>
-                    </div>
-                    <div class="product-name" style="color: #1e293b;">Мастер подбора дебетовых карт</div>
-                    <div class="legal-info" style="color: #64748b;">Сервис Банки.ру. Подбор за 5 минут</div>
-                </div>
-                <div class="specs-zone" style="background: rgba(0, 0, 0, 0.04); border-color: rgba(0,0,0,0.05);">
-                    <div class="spec-cell"><span class="spec-value" style="color: #1e293b;">1 запрос</span><span class="spec-title" style="color: #64748b;">Несколько карт</span></div>
-                    <div class="spec-cell"><span class="spec-value" style="color: #1e293b;">Индивидуально</span><span class="spec-title" style="color: #64748b;">Под твои потребности</span></div>
-                    <div class="spec-cell"><span class="spec-value" style="color: #1e293b;">Эксклюзив</span><span class="spec-title" style="color: #64748b;">Спецпредложения</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://getlink.su/click/1634523909bace8fa2725c975ef716d4?erid=2W5zFHUeuvx" target="_blank" class="btn-action" style="background-color: #ff6700;">Подобрать карты</a>
-                    <span class="cta-note" style="color: #64748b;">На сайте banki.ru</span>
-                </div>
-            </div>
-        </div>
-
-        <div id="credit" class="products-grid">
-            
-            <div class="product-card" style="border-color: rgba(252, 186, 3, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #000000; color: #fcba03; font-weight: bold;">Яндекс</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(252, 186, 3, 0.15); color: #eab308;">Первый платеж через месяц</span>
-                    </div>
-                    <div class="product-name">Яндекс Банк — Кредитная карта супер Сплит</div>
-                    <div class="legal-info">АО «Яндекс Банк». Лиц. ЦБ РФ №3528</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">От 2 до 24 мес.</span><span class="spec-title">Деление оплаты</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Бесплатный сервис</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 1 млн ₽</span><span class="spec-title">Кредитный лимит</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/2ee8gah930be0/1ew4jbczr19gd/?partner=185269&erid=2SDnjca4J6W&platform_id=38227" target="_blank" class="btn-action" style="background-color: #000000; color: #fcba03; border: 1px solid #fcba03;">Оформить заявку</a>
-                    <span class="cta-note">На сайте bank.yandex.ru</span>
-                </div>
-            </div>
-            
-            <div class="product-card" style="border-color: rgba(0, 64, 133, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #004085; color: #fff;">ВТБ</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 64, 133, 0.15); color: #38bdf8;">🔥 До 200 дней без %</span>
-                    </div>
-                    <div class="product-name">ВТБ Банк — Кредитная карта возможностей</div>
-                    <div class="legal-info">Банк ВТБ (ПАО). Лиц. ЦБ РФ №1000</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">До 200 дней</span><span class="spec-title">Без процентов</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Сервис и доставка</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 15%</span><span class="spec-title">Кэшбэк рублями</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/2y3t5vlo0y7ze/3n91cojklf9oe/?partner=185269&erid=2SDnjeyZW6n&platform_id=38227" target="_blank" class="btn-action" style="background-color: #004085;">Оформить заявку</a>
-                    <span class="cta-note">На сайте vtb.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(46, 125, 50, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #2e7d32; color: #fff;">ОТП</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(46, 125, 50, 0.15); color: #34d399;">Навсегда 0 ₽</span>
-                    </div>
-                    <div class="product-name">ОТП Банк — Кредитная карта «120 дней без %»</div>
-                    <div class="legal-info">АО «ОТП Банк». Лиц. ЦБ РФ №2766</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">120 дней</span><span class="spec-title">Честный период</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 10%</span><span class="spec-title">В 5 топ-категориях</span></div>
-                    <div class="spec-cell"><span class="spec-value">Без %</span><span class="spec-title">Снятие и рассрочка</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/2916klt524od/39qxpqetgvhlb/?partner=185269&erid=2SDnjd482U2&platform_id=38227" target="_blank" class="btn-action" style="background-color: #2e7d32;">Оформить заявку</a>
-                    <span class="cta-note">На сайте otpbank.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #ef4444; color: #fff;">Альфа</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">1-й год бесплатно</span>
-                    </div>
-                    <div class="product-name">Альфа-Банк — Кредитная карта «100 дней без %»</div>
-                    <div class="legal-info">АО «Альфа-Банк». Лиц. ЦБ РФ №1326</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">100 дней</span><span class="spec-title">На всё и рефинанс</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 50 000 ₽</span><span class="spec-title">Снятие без комиссий</span></div>
-                    <div class="spec-cell"><span class="spec-value">Выборный</span><span class="spec-title">Категорийный кэшбэк</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/15ti9j0osk8d1/t7t6qe0v01ww/?partner=185269&erid=2SDnje5VWAn&platform_id=38227" target="_blank" class="btn-action" style="background-color: #ef4444;">Оформить заявку</a>
-                    <span class="cta-note">На сайте alfabank.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(141, 19, 54, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #8d1336; color: #fff;">Ренессанс</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(141, 19, 54, 0.15); color: #f43f5e;">🔥 115 дней без %</span>
-                    </div>
-                    <div class="product-name">Ренессанс Банк — Кредитная карта</div>
-                    <div class="legal-info">КБ «Ренессанс Кредит» (ООО). Лиц. ЦБ РФ №3354</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">До 115 дней</span><span class="spec-title">В 1-й month без %</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 600 000 ₽</span><span class="spec-title">Кредитный лимит</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Первое снятие</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/1px4dakkfh21i/whrtfmlt997h/?partner=185269&erid=2SDnjdq5BGW&platform_id=38227" target="_blank" class="btn-action" style="background-color: #8d1336;">Оформить заявку</a>
-                    <span class="cta-note">На сайте rencredit.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(33, 41, 53, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #334155; color: #fff;">Т-Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(250, 204, 21, 0.2); color: #eab308;">До 12 мес. рассрочка</span>
-                    </div>
-                    <div class="product-name">Т-Банк — Кредитная карта «Платинум»</div>
-                    <div class="legal-info">АО «Т-Банк». Лиц. ЦБ РФ №2673</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">До 55 дней</span><span class="spec-title">Без % на покупки</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 50 000 ₽</span><span class="spec-title">Переводы без комис.</span></div>
-                    <div class="spec-cell"><span class="spec-value">120 дней</span><span class="spec-title">На погашение кр.</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/3mfdk3hwwx3iu/3q8s9nqp1qx31/?partner=185269&erid=2SDnjcK72Dz&platform_id=38227" target="_blank" class="btn-action" style="background-color: #334155;">Оформить заявку</a>
-                    <span class="cta-note">На сайте tbank.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 57, 166, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: linear-gradient(135deg, #ff4e00, #0039a6); color: #fff;">Совком</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(255, 78, 0, 0.15); color: #f97316;">0 ₽ обслуживание навсегда</span>
-                    </div>
-                    <div class="product-name">Совкомбанк — Карта рассрочки «Халва»</div>
-                    <div class="legal-info">ПАО «Совкомбанк». Лиц. ЦБ РФ №963</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">0%</span><span class="spec-title">Рассрочка до 36 мес.</span></div>
-                    <div class="spec-cell"><span class="spec-value">250 000+</span><span class="spec-title">Магазинов-партнеров</span></div>
-                    <div class="spec-cell"><span class="spec-value">Бесплатно</span><span class="spec-title">Выпуск и доставка</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/3esbri2owhaq6/25ophkx5n0vfs/?partner=185269&erid=Kra23m5ny&platform_id=38227" target="_blank" class="btn-action" style="background: linear-gradient(135deg, #ff4e00, #ff6b00);">Оформить заявку</a>
-                    <span class="cta-note">На сайте halvacard.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 82, 157, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #0052fd; color: #fff;">Уралсиб</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 82, 253, 0.15); color: #60a5fa;">По паспорту</span>
-                    </div>
-                    <div class="product-name">Уралсиб Банк — Кредитная карта «120 дней»</div>
-                    <div class="legal-info">ПАО БАНК «УРАЛСИБ». Лиц. ЦБ РФ №30</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">120 дней</span><span class="spec-title">Без процентов</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Обслуживание</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 3%</span><span class="spec-title">Кешбэк на покупки</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/b8mrgg3cl9aq/n3m2q994gt77/?partner=185269&erid=2SDnjckJo2a&platform_id=38227" target="_blank" class="btn-action" style="background-color: #0052fd;">Оформить заявку</a>
-                    <span class="cta-note">На сайте uralsib.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 102, 102, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #006666; color: #fff;">Зенит</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 102, 102, 0.15); color: #14b8a6;">Два льготных периода</span>
-                    </div>
-                    <div class="product-name">Банк Зенит — Кредитная карта с кешбэком</div>
-                    <div class="legal-info">ПАО Банк «Зенит». Лиц. ЦБ РФ №3255</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">120 + 120 дн.</span><span class="spec-title">На покупки и наличные</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Выпуск и сервис</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 30%</span><span class="spec-title">Кешбэк у партнеров</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/z1ufkv46li5l/3ml4ysk2e5otz/?partner=185269&erid=2SDnjdkQATJ&platform_id=38227" target="_blank" class="btn-action" style="background-color: #006666;">Оформить заявку</a>
-                    <span class="cta-note">На сайте zenit.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 149, 116, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #009574; color: #fff;">Ак Барс</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 149, 116, 0.15); color: #059669;">До 30% кешбэк в 90 дней</span>
-                    </div>
-                    <div class="product-name">Ак Барс Банк — Кредитная карта «115 дней»</div>
-                    <div class="legal-info">ПАО САКБ «АК БАРС». Лиц. ЦБ РФ №2590</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">115 дней</span><span class="spec-title">Без процентов на всё</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Обслуживание без условий</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 3 000 ₽</span><span class="spec-title">Кешбэк в месяц</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/mqpabflrqpka/1rfxmujzivrhu/?partner=185269&erid=2SDnjdpVB4Z&platform_id=38227" target="_blank" class="btn-action" style="background-color: #009574;">Оформить заявку</a>
-                    <span class="cta-note">На сайте akbars.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(101, 163, 13, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #65a30d; color: #fff;">Займер</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(101, 163, 13, 0.15); color: #84cc16;">Промокод: Unicom24</span>
-                    </div>
-                    <div class="product-name">Займер — Виртуальная карта (Первый займ 0%)</div>
-                    <div class="legal-info">МФК «Займер» (ПАО). Рег. номер №651303045004116</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">0%</span><span class="spec-title">На первый займ</span></div>
-                    <div class="spec-cell"><span class="spec-value">Скидка 20%</span><span class="spec-title">На второй займ</span></div>
-                    <div class="spec-cell"><span class="spec-value">Онлайн</span><span class="spec-title">Моментальный выпуск</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://getlink.su/click/bdc54a1337b2072276244bc1a5c371aa?erid=2W5zFGQLUG8" target="_blank" class="btn-action" style="background-color: #65a30d;">Оформить заявку</a>
-                    <span class="cta-note">На сайте zaymer.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(22, 163, 74, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #16a34a; color: #fff;">Сбер</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(22, 163, 74, 0.15); color: #22c55e;">Без документов за 2 мин</span>
-                    </div>
-                    <div class="product-name">Сбербанк — Кредитная СберКарта</div>
-                    <div class="legal-info">ПАО Сбербанк. Лиц. ЦБ РФ №1481</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">120 дней</span><span class="spec-title">Без % навсегда</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Выпуск и обслуживание</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 1 млн ₽</span><span class="spec-title">Кредитный лимит</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/3c7e96c74tt6f/947dd2f81g8l/?partner=185269&erid=" target="_blank" class="btn-action" style="background-color: #16a34a;">Оформить заявку</a>
-                    <span class="cta-note">На сайте sberbank.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 44, 119, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #002c77; color: #fff;">КЕБ</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 44, 119, 0.15); color: #3b82f6;">Доставка за 1 день</span>
-                    </div>
-                    <div class="product-name">Кредит Европа Банк — Кредитная Карта</div>
-                    <div class="legal-info">АО «Кредит Европа Банк (Россия)». Лиц. ЦБ РФ №3343</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">55 дней</span><span class="spec-title">Без % на покупки</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 600 000 ₽</span><span class="spec-title">Кредитный лимит</span></div>
-                    <div class="spec-cell"><span class="spec-value">от 29.9%</span><span class="spec-title">Ставка по кредиту</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://rfnd.io/t/c5zd9/?pid=460&erid=2SDnjcpZhGv" target="_blank" class="btn-action" style="background-color: #002c77;">Оформить заявку</a>
-                    <span class="cta-note">На сайте crediteuropabank.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(122, 12, 38, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #7a0c26; color: #fff;">РС</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(122, 12, 38, 0.15); color: #f43f5e;">Навсегда бесплатно</span>
-                    </div>
-                    <div class="product-name">Банк Русский Стандарт — Кредитная карта «Мир»</div>
-                    <div class="legal-info">АО «Банк Русский Стандарт». Лиц. ЦБ РФ №2289</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">До 24 мес.</span><span class="spec-title">Без % в рассрочку</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 1 млн ₽</span><span class="spec-title">Кредитный лимит</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 10%</span><span class="spec-title">Выборный кэшбэк</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://clck.ru/3UJYWZ" target="_blank" class="btn-action" style="background-color: #7a0c26;">Оформить заявку</a>
-                    <span class="cta-note">На сайте rsn.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 106, 54, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #006a36; color: #fff;">РСХБ</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 106, 54, 0.15); color: #10b981;">Для покупок за границей</span>
-                    </div>
-                    <div class="product-name">Россельхозбанк — Кредитная карта UnionPay</div>
-                    <div class="legal-info">АО «Россельхозбанк». Лиц. ЦБ РФ №3349</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">До 115 дней</span><span class="spec-title">Льготный период</span></div>
-                    <div class="spec-cell"><span class="spec-value">UnionPay</span><span class="spec-title">Работает в 150+ странах</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 1 млн ₽</span><span class="spec-title">Кредитный лимит</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/2cglce3k765b1/3ti1jut629s0k/?partner=185269&erid=2SDnjcEhkgz&platform_id=38227" target="_blank" class="btn-action" style="background-color: #006a36;">Оформить заявку</a>
-                    <span class="cta-note">На сайте rshb.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 91, 255, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: linear-gradient(135deg, #005bff, #f011a6); color: #fff;">Ozon</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 91, 255, 0.15); color: #3b82f6;">Скидки до 30% на Ozon</span>
-                    </div>
-                    <div class="product-name">Ozon Банк — Кредитная карта</div>
-                    <div class="legal-info">ООО «Еком Банк». Лиц. ЦБ РФ №3542</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">До 140 дней</span><span class="spec-title">Льготный период</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Сервис без условий</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 25%</span><span class="spec-title">Кэшбэк вне Ozon</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/228udw03sii9e/1qzn69rvoho0x/?partner=185269&erid=2SDnjca71Ye&platform_id=38227" target="_blank" class="btn-action" style="background: linear-gradient(135deg, #005bff, #0077ff);">Оформить заявку</a>
-                    <span class="cta-note">На сайте ozon.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(255, 103, 0, 0.35); background: linear-gradient(180deg, #ffffff 0%, #fffbf7 100%);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #ff6700; color: #fff;">banki.ru</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(255, 103, 0, 0.15); color: #ff6700;">Высокое одобрение</span>
-                    </div>
-                    <div class="product-name" style="color: #1e293b;">Мастер подбора кредитных карт</div>
-                    <div class="legal-info" style="color: #64748b;">Сервис Банки.ру. Подбор за 5 минут</div>
-                </div>
-                <div class="specs-zone" style="background: rgba(0, 0, 0, 0.04); border-color: rgba(0,0,0,0.05);">
-                    <div class="spec-cell"><span class="spec-value" style="color: #1e293b;">1 запрос</span><span class="spec-title" style="color: #64748b;">Несколько банков</span></div>
-                    <div class="spec-cell"><span class="spec-value" style="color: #1e293b;">Высокий %</span><span class="spec-title" style="color: #64748b;">Шанс на одобрение</span></div>
-                    <div class="spec-cell"><span class="spec-value" style="color: #1e293b;">Эксклюзив</span><span class="spec-title" style="color: #64748b;">Спецпредложения</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://getlink.su/click/5b5fc208ebfe405493477519144c6e4f?erid=2W5zFHc4rLg" target="_blank" class="btn-action" style="background-color: #ff6700;">Подобрать карты</a>
-                    <span class="cta-note" style="color: #64748b;">На сайте banki.ru</span>
-                </div>
-            </div>
-        </div>
-
-        <div id="business-registration" class="products-grid">
-            
-            <div class="product-card" style="border-color: rgba(0, 64, 133, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #004085; color: #fff;">ВТБ</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 64, 133, 0.15); color: #38bdf8;">Надежный банк с господдержкой</span>
-                    </div>
-                    <div class="product-name">ВТБ Банк — Регистрация бизнеса</div>
-                    <div class="legal-info">Банк ВТБ (ПАО). Лиц. ЦБ РФ №1000</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Госпошлина и КЭП</span></div>
-                    <div class="spec-cell"><span class="spec-value">Для ИП и ООО</span><span class="spec-title">Формат оформления</span></div>
-                    <div class="spec-cell"><span class="spec-value">Включено</span><span class="spec-title">Помощь с ОКВЭД</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/fepiep2hxeoz/tj7a06n8u5uj/?partner=185269&erid=Kra23s7mG&platform_id=38227" target="_blank" class="btn-action" style="background-color: #004085;">Зарегистрировать бизнес</a>
-                    <span class="cta-note">На сайте vtb.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 114, 187, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #0072bb; color: #fff;">БСПБ</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 114, 187, 0.15); color: #60a5fa;">Без ошибок со стороны ФНС</span>
-                    </div>
-                    <div class="product-name">Банк Санкт-Петербург — Регистрация бизнеса</div>
-                    <div class="legal-info">ПАО «Банк «Санкт-Петербург». Лиц. ЦБ РФ №436</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">3–5 дней</span><span class="spec-title">Срок оформления</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Подача документов</span></div>
-                    <div class="spec-cell"><span class="spec-value">Включен</span><span class="spec-title">Персональный менеджер</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/ye721r336kt3/154qtjy7g767k/?partner=185269&erid=2SDnje1BGAv&platform_id=38227" target="_blank" class="btn-action" style="background-color: #0072bb;">Зарегистрировать бизнес</a>
-                    <span class="cta-note">На сайте bspb.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #ef4444; color: #fff;">Альфа</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">Идеально под НПД (Самозанятость)</span>
-                    </div>
-                    <div class="product-name">Альфа-Банк — Регистрация бизнеса</div>
-                    <div class="legal-info">АО «Альфа-Банк». Лиц. ЦБ РФ №1326</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">100% Онлайн</span><span class="spec-title">Без пошлин и юристов</span></div>
-                    <div class="spec-cell"><span class="spec-value">Бесплатно</span><span class="spec-title">Пакет документов</span></div>
-                    <div class="spec-cell"><span class="spec-value">300 000 ₽</span><span class="spec-title">Бонусы от партнеров</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/uoortp0vrzug/3k6tcqeqd46x2/?partner=185269&erid=2SDnjesMp1G&platform_id=38227" target="_blank" class="btn-action" style="background-color: #ef4444;">Зарегистрировать бизнес</a>
-                    <span class="cta-note">На сайте alfabank.ru</span>
-                </div>
-            </div>
-
-        </div>
-
-        <div id="checking-accounts" class="products-grid">
-            
-            <div class="product-card" style="border-color: rgba(0, 91, 255, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #005bff; color: #fff;">Ozon Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 91, 255, 0.15); color: #005bff;">Живая поддержка</span>
-                    </div>
-                    <div class="product-name">Расчетный счет от Ozon Банка</div>
-                    <div class="legal-info">ООО «Озон Банк». Лиц. ЦБ РФ №3542</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">От 0 ₽</span><span class="spec-title">Обслуживание</span></div>
-                    <div class="spec-cell"><span class="spec-value">+15%</span><span class="spec-title">На остаток выручки</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 1 мес.</span><span class="spec-title">Пробный период</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://finlg.ru/aff_c?aff_id=90074&offer_id=6835&p=10110&erid=2W5zFHEzZ4U" target="_blank" class="btn-action" style="background-color: #005bff;">Открыть счет</a>
-                    <span class="cta-note">На сайте ozon.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 90, 170, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #005aaa; color: #fff;">ПСБ Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 90, 170, 0.15); color: #005aaa;">Огромные переводы</span>
-                    </div>
-                    <div class="product-name">РКО для бизнеса от Промсвязьбанка</div>
-                    <div class="legal-info">ПАО «Промсвязьбанк». Лиц. ЦБ РФ №3251</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">От 0 ₽</span><span class="spec-title">Обслуживание счета</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 10 млн ₽</span><span class="spec-title">Физлицам без %</span></div>
-                    <div class="spec-cell"><span class="spec-value">От 0.9%</span><span class="spec-title">Мгновенный эквайринг</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://finlg.ru/aff_c?aff_id=90074&offer_id=7029&p=10110&erid=2W5zFJEjRtL" target="_blank" class="btn-action" style="background-color: #005aaa;">Открыть счет</a>
-                    <span class="cta-note">На сайте psbank.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(46, 125, 50, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #2e7d32; color: #fff;">ОТП Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(46, 125, 50, 0.15); color: #34d399;">SWIFT-переводы</span>
-                    </div>
-                    <div class="product-name">Расчетный счет от ОТП Банка</div>
-                    <div class="legal-info">АО «ОТП Банк». Лиц. ЦБ РФ №2766</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Зарплатный проект</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Бизнес-карта (1 год)</span></div>
-                    <div class="spec-cell"><span class="spec-value">От 0.15%</span><span class="spec-title">Валютный контроль</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/kaikj7xdfpgv/2wtwoz4t8wtie/?partner=185269&erid=2SDnjbzH6TX&platform_id=38227" target="_blank" class="btn-action" style="background-color: #2e7d32;">Открыть счет</a>
-                    <span class="cta-note">На сайте otpbank.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(239, 68, 68, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #ef4444; color: #fff;">Альфа-Банк</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">Открытие за 10 мин</span>
-                    </div>
-                    <div class="product-name">РКО для ИП и ООО от Альфа-Банка</div>
-                    <div class="legal-info">АО «Альфа-Банк». Лиц. ЦБ РФ №1326</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">Навсегда 0 ₽</span><span class="spec-title">Обслуживание счета</span></div>
-                    <div class="spec-cell"><span class="spec-value">Безлимит</span><span class="spec-title">Бесплатные платежи</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 15%</span><span class="spec-title">На остаток счета</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/1hfkmpv587ezl/qiiox7zgvkyg/?partner=185269&erid=2SDnjct4ZTY&platform_id=38227" target="_blank" class="btn-action" style="background-color: #ef4444;">Открыть счет</a>
-                    <span class="cta-note">На сайте alfabank.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 168, 150, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #00a896; color: #fff;">Ак Барс</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 168, 150, 0.15); color: #00a896;">Карта в подарок</span>
-                    </div>
-                    <div class="product-name">Расчетный счет от Ак Барс Банка</div>
-                    <div class="legal-info">ПАО САКБ «АК БАРС». Лиц. ЦБ РФ №2590</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">До 2 млн ₽</span><span class="spec-title">Физлицам без %</span></div>
-                    <div class="spec-cell"><span class="spec-value">15%</span><span class="spec-title">На остаток счета</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 150 тыс.</span><span class="spec-title">Снятие без %</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/z4fux67f1fqn/3cetaojqo698x/?partner=185269&erid=2SDnjd2t559&platform_id=38227" target="_blank" class="btn-action" style="background-color: #00a896;">Открыть счет</a>
-                    <span class="cta-note">На сайте akbars.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(252, 186, 3, 0.35);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #facc15; color: #1e293b;">Точка</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(234, 179, 8, 0.15); color: #ca8a04;">Скидка 80% на 3 мес.</span>
-                    </div>
-                    <div class="product-name">Счет для юрлиц и ИП в Точке</div>
-                    <div class="legal-info">АО «Банк ТОЧКА». Лиц. ЦБ РФ №3541</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Открытие счета</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 1 млн ₽</span><span class="spec-title">Физлицам за 0 ₽</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 7%</span><span class="spec-title">Кэшбэк на остаток</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/3pdpn2otr7nnk/11jg8hsxooumj/?partner=185269&erid=2SDnjcxAieg&platform_id=38227" target="_blank" class="btn-action" style="background-color: #facc15; color: #1e293b;">Открыть счет</a>
-                    <span class="cta-note">На сайте tochka.com</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 120, 166, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #0078a6; color: #fff;">Банк БСПБ</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 120, 166, 0.15); color: #0078a6;">Высокая скорость</span>
-                    </div>
-                    <div class="product-name">РКО от Банка Санкт-Петербург</div>
-                    <div class="legal-info">ПАО «Банк «Санкт-Петербург». Лиц. ЦБ РФ №436</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">От 1 ₽</span><span class="spec-title">Обслуживание</span></div>
-                    <div class="spec-cell"><span class="spec-value">До 1.05 млн</span><span class="spec-title">Переводы физлицам</span></div>
-                    <div class="spec-cell"><span class="spec-value">Онлайн</span><span class="spec-title">Управление счетом</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://u-cpa.ru/offer/rs/3my4pb2oes3qa/38vjpu0op0kq7/?partner=185269&erid=2SDnjdyiHLN&platform_id=38227" target="_blank" class="btn-action" style="background-color: #0078a6;">Открыть счет</a>
-                    <span class="cta-note">На сайте bspb.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(217, 3, 40, 0.25);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #d90328; color: #fff;">УБРиР</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(217, 3, 40, 0.15); color: #fb7185;">Бесплатная внутрянка</span>
-                    </div>
-                    <div class="product-name">РКО для бизнеса от УБРиР</div>
-                    <div class="legal-info">ПАО «УБРиР». Лиц. ЦБ РФ №429</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Обслуживание</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">Перевод физлицу в банк</span></div>
-                    <div class="spec-cell"><span class="spec-value">110 ₽</span><span class="spec-title">Межбанковский платеж</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://finlg.ru/aff_c?aff_id=90074&offer_id=6096&p=10110&erid=2W5zFGrrVm2" target="_blank" class="btn-action" style="background-color: #d90328;">Открыть счет</a>
-                    <span class="cta-note">На сайте ubrr.ru</span>
-                </div>
-            </div>
-
-            <div class="product-card" style="border-color: rgba(0, 170, 255, 0.3);">
-                <div class="brand-zone">
-                    <div class="brand-avatar" style="background: #0055a5; color: #fff;">ВТБ</div>
-                </div>
-                <div class="meta-zone">
-                    <div class="meta-badges">
-                        <span class="meta-tag" style="background: rgba(0, 170, 255, 0.15); color: #0055a5;">Господдержка</span>
-                    </div>
-                    <div class="product-name">Расчетный счет от Банка ВТБ</div>
-                    <div class="legal-info">Банк ВТБ (ПАО). Лиц. ЦБ РФ №1000</div>
-                </div>
-                <div class="specs-zone">
-                    <div class="spec-cell"><span class="spec-value">До 12 мес.</span><span class="spec-title">0 ₽ обслуживание</span></div>
-                    <div class="spec-cell"><span class="spec-value">Без лимитов</span><span class="spec-title">Переводы ИП себе на физ.</span></div>
-                    <div class="spec-cell"><span class="spec-value">0 ₽</span><span class="spec-title">КЭП для бизнеса</span></div>
-                </div>
-                <div class="cta-zone">
-                    <a href="https://rfnd.io/t/ybewd/?erid=2SDnjdsvRb6" target="_blank" class="btn-action" style="background-color: #0055a5;">Открыть счет</a>
-                    <span class="cta-note">На сайте vtb.ru</span>
-                </div>
-            </div>
-        </div>
-
-        <footer>
-            <div class="footer-wrap">
-                <div class="disclaimer-text">
-                    <p><strong>Правовое раскрытие информации:</strong> Электронный ресурс FinNavigate функционирует как независимый информационно-аналитический агрегатор. Проект осуществляет мониторинг, структуру и сравнение открытых коммерческих предложений financial сектора. Ресурс не является кредитной организацией, банком, МФО, инвестиционной платформой или профессиональным участником рынка ценных бумаги. Портал не осуществляет сбор, обработку персональных данных, не взимает плату за информационные услуги и не заключает договоров кредитования/банковского обслуживания.</p>
-                    <p>Все права на зарегистрированные товарные знаки, графические логотипы и официальную символику банковских учреждений принадлежат их законным правообладателям. Оформление любых финансовых продуктов производится строго на официальных интернет-страницах соответствующих банков, имеющих действующие лицензии Центрального Банка Российской Федерации.</p>
-                </div>
-            </div>
-            <div class="bottom-bar">
-                <p>© 2026 FinNavigate. Все права защищены. Независимый аналитический мониторинг банковских рынков РФ.</p>
-            </div>
-        </footer>
-
-    </main>
-
-    <script>
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("products-grid");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.remove("active");
-            }
-            tablinks = document.getElementsByClassName("tab-trigger");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-            document.getElementById(tabName).classList.add("active");
-            if (evt) {
-                evt.currentTarget.classList.add("active");
-            }
-        }
-
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        }
-    </script>
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
 </body>
 </html>
