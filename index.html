@@ -124,6 +124,7 @@
 
     /* ============ ТИКЕР (сигнатурный элемент) ============ */
     .ticker-strip {
+        margin-top: 14px;
         border-bottom: 1px solid var(--rule);
         background: var(--vault-2);
         overflow: hidden;
@@ -236,19 +237,17 @@
         grid-template-columns: 1fr 1fr;
         gap: 8px;
         margin-bottom: 32px;
-        border-bottom: 1px solid var(--rule);
         padding-bottom: 0;
     }
 
     .tab-trigger {
         background: transparent;
         border: 1px solid var(--rule);
-        border-bottom: none;
         color: #8e9994;
         padding: 12px 10px;
         font-size: 13px;
         font-weight: 600;
-        border-radius: 10px 10px 0 0;
+        border-radius: 10px;
         cursor: pointer;
         text-align: center;
         transition: color 0.15s ease, background-color 0.15s ease;
@@ -411,7 +410,8 @@
     /* ============ ПЛАНШЕТЫ ============ */
     @media (min-width: 640px) and (max-width: 1024px) {
         .products-grid { grid-template-columns: repeat(2, 1fr); }
-        .filter-tabs { grid-template-columns: repeat(4, 1fr); }
+        .filter-tabs { grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--rule); }
+        .tab-trigger { border-bottom: none; border-radius: 10px 10px 0 0; }
         .hero-section h1 { font-size: 38px; }
     }
 
@@ -424,6 +424,11 @@
     @media (max-width: 480px) {
         .specs-zone { grid-template-columns: 1fr; }
         .spec-cell { flex-direction: row; justify-content: space-between; align-items: baseline; border-bottom: 1px dashed var(--paper-dim); padding-bottom: 6px; }
+
+        .nav-container { flex-wrap: wrap; row-gap: 8px; padding: 14px 22px 14px 16px; gap: 8px; }
+        .logo-text { font-size: 17px; }
+        .header-badge { font-size: 10px; padding: 5px 10px; gap: 5px; }
+        .badge-dot { width: 5px; height: 5px; }
     }
 
     /* ============ ДЕСКТОП ============ */
@@ -434,7 +439,8 @@
         .hero-section h1 { font-size: 46px; }
         .hero-section p { font-size: 17px; }
 
-        .filter-tabs { grid-template-columns: repeat(4, 1fr); }
+        .filter-tabs { grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--rule); }
+        .tab-trigger { border-bottom: none; border-radius: 10px 10px 0 0; }
 
         .products-grid { grid-template-columns: repeat(2, 1fr); }
 
