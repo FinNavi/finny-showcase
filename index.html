@@ -3,18 +3,717 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FinNavigate — независимый аналитический навигатор по банковским продуктам РФ</title>
-<meta name="description" content="FinNavigate сравнивает дебетовые и кредитные карты, расчётные счета и предложения по регистрации бизнеса от лицензированных банков России. Независимый мониторинг условий, ставок и кэшбэка.">
+<title>FinNavigate — сравнение карт, счетов и кредитов банков РФ</title>
+<meta name="description" content="Сравниваем дебетовые и кредитные карты, счета и бизнес-предложения банков России. Независимый мониторинг ставок и кэшбэка, без скрытых комиссий.">
+<meta name="robots" content="index, follow, max-image-preview:large"><link rel="canonical" href="https://finnavigate.online/">
+
 <meta property="og:title" content="FinNavigate — аналитический навигатор по банковским продуктам">
 <meta property="og:description" content="Сравнение условий, ставок и кэшбэка лицензированных банков РФ в одном месте.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://finnavigate.online/">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="FinNavigate">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FinNavigate — аналитический навигатор по банковским продуктам">
+<meta name="twitter:description" content="Сравнение условий, ставок и кэшбэка лицензированных банков РФ в одном месте.">
 <meta name="theme-color" content="#0e1512">
+<meta name="author" content="FinNavigate">
+<meta name="format-detection" content="telephone=no">
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230e1512'/><g fill='%23f6f2e7'><path d='M7 8h8v2.5h-5V13h4v2.5h-4V24H7V8z'/></g><g fill='%23c79a3d'><path d='M16 8h3l3 7.5V8h3v16h-3l-3-7.5V24h-3V8z'/></g></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://finnavigate.online/#organization",
+      "name": "FinNavigate",
+      "url": "https://finnavigate.online/",
+      "description": "Независимый информационно-аналитический агрегатор банковских продуктов РФ."
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://finnavigate.online/#website",
+      "url": "https://finnavigate.online/",
+      "name": "FinNavigate",
+      "publisher": {
+        "@id": "https://finnavigate.online/#organization"
+      },
+      "inLanguage": "ru-RU"
+    },
+    {
+      "@type": "ItemList",
+      "name": "Банковские продукты — сравнение условий",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Апельсиновая карта от Альфа-Банка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Альфа-Банк"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/1g144akgmy5x7/5b2lnhywzqk8/?partner=185269&erid=2SDnjcaJeQ6&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Дебетовая карта МИР от ВТБ",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "ВТБ Банк"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/2kktqbn0vhg02/38ynycdkfpvoc/?partner=185269&erid=Kra23hiMc&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Умная «ОТП Карта» МИР",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "ОТП Банк"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/3uldk7nvtm68u/110yndpldbeie/?partner=185269&erid=2SDnjcVTZXG&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Дебетовая ОТП Карта",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "ОТП Банк"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://getlink.su/click/3cafb2ae78d9457f3a358cae7440de9f?erid=2W5zFJuQ8sz"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Дебетовая карта МИР от Банка Санкт-Петербург",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Банк БСПБ"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/3rx3edfp5emt0/1vey9li279ot4/?partner=185269&erid=2SDnjdr3Jk8&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Дебетовая Ozon Карта",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Ozon Банк"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/n75sgs9vd49j/f9jm9lf621mp/?partner=185269&erid=2SDnjcFAwQM&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Дебетовая карта «МТС Деньги» от МТС Банка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "МТС Банк"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/1heitf4zaqrf/1g4hiypxoqnrm/?partner=185269&erid=2SDnjd4PpZD&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Дебетовая карта «Твой кешбэк» от ПСБ",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "ПСБ Банк"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/333r0ynlmivos/fhdyzssxixhq/?partner=185269&erid=2SDnjeiGTs6&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Дебетовая карта «Ничего лишнего» от Ак Барс Банка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Ак Барс"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/1lj1jrvc3jywi/7nx1fw2phahb/?partner=185269&erid=2SDnjdk3DDX&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Дебетовая карта МИР «Все включено» от Фора-Банка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Фора-Банк"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/2zoh0gz4h9ujm/3ro9e7if6dkmy/?partner=185269&erid=Kra23zsWn&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Дебетовая карта Рокетбанка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Рокетбанк"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/19f3olaco1146/35xyzv06at23z/?partner=185269&erid=2SDnje3nAn&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Дебетовая карта «Прибыль» от Уралсиб Банка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Уралсиб"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/1qzp8a3ynefyx/1ljh7dly2nbu6/?partner=185269&erid=2SDnje8NTj8&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Дебетовая Аромакарта Black от Т-Банка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Т-Банк"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/xqx4c7swtzkp/27s08yxvn40cv/?partner=185269&erid=2SDnjcSnKgk&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Виртуальная карта «Плати по миру» (USD)",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Плати По Миру"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/39951z36toppq/30tw0dlchl2a7/?partner=185269&erid=2SDnjcu2f7G&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Дебетовая карта UnionPay от Россельхозбанка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "РСХБ Банк"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/2cn5c27hp55e2/32bvnxhabtxjv/?partner=185269&erid=2SDnjcDDmQe&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Дебетовая карта «Моя Жизнь» от УБРиР Банка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "УБРиР Банк"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://u-cpa.ru/offer/rs/1867bp9622pll/24fa4yrmk2mdi/?partner=185269&erid=2SDnjd7A3GN&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 17,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Дебетовая карта «Мир» Газпромбанка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "ГПБ"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://affstorm.trk2afse.com/click?pid=44&offer_id=31"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 18,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Мастер подбора дебетовых карт",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "banki.ru"
+            },
+            "category": "Дебетовая карта",
+            "url": "https://getlink.su/click/1634523909bace8fa2725c975ef716d4?erid=2W5zFHUeuvx"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 19,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Яндекс Банк — Кредитная карта супер Сплит",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Яндекс"
+            },
+            "category": "Кредитная карта",
+            "url": "https://u-cpa.ru/offer/rs/2ee8gah930be0/1ew4jbczr19gd/?partner=185269&erid=2SDnjca4J6W&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 20,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "ВТБ Банк — Кредитная карта возможностей",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "ВТБ"
+            },
+            "category": "Кредитная карта",
+            "url": "https://u-cpa.ru/offer/rs/2y3t5vlo0y7ze/3n91cojklf9oe/?partner=185269&erid=2SDnjeyZW6n&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 21,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "ОТП Банк — Кредитная карта «120 дней без %»",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "ОТП"
+            },
+            "category": "Кредитная карта",
+            "url": "https://u-cpa.ru/offer/rs/2916klt524od/39qxpqetgvhlb/?partner=185269&erid=2SDnjd482U2&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 22,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Альфа-Банк — Кредитная карта «100 дней без %»",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Альфа"
+            },
+            "category": "Кредитная карта",
+            "url": "https://u-cpa.ru/offer/rs/15ti9j0osk8d1/t7t6qe0v01ww/?partner=185269&erid=2SDnje5VWAn&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 23,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Ренессанс Банк — Кредитная карта",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Ренессанс"
+            },
+            "category": "Кредитная карта",
+            "url": "https://u-cpa.ru/offer/rs/1px4dakkfh21i/whrtfmlt997h/?partner=185269&erid=2SDnjdq5BGW&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 24,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Т-Банк — Кредитная карта «Платинум»",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Т-Банк"
+            },
+            "category": "Кредитная карта",
+            "url": "https://u-cpa.ru/offer/rs/3mfdk3hwwx3iu/3q8s9nqp1qx31/?partner=185269&erid=2SDnjcK72Dz&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 25,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Совкомбанк — Карта рассрочки «Халва»",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Совком"
+            },
+            "category": "Кредитная карта",
+            "url": "https://u-cpa.ru/offer/rs/3esbri2owhaq6/25ophkx5n0vfs/?partner=185269&erid=Kra23m5ny&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 26,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Уралсиб Банк — Кредитная карта «120 дней»",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Уралсиб"
+            },
+            "category": "Кредитная карта",
+            "url": "https://u-cpa.ru/offer/rs/b8mrgg3cl9aq/n3m2q994gt77/?partner=185269&erid=2SDnjckJo2a&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 27,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Банк Зенит — Кредитная карта с кешбэком",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Зенит"
+            },
+            "category": "Кредитная карта",
+            "url": "https://u-cpa.ru/offer/rs/z1ufkv46li5l/3ml4ysk2e5otz/?partner=185269&erid=2SDnjdkQATJ&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 28,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Ак Барс Банк — Кредитная карта «115 дней»",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Ак Барс"
+            },
+            "category": "Кредитная карта",
+            "url": "https://u-cpa.ru/offer/rs/mqpabflrqpka/1rfxmujzivrhu/?partner=185269&erid=2SDnjdpVB4Z&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 29,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Займер — Виртуальная карта (Первый займ 0%)",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Займер"
+            },
+            "category": "Кредитная карта",
+            "url": "https://getlink.su/click/bdc54a1337b2072276244bc1a5c371aa?erid=2W5zFGQLUG8"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 30,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Сбербанк — Кредитная СберКарта",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Сбер"
+            },
+            "category": "Кредитная карта",
+            "url": "https://u-cpa.ru/offer/rs/3c7e96c74tt6f/947dd2f81g8l/?partner=185269&erid="
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 31,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Кредит Европа Банк — Кредитная Карта",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "КЕБ"
+            },
+            "category": "Кредитная карта",
+            "url": "https://rfnd.io/t/c5zd9/?pid=460&erid=2SDnjcpZhGv"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 32,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Банк Русский Стандарт — Кредитная карта «Мир»",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "РС"
+            },
+            "category": "Кредитная карта",
+            "url": "https://clck.ru/3UJYWZ"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 33,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Россельхозбанк — Кредитная карта UnionPay",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "РСХБ"
+            },
+            "category": "Кредитная карта",
+            "url": "https://u-cpa.ru/offer/rs/2cglce3k765b1/3ti1jut629s0k/?partner=185269&erid=2SDnjcEhkgz&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 34,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Ozon Банк — Кредитная карта",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Ozon"
+            },
+            "category": "Кредитная карта",
+            "url": "https://u-cpa.ru/offer/rs/228udw03sii9e/1qzn69rvoho0x/?partner=185269&erid=2SDnjca71Ye&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 35,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Мастер подбора кредитных карт",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "banki.ru"
+            },
+            "category": "Кредитная карта",
+            "url": "https://getlink.su/click/5b5fc208ebfe405493477519144c6e4f?erid=2W5zFHc4rLg"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 36,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "ВТБ Банк — Регистрация бизнеса",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "ВТБ"
+            },
+            "category": "Регистрация бизнеса",
+            "url": "https://u-cpa.ru/offer/rs/fepiep2hxeoz/tj7a06n8u5uj/?partner=185269&erid=Kra23s7mG&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 37,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Банк Санкт-Петербург — Регистрация бизнеса",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "БСПБ"
+            },
+            "category": "Регистрация бизнеса",
+            "url": "https://u-cpa.ru/offer/rs/ye721r336kt3/154qtjy7g767k/?partner=185269&erid=2SDnje1BGAv&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 38,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Альфа-Банк — Регистрация бизнеса",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Альфа"
+            },
+            "category": "Регистрация бизнеса",
+            "url": "https://u-cpa.ru/offer/rs/uoortp0vrzug/3k6tcqeqd46x2/?partner=185269&erid=2SDnjesMp1G&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 39,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Расчетный счет от Ozon Банка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Ozon Банк"
+            },
+            "category": "Расчётный счёт",
+            "url": "https://finlg.ru/aff_c?aff_id=90074&offer_id=6835&p=10110&erid=2W5zFHEzZ4U"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 40,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "РКО для бизнеса от Промсвязьбанка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "ПСБ Банк"
+            },
+            "category": "Расчётный счёт",
+            "url": "https://finlg.ru/aff_c?aff_id=90074&offer_id=7029&p=10110&erid=2W5zFJEjRtL"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 41,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Расчетный счет от ОТП Банка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "ОТП Банк"
+            },
+            "category": "Расчётный счёт",
+            "url": "https://u-cpa.ru/offer/rs/kaikj7xdfpgv/2wtwoz4t8wtie/?partner=185269&erid=2SDnjbzH6TX&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 42,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "РКО для ИП и ООО от Альфа-Банка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Альфа-Банк"
+            },
+            "category": "Расчётный счёт",
+            "url": "https://u-cpa.ru/offer/rs/1hfkmpv587ezl/qiiox7zgvkyg/?partner=185269&erid=2SDnjct4ZTY&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 43,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Расчетный счет от Ак Барс Банка",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Ак Барс"
+            },
+            "category": "Расчётный счёт",
+            "url": "https://u-cpa.ru/offer/rs/z4fux67f1fqn/3cetaojqo698x/?partner=185269&erid=2SDnjd2t559&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 44,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Счет для юрлиц и ИП в Точке",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Точка"
+            },
+            "category": "Расчётный счёт",
+            "url": "https://u-cpa.ru/offer/rs/3pdpn2otr7nnk/11jg8hsxooumj/?partner=185269&erid=2SDnjcxAieg&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 45,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "РКО от Банка Санкт-Петербург",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "Банк БСПБ"
+            },
+            "category": "Расчётный счёт",
+            "url": "https://u-cpa.ru/offer/rs/3my4pb2oes3qa/38vjpu0op0kq7/?partner=185269&erid=2SDnjdyiHLN&platform_id=38227"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 46,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "РКО для бизнеса от УБРиР",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "УБРиР"
+            },
+            "category": "Расчётный счёт",
+            "url": "https://finlg.ru/aff_c?aff_id=90074&offer_id=6096&p=10110&erid=2W5zFGrrVm2"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 47,
+          "item": {
+            "@type": "FinancialProduct",
+            "name": "Расчетный счет от Банка ВТБ",
+            "provider": {
+              "@type": "BankOrCreditUnion",
+              "name": "ВТБ"
+            },
+            "category": "Расчётный счёт",
+            "url": "https://rfnd.io/t/ybewd/?erid=2SDnjdsvRb6"
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 
 <style>
     :root {
@@ -56,6 +755,16 @@
     a { color: inherit; }
     button { font-family: inherit; }
     :focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+
+    .visually-hidden {
+        position: absolute;
+        width: 1px; height: 1px;
+        padding: 0; margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
 
     @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
@@ -618,9 +1327,13 @@
         <button class="tab-trigger" id="btn-checking-accounts" role="tab" aria-selected="false" aria-controls="checking-accounts" onclick="openTab(event, 'checking-accounts')">Расчётные счета <span class="tab-count" id="count-checking-accounts"></span></button>
     </div>
 
+    <h2 class="visually-hidden">Дебетовые карты — сравнение условий банков РФ</h2>
     <div id="debit" class="products-grid active" role="tabpanel" aria-labelledby="btn-debit"></div>
+    <h2 class="visually-hidden">Кредитные карты — сравнение условий банков РФ</h2>
     <div id="credit" class="products-grid" role="tabpanel" aria-labelledby="btn-credit" hidden></div>
+    <h2 class="visually-hidden">Регистрация бизнеса — предложения банков</h2>
     <div id="business-registration" class="products-grid" role="tabpanel" aria-labelledby="btn-business-registration" hidden></div>
+    <h2 class="visually-hidden">Расчётные счета — сравнение условий банков РФ</h2>
     <div id="checking-accounts" class="products-grid" role="tabpanel" aria-labelledby="btn-checking-accounts" hidden></div>
 
     <footer>
@@ -670,7 +1383,7 @@
             </div>
             <div class="specs-zone">${specsHtml}</div>
             <div class="cta-zone">
-                <a href="${item.href}" target="_blank" rel="noopener noreferrer" class="btn-action" style="background:${item.btn_bg}; color:${item.btn_color};">Открыть предложение</a>
+                <a href="${item.href}" target="_blank" rel="sponsored nofollow noopener noreferrer" class="btn-action" style="background:${item.btn_bg}; color:${item.btn_color};">Открыть предложение</a>
                 <span class="cta-note">${escapeHtml(item.note)}</span>
             </div>
         </div>`;
